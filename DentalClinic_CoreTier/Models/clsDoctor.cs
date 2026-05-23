@@ -18,8 +18,8 @@ namespace DentalClinic_CoreTier.Models
         public int? UpdatedBy_ID { get; set; }
 
         // Navigation
-        //public Staff Staff { get; set; } = null!;
-        //public Staff? UpdatedBy { get; set; }
-        //public ICollection<Appointment> Appointments { get; set; } = [];
+        public clsStaff Staff { get; set; }
+        public clsStaff UpdatedBy { get; set; }
+        public ICollection<clsAppointment> Appointments { get; set; }
     }
 }

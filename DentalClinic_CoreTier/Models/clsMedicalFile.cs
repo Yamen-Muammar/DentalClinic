@@ -17,8 +17,8 @@ namespace DentalClinic_CoreTier.Models
         public string GeneralAllergies { get; set; }
 
         // Navigation
-        //public Patient Patient { get; set; } = null!;
-        //public Staff UpdatedBy { get; set; }
-        //public ICollection<Problem> Problems { get; set; } = [];
+        public clsPatient Patient { get; set; } 
+        public clsStaff UpdatedBy { get; set; }
+        public ICollection<clsProblem> Problems { get; set; }
     }
 }
