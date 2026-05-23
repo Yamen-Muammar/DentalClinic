@@ -13,7 +13,7 @@ namespace DentistClinic_PresentationTier
         /// </summary>
         [STAThread]
         static void Main()
-        {
+        {            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run();
