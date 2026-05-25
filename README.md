@@ -1,1 +1,1 @@
-# DentistClinic
+# Dental Clinic
