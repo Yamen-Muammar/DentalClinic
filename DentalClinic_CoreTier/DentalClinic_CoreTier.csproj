@@ -54,8 +54,11 @@
     <Compile Include="Models\clsProblem.cs" />
     <Compile Include="Models\clsRole.cs" />
     <Compile Include="Models\clsStaff.cs" />
+    <Compile Include="myEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

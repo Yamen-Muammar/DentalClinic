@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.gitignore" />
+  </Folder>
   <Project Path="../DentalClinic_BusinessTier/DentalClinic_BusinessTier.csproj" Id="4f62127a-fde4-429a-b1de-3b7729facace" />
   <Project Path="../DentalClinic_CoreTier/DentalClinic_CoreTier.csproj" Id="2af50f9e-6135-44a9-9159-c7a36e3d4193" />
   <Project Path="../DentalClinic_DataTier/DentalClinic_DataTier.csproj" Id="c9a0d8a1-d9f8-4bdd-aa4a-53d4f6f953e5" />
