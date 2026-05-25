@@ -12,7 +12,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<int> AddAppointmentAsync(clsAppointment appointment);
         Task<clsAppointment> GetAppointmentByIdAsync(int appointmentId);
 
-        // Critical for the UI Calendar logic
         Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date);
         Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId);
 

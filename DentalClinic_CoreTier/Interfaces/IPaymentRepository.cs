@@ -7,7 +7,7 @@ using DentalClinic_CoreTier.Models;
 
 namespace DentalClinic_CoreTier.Interfaces
 {
-    internal interface IPaymentRepository
+    public interface IPaymentRepository
     {
         Task<int> AddPaymentAsync(clsPayment payment);
         Task<clsPayment> GetPaymentByIdAsync(int paymentId);
