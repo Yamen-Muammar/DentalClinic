@@ -1,0 +1,18 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DentalClinic_CoreTier.Models;
+
+namespace DentalClinic_CoreTier.Interfaces
+{
+    public interface IPatientRepository
+    {
+        Task<int> AddPatientAsync(clsPatient patient);
+        Task<clsPatient> GetPatientByIdAsync(int patientId);
+        Task<clsPatient> GetPatientByPersonIdAsync(int personId);
+        Task<IEnumerable<clsPatient>> GetAllPatientsAsync();
+        Task<bool> UpdatePatientAsync(clsPatient patient);
+    }
+}

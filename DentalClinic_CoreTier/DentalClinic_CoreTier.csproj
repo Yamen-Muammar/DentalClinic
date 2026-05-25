@@ -41,6 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IAppointmentRepository.cs" />
+    <Compile Include="Interfaces\IBloodTypeRepository.cs" />
+    <Compile Include="Interfaces\IDoctorRepository.cs" />
+    <Compile Include="Interfaces\IMedicalFileRepository.cs" />
+    <Compile Include="Interfaces\IPatientRepository.cs" />
+    <Compile Include="Interfaces\IPaymentDestinationRepository.cs" />
+    <Compile Include="Interfaces\IPaymentRepository.cs" />
+    <Compile Include="Interfaces\IPaymentTypeRepository.cs" />
+    <Compile Include="Interfaces\IPersonRepository.cs" />
+    <Compile Include="Interfaces\IProblemRepository.cs" />
+    <Compile Include="Interfaces\IRoleRepository.cs" />
+    <Compile Include="Interfaces\IStaffRepository.cs" />
     <Compile Include="Models\clsAppointment.cs" />
     <Compile Include="Models\clsBloodType.cs" />
     <Compile Include="Models\clsDoctor.cs" />
@@ -57,8 +69,6 @@
     <Compile Include="myEnums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

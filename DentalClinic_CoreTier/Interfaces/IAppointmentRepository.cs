@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DentalClinic_CoreTier.Models;
+
+namespace DentalClinic_CoreTier.Interfaces
+{
+    public interface IAppointmentRepository
+    {
+        Task<int> AddAppointmentAsync(clsAppointment appointment);
+        Task<clsAppointment> GetAppointmentByIdAsync(int appointmentId);
+
+        // Critical for the UI Calendar logic
+        Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date);
+        Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId);
+
+        Task<bool> UpdateAppointmentAsync(clsAppointment appointment);
+        Task<bool> UpdateAppointmentStatusAsync(int appointmentId, string status, int updatedById);
+    }
+}
