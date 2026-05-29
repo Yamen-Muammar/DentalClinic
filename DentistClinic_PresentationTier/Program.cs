@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DentalClinic_CoreTier.Interfaces;
 
 namespace DentistClinic_PresentationTier
 {
@@ -15,8 +16,17 @@ namespace DentistClinic_PresentationTier
         static void Main()
         {            
             Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run();
+            Application.SetCompatibleTextRenderingDefault(false); 
+
+
+
+            using (var loginForm = )
+            {
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    Application.Run(new frmMain());
+                }
+            }
         }
     }
 }

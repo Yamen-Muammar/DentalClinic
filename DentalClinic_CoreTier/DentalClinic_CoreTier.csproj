@@ -53,6 +53,16 @@
     <Compile Include="Interfaces\IProblemRepository.cs" />
     <Compile Include="Interfaces\IRoleRepository.cs" />
     <Compile Include="Interfaces\IStaffRepository.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IAppointmentService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IBloodTypeService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IDoctorService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IMedicalFileService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IPatientService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IPaymentService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IPersonService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IProblemService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IRoleService.cs" />
+    <Compile Include="Interfaces\ServiceInterfaces\IStaffService.cs" />
     <Compile Include="Models\clsAppointment.cs" />
     <Compile Include="Models\clsBloodType.cs" />
     <Compile Include="Models\clsDoctor.cs" />
