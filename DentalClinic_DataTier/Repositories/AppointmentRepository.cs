@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class AppointmentRepository : IAppointmentRepository
     {
+        private readonly string _connectionString;
+        public AppointmentRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<int> AddAppointmentAsync(clsAppointment appointment)
         {
             throw new NotImplementedException();

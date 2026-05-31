@@ -161,6 +161,7 @@
     <Compile Include="Repositories\ProblemRepository.cs" />
     <Compile Include="Repositories\RoleRepository.cs" />
     <Compile Include="Repositories\StaffRepository.cs" />
+    <Compile Include="SqlConnectionFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DentalClinic_CoreTier\DentalClinic_CoreTier.csproj">

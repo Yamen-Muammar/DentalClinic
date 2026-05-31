@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -46,13 +47,32 @@ namespace DentistClinic_PresentationTier
 
         private static void ConfigureServices(ServiceCollection services)
         {
-            string connectionString = "Your_Secret_Connection_String_Here";
+            string connStr = ConfigurationManager.ConnectionStrings["DentalClinic"].ConnectionString;
 
-            // Wire up your structural layers
-            services.AddTransient<IStaffRepository, StaffRepository>();
+            // Repositories — factory lambda required because ctor takes a plain string
+            services.AddTransient<IStaffRepository>(p => new StaffRepository(connStr));
+            services.AddTransient<IPatientRepository>(p => new PatientRepository(connStr));
+            services.AddTransient<IDoctorRepository>(p => new DoctorRepository(connStr));
+            services.AddTransient<IMedicalFileRepository>(p => new MedicalFileRepository(connStr));
+            services.AddTransient<IProblemRepository>(p => new ProblemRepository(connStr));
+            services.AddTransient<IAppointmentRepository>(p => new AppointmentRepository(connStr));
+            services.AddTransient<IPaymentRepository>(p => new PaymentRepository(connStr));
+            services.AddTransient<IBloodTypeRepository>(p => new BloodTypeRepository(connStr));
+            services.AddTransient<IRoleRepository>(p => new RoleRepository(connStr));
+            services.AddTransient<IPersonRepository>(p => new PersonRepository(connStr));
+
+            // Services — DI resolves their repository dependency automatically
             services.AddTransient<IStaffService, StaffService>();
+            services.AddTransient<IPatientService, PatientService>();
+            services.AddTransient<IDoctorService, DoctorService>();
+            services.AddTransient<IMedicalFileService, MedicalFileService>();
+            services.AddTransient<IProblemService, ProblemService>();
+            services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<IBloodTypeService, BloodTypeService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IPersonService, PersonService>();
 
-            // CRITICAL: Register your forms so the container knows how to resolve them
+            // Forms
             services.AddTransient<frmLogin>();
             services.AddTransient<frmMain>();
         }

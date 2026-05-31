@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class MedicalFileRepository : IMedicalFileRepository
     {
+        private readonly string _connectionString;
+        public MedicalFileRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<int> AddMedicalFileAsync(clsMedicalFile medicalFile)
         {
             throw new NotImplementedException();

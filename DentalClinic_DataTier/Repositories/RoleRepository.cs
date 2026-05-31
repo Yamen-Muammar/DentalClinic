@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class RoleRepository : IRoleRepository
     {
+        private readonly string _connectionString;
+        public RoleRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<int> AddRoleAsync(clsRole role)
         {
             throw new NotImplementedException();

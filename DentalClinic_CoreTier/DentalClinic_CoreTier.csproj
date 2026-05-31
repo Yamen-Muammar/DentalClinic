@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\RepositoryInterfaces\IAppointmentRepository.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IBloodTypeRepository.cs" />
+    <Compile Include="Interfaces\RepositoryInterfaces\IDbConnectionFactory.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IDoctorRepository.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IMedicalFileRepository.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IPatientRepository.cs" />

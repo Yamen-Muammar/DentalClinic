@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class BloodTypeRepository : IBloodTypeRepository
     {
+        private readonly string _connectionString;
+        public BloodTypeRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<IEnumerable<clsBloodType>> GetAllBloodTypesAsync()
         {
             throw new NotImplementedException();

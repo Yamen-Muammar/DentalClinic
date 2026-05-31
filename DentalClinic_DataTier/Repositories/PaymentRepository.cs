@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class PaymentRepository : IPaymentRepository
     {
+        private readonly string _connectionString;
+        public PaymentRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<int> AddPaymentAsync(clsPayment payment)
         {
             throw new NotImplementedException();

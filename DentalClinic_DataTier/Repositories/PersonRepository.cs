@@ -10,6 +10,12 @@ namespace DentalClinic_DataTier.Repositories
 {
     public class PersonRepository : IPersonRepository
     {
+        private readonly string _connectionString;
+        public PersonRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public Task<int> AddPersonAsync(clsPerson person)
         {
             throw new NotImplementedException();
