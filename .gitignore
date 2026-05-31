@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 CLAUDE.md
 /.vscode
+App.config
+/DentalClinic_BusinessTier/app.config
+/DentistClinic_PresentationTier/App.config

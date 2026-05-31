@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
+using DentalClinic_DataTier.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DentistClinic_PresentationTier
@@ -28,7 +29,7 @@ namespace DentistClinic_PresentationTier
             ConfigureServices(services);
 
             // Build the brain of our DI container
-            ServiceProvider = services.();
+            ServiceProvider = services.BuildServiceProvider();
 
             // RIGHT HERE: Instead of Application.Run(new LoginForm())
             // We request the form directly from our ServiceProvider container
@@ -48,7 +49,7 @@ namespace DentistClinic_PresentationTier
             string connectionString = "Your_Secret_Connection_String_Here";
 
             // Wire up your structural layers
-            services.AddTransient<IStaffRepository,StaffRepository>();
+            services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IStaffService, StaffService>();
 
             // CRITICAL: Register your forms so the container knows how to resolve them
