@@ -8,8 +8,13 @@ using DentalClinic_CoreTier.Models;
 
 namespace DentalClinic_DataTier.Repositories
 {
-    internal class StaffRepository : IStaffRepository
+    public class StaffRepository : IStaffRepository
     {
+        private string _connectionString;
+        public StaffRepository(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         public Task<int> AddStaffAsync(clsStaff staff)
         {
             throw new NotImplementedException();

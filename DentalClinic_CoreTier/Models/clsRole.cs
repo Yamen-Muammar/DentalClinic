@@ -11,7 +11,7 @@ namespace DentalClinic_CoreTier.Models
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
-        public decimal RolePermissionCode { get; set; }
+        public long RolePermissionCode { get; set; }
 
         // Navigation
         //public ICollection<Staff> Staff { get; set; } = [];
