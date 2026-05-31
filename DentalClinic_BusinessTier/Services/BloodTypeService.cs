@@ -1,7 +1,4 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
@@ -11,29 +8,36 @@ namespace DentalClinic_BusinessTier.Services
 {
     public class BloodTypeService : IBloodTypeService
     {
-        private IBloodTypeRepository _bloodTypeRepository;
+        private readonly IBloodTypeRepository _bloodTypeRepository;
+
         public BloodTypeService(IBloodTypeRepository bloodTypeRepository)
         {
             _bloodTypeRepository = bloodTypeRepository;
         }
+
+        public Task<IEnumerable<clsBloodType>> GetAllAsync()
+        {
+            return _bloodTypeRepository.GetAllBloodTypesAsync();
+        }
+
         public Task<clsBloodType> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _bloodTypeRepository.GetBloodTypeByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsBloodType obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
-        {
-            throw new NotImplementedException();
+            throw new System.NotSupportedException("BloodType is a reference table and does not support insertions.");
         }
 
         public Task<bool> UpdateAsync(clsBloodType obj, int updatedByID = -1)
         {
-            throw new NotImplementedException();
+            throw new System.NotSupportedException("BloodType is a reference table and does not support updates.");
+        }
+
+        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
+        {
+            throw new System.NotSupportedException("BloodType is a reference table and does not support deletions.");
         }
     }
 }

@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
 using DentalClinic_CoreTier.Interfaces;
+using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 
 namespace DentistClinic_PresentationTier
 {
     public partial class frmLogin : Form
     {
-        private StaffService _staffService;
-        public frmLogin(IStaffRepository staffRepository)
+        private IStaffService _staffService;
+        public frmLogin(IStaffService staffService)
         {
             InitializeComponent();
-            _staffService = new StaffService(staffRepository);
+            _staffService = staffService;
         }
 
         private void button1_Click(object sender, EventArgs e)
