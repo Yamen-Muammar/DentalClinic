@@ -28,12 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.dgvBloodTypes = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBloodTypes)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dgvBloodTypes
+            // 
+            this.dgvBloodTypes.AllowUserToAddRows = false;
+            this.dgvBloodTypes.AllowUserToDeleteRows = false;
+            this.dgvBloodTypes.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBloodTypes.Location = new System.Drawing.Point(82, 12);
+            this.dgvBloodTypes.Name = "dgvBloodTypes";
+            this.dgvBloodTypes.ReadOnly = true;
+            this.dgvBloodTypes.RowHeadersWidth = 62;
+            this.dgvBloodTypes.RowTemplate.Height = 28;
+            this.dgvBloodTypes.Size = new System.Drawing.Size(992, 523);
+            this.dgvBloodTypes.TabIndex = 0;
+            // 
+            // frmMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(1130, 645);
+            this.Controls.Add(this.dgvBloodTypes);
+            this.Name = "frmMain";
             this.Text = "frmMain";
+            this.Load += new System.EventHandler(this.frmMain_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBloodTypes)).EndInit();
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.DataGridView dgvBloodTypes;
     }
 }

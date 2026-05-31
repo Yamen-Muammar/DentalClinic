@@ -27,6 +27,7 @@ namespace DentistClinic_PresentationTier
             if (checkBox1.Checked)
             {
                 this.DialogResult = DialogResult.OK;
+                this.Close();
             }
             
         }

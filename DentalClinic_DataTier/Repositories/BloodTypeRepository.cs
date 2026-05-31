@@ -1,26 +1,27 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
+using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
-using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace DentalClinic_DataTier.Repositories
 {
     public class BloodTypeRepository : IBloodTypeRepository
     {
-        private readonly string _connectionString;
+        private IDbConnectionFactory _connectionFactory;
 
-        public BloodTypeRepository(string connectionString)
+        public BloodTypeRepository(IDbConnectionFactory dbConnectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = dbConnectionFactory; 
         }
 
         public async Task<IEnumerable<clsBloodType>> GetAllBloodTypesAsync()
         {
             var list = new List<clsBloodType>();
-            const string sql = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes";
+            string sql = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes";
 
-            using (var conn = new SqlConnection(_connectionString))
+            using (SqlConnection conn = _connectionFactory.CreateConnection())
             using (var cmd = new SqlCommand(sql, conn))
             {
                 await conn.OpenAsync();
@@ -43,7 +44,7 @@ namespace DentalClinic_DataTier.Repositories
         {
             const string sql = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes WHERE BloodTypeID = @BloodTypeID";
 
-            using (var conn = new SqlConnection(_connectionString))
+            using (var conn = _connectionFactory.CreateConnection())
             using (var cmd = new SqlCommand(sql, conn))
             {
                 cmd.Parameters.AddWithValue("@BloodTypeID", bloodTypeId);

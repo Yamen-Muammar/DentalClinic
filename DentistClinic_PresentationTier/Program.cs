@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
 using DentalClinic_CoreTier.Interfaces;
+using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
+using DentalClinic_DataTier;
 using DentalClinic_DataTier.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -40,7 +42,8 @@ namespace DentistClinic_PresentationTier
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
-                    Application.Run(new frmMain());
+                    var mainForm = ServiceProvider.GetRequiredService<frmMain>();
+                    Application.Run(mainForm);
                 }
             }
         }
@@ -49,6 +52,7 @@ namespace DentistClinic_PresentationTier
         {
             string connStr = ConfigurationManager.ConnectionStrings["DentalClinic"].ConnectionString;
 
+            services.AddTransient<IDbConnectionFactory>(p => new SqlConnectionFactory(connStr));
             // Repositories — factory lambda required because ctor takes a plain string
             services.AddTransient<IStaffRepository>(p => new StaffRepository(connStr));
             services.AddTransient<IPatientRepository>(p => new PatientRepository(connStr));
@@ -57,10 +61,10 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<IProblemRepository>(p => new ProblemRepository(connStr));
             services.AddTransient<IAppointmentRepository>(p => new AppointmentRepository(connStr));
             services.AddTransient<IPaymentRepository>(p => new PaymentRepository(connStr));
-            services.AddTransient<IBloodTypeRepository>(p => new BloodTypeRepository(connStr));
+            
             services.AddTransient<IRoleRepository>(p => new RoleRepository(connStr));
             services.AddTransient<IPersonRepository>(p => new PersonRepository(connStr));
-
+            services.AddTransient<IBloodTypeRepository,BloodTypeRepository>();
             // Services — DI resolves their repository dependency automatically
             services.AddTransient<IStaffService, StaffService>();
             services.AddTransient<IPatientService, PatientService>();

@@ -8,7 +8,7 @@ using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 
 namespace DentalClinic_DataTier
 {
-    internal class SqlConnectionFactory : IDbConnectionFactory
+    public class SqlConnectionFactory : IDbConnectionFactory
     {
         private readonly string _connectionString;
 
