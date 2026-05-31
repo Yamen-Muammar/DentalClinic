@@ -1,19 +1,19 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
+using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
 
 namespace DentalClinic_DataTier.Repositories
 {
     public class PaymentRepository : IPaymentRepository
     {
-        private readonly string _connectionString;
-        public PaymentRepository(string connectionString)
+        private readonly IDbConnectionFactory _connectionFactory;
+
+        public PaymentRepository(IDbConnectionFactory connectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = connectionFactory;
         }
 
         public Task<int> AddPaymentAsync(clsPayment payment)

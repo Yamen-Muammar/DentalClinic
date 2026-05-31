@@ -1,44 +1,43 @@
-﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
+using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
 
 namespace DentalClinic_DataTier.Repositories
 {
     public class PatientRepository : IPatientRepository
     {
-        private readonly string _connectionString;
-        public PatientRepository(string connectionString)
+        private readonly IDbConnectionFactory _connectionFactory;
+
+        public PatientRepository(IDbConnectionFactory connectionFactory)
         {
-            _connectionString = connectionString;
+            _connectionFactory = connectionFactory;
         }
 
         public Task<int> AddPatientAsync(clsPatient patient)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public Task<IEnumerable<clsPatient>> GetAllPatientsAsync()
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public Task<clsPatient> GetPatientByIdAsync(int patientId)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public Task<clsPatient> GetPatientByPersonIdAsync(int personId)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
         public Task<bool> UpdatePatientAsync(clsPatient patient)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
     }
 }
