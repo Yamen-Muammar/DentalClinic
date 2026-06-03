@@ -19,164 +19,205 @@ namespace DentalClinic_DataTier.Repositories
 
         public async Task<int> AddAppointmentAsync(clsAppointment appointment)
         {
-            int returnedAppointmentID = -1;
-            const string query = @"
-                INSERT INTO Appointments
-                    (Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime, Status, Cause, Payment_ID, CreatedAt)
-                VALUES
-                    (@Problem_ID, @Doctor_ID, @AppointmentDate, @StartTime, @EndTime, @Status, @Cause, @Payment_ID, @CreatedAt);
-                SELECT SCOPE_IDENTITY();";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@Problem_ID",      appointment.Problem_ID);
-                cmd.Parameters.AddWithValue("@Doctor_ID",       appointment.Doctor_ID);
-                cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
-                cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
-                cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
-                cmd.Parameters.AddWithValue("@Status",          appointment.Status);
-                cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@CreatedAt",       appointment.CreatedAt);
+                int returnedAppointmentID = -1;
+                const string query = @"
+                    INSERT INTO Appointments
+                        (Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime, Status, Cause, Payment_ID, CreatedAt)
+                    VALUES
+                        (@Problem_ID, @Doctor_ID, @AppointmentDate, @StartTime, @EndTime, @Status, @Cause, @Payment_ID, @CreatedAt);
+                    SELECT SCOPE_IDENTITY();";
 
-                await conn.OpenAsync();
-                var result = await cmd.ExecuteScalarAsync();
-                if (result != null && int.TryParse(result.ToString(),out int insertedID))
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    returnedAppointmentID = insertedID;
+                    cmd.Parameters.AddWithValue("@Problem_ID",      appointment.Problem_ID);
+                    cmd.Parameters.AddWithValue("@Doctor_ID",       appointment.Doctor_ID);
+                    cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
+                    cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
+                    cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
+                    cmd.Parameters.AddWithValue("@Status",          appointment.Status);
+                    cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@CreatedAt",       appointment.CreatedAt);
+
+                    await conn.OpenAsync();
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                        returnedAppointmentID = insertedID;
                 }
-                
+                return returnedAppointmentID;
             }
-            return returnedAppointmentID;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<clsAppointment> GetAppointmentByIdAsync(int appointmentId)
         {
-            const string query = @"
-                SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
-                       Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
-                FROM Appointments
-                WHERE AppointmentID = @AppointmentID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                const string query = @"
+                    SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
+                           Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
+                    FROM Appointments
+                    WHERE AppointmentID = @AppointmentID";
+
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    if (await reader.ReadAsync())
-                        return MapAppointment(reader);
+                    cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                            return MapAppointment(reader);
+                    }
                 }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date)
         {
-            const string query = @"
-                SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
-                       Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
-                FROM Appointments
-                WHERE Doctor_ID = @DoctorID
-                  AND CAST(AppointmentDate AS DATE) = CAST(@Date AS DATE)";
-
-            var list = new List<clsAppointment>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@DoctorID", doctorId);
-                cmd.Parameters.AddWithValue("@Date",     date.Date);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                const string query = @"
+                    SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
+                           Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
+                    FROM Appointments
+                    WHERE Doctor_ID = @DoctorID
+                      AND CAST(AppointmentDate AS DATE) = CAST(@Date AS DATE)";
+
+                var list = new List<clsAppointment>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    while (await reader.ReadAsync())
-                        list.Add(MapAppointment(reader));
+                    cmd.Parameters.AddWithValue("@DoctorID", doctorId);
+                    cmd.Parameters.AddWithValue("@Date",     date.Date);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapAppointment(reader));
+                    }
                 }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId)
         {
-            const string query = @"
-                SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
-                       Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
-                FROM Appointments
-                WHERE Problem_ID = @ProblemID";
-
-            var list = new List<clsAppointment>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@ProblemID", problemId);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                const string query = @"
+                    SELECT AppointmentID, Problem_ID, Doctor_ID, AppointmentDate, StartTime, EndTime,
+                           Status, Cause, Payment_ID, CreatedAt, UpdatedAt, UpdatedBy_ID
+                    FROM Appointments
+                    WHERE Problem_ID = @ProblemID";
+
+                var list = new List<clsAppointment>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    while (await reader.ReadAsync())
-                        list.Add(MapAppointment(reader));
+                    cmd.Parameters.AddWithValue("@ProblemID", problemId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapAppointment(reader));
+                    }
                 }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> UpdateAppointmentAsync(clsAppointment appointment)
         {
-            bool isUpdated = false;
-            const string query = @"
-                UPDATE Appointments
-                SET Problem_ID      = @Problem_ID,
-                    Doctor_ID       = @Doctor_ID,
-                    AppointmentDate = @AppointmentDate,
-                    StartTime       = @StartTime,
-                    EndTime         = @EndTime,
-                    Status          = @Status,
-                    Cause           = @Cause,
-                    Payment_ID      = @Payment_ID,
-                    UpdatedAt       = @UpdatedAt,
-                    UpdatedBy_ID    = @UpdatedBy_ID
-                WHERE AppointmentID = @AppointmentID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@AppointmentID",   appointment.AppointmentID);
-                cmd.Parameters.AddWithValue("@Problem_ID",      appointment.Problem_ID);
-                cmd.Parameters.AddWithValue("@Doctor_ID",       appointment.Doctor_ID);
-                cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
-                cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
-                cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
-                cmd.Parameters.AddWithValue("@Status",          appointment.Status);
-                cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@UpdatedAt",       (object)appointment.UpdatedAt ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@UpdatedBy_ID",    (object)appointment.UpdatedBy_ID ?? DBNull.Value);
+                bool isUpdated = false;
+                const string query = @"
+                    UPDATE Appointments
+                    SET Problem_ID      = @Problem_ID,
+                        Doctor_ID       = @Doctor_ID,
+                        AppointmentDate = @AppointmentDate,
+                        StartTime       = @StartTime,
+                        EndTime         = @EndTime,
+                        Status          = @Status,
+                        Cause           = @Cause,
+                        Payment_ID      = @Payment_ID,
+                        UpdatedAt       = @UpdatedAt,
+                        UpdatedBy_ID    = @UpdatedBy_ID
+                    WHERE AppointmentID = @AppointmentID";
 
-                await conn.OpenAsync();
-                isUpdated= await cmd.ExecuteNonQueryAsync() > 0;
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@AppointmentID",   appointment.AppointmentID);
+                    cmd.Parameters.AddWithValue("@Problem_ID",      appointment.Problem_ID);
+                    cmd.Parameters.AddWithValue("@Doctor_ID",       appointment.Doctor_ID);
+                    cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
+                    cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
+                    cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
+                    cmd.Parameters.AddWithValue("@Status",          appointment.Status);
+                    cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UpdatedAt",       (object)appointment.UpdatedAt ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UpdatedBy_ID",    (object)appointment.UpdatedBy_ID ?? DBNull.Value);
+
+                    await conn.OpenAsync();
+                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
+                }
+                return isUpdated;
             }
-            return isUpdated;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<bool> UpdateAppointmentStatusAsync(int appointmentId, string status, int updatedById)
         {
-            const string query = @"
-                UPDATE Appointments
-                SET Status       = @Status,
-                    UpdatedAt    = SYSDATETIME(),
-                    UpdatedBy_ID = @UpdatedBy_ID
-                WHERE AppointmentID = @AppointmentID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
-                cmd.Parameters.AddWithValue("@Status",        status);
-                cmd.Parameters.AddWithValue("@UpdatedBy_ID",  updatedById);
+                bool isUpdated = false;
+                const string query = @"
+                    UPDATE Appointments
+                    SET Status       = @Status,
+                        UpdatedAt    = SYSDATETIME(),
+                        UpdatedBy_ID = @UpdatedBy_ID
+                    WHERE AppointmentID = @AppointmentID";
 
-                await conn.OpenAsync();
-                return await cmd.ExecuteNonQueryAsync() > 0;
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
+                    cmd.Parameters.AddWithValue("@Status",        status);
+                    cmd.Parameters.AddWithValue("@UpdatedBy_ID",  updatedById);
+
+                    await conn.OpenAsync();
+                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
+                }
+                return isUpdated;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

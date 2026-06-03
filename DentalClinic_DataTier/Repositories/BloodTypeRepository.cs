@@ -1,67 +1,82 @@
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
-using System.Data.SqlClient;
 
 namespace DentalClinic_DataTier.Repositories
 {
     public class BloodTypeRepository : IBloodTypeRepository
     {
-        private IDbConnectionFactory _connectionFactory;
+        private readonly IDbConnectionFactory _connectionFactory;
 
         public BloodTypeRepository(IDbConnectionFactory dbConnectionFactory)
         {
-            _connectionFactory = dbConnectionFactory; 
+            _connectionFactory = dbConnectionFactory;
         }
 
         public async Task<IEnumerable<clsBloodType>> GetAllBloodTypesAsync()
         {
-            var list = new List<clsBloodType>();
-            string sql = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes";
-
-            using (SqlConnection conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(sql, conn))
+            try
             {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                var list = new List<clsBloodType>();
+                const string query = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes";
+
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    while (await reader.ReadAsync())
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        list.Add(new clsBloodType
+                        while (await reader.ReadAsync())
                         {
-                            BloodTypeID   = reader.GetInt32(reader.GetOrdinal("BloodTypeID")),
-                            BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName"))
-                        });
+                            list.Add(new clsBloodType
+                            {
+                                BloodTypeID   = reader.GetInt32(reader.GetOrdinal("BloodTypeID")),
+                                BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName"))
+                            });
+                        }
                     }
                 }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public async Task<clsBloodType> GetBloodTypeByIdAsync(int bloodTypeId)
         {
-            const string sql = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes WHERE BloodTypeID = @BloodTypeID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(sql, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@BloodTypeID", bloodTypeId);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                const string query = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes WHERE BloodTypeID = @BloodTypeID";
+
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    if (await reader.ReadAsync())
+                    cmd.Parameters.AddWithValue("@BloodTypeID", bloodTypeId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        return new clsBloodType
+                        if (await reader.ReadAsync())
                         {
-                            BloodTypeID   = reader.GetInt32(reader.GetOrdinal("BloodTypeID")),
-                            BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName"))
-                        };
+                            return new clsBloodType
+                            {
+                                BloodTypeID   = reader.GetInt32(reader.GetOrdinal("BloodTypeID")),
+                                BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName"))
+                            };
+                        }
                     }
                 }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }
