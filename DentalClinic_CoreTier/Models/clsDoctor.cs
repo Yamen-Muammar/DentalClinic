@@ -11,15 +11,15 @@ namespace DentalClinic_CoreTier.Models
     {
         public int DoctorID { get; set; }
         public int Staff_ID { get; set; }
-        public string Specialization { get; set; }
-        public string LicenseNumber { get; set; }
+        public string Specialization { get; set; } = null;
+        public string LicenseNumber { get; set; } = null;
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy_ID { get; set; }
+        public DateTime? UpdatedAt { get; set; } = null;
+        public int? UpdatedBy_ID { get; set; } = null;
 
         // Navigation
         public clsStaff Staff { get; set; }
-        public clsStaff UpdatedBy { get; set; }
-        public ICollection<clsAppointment> Appointments { get; set; }
+        public clsStaff UpdatedBy { get; set; } = null;
+        // public ICollection<clsAppointment> Appointments { get; set; }
     }
 }
