@@ -8,5 +8,5 @@ namespace DentalClinic_CoreTier
 {
     public class myEnums
     {
-    }
+    }    
 }

@@ -16,7 +16,9 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy_ID { get; set; }
         public string Status { get; set; } = "New";  // New | InProgress | Done | Closed
-        public decimal TotalCost { get; set; }                // Doctor's set price
+        public decimal? TotalCost { get; set; } // Doctor's set price
+        public decimal? ActualPaid { get; set; }
+        
 
         // Navigation
         public clsMedicalFile MedicalFile { get; set; }

@@ -12,22 +12,20 @@ namespace DentalClinic_CoreTier.Models
         public int PersonID { get; set; }
         public  string FirstName { get; set; }
         public  string LastName { get; set; }
-        public string SecondName { get; set; }
-        public string NationalNo { get; set; }
+        public string SecondName { get; set; } = null; //nullable
+        public string NationalNo { get; set; } = null; //nullable
         public DateTime DateOfBirth { get; set; }
         public char Gender { get; set; }           // 'M' or 'F'
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy_ID { get; set; }
-        public bool IsDeleted { get; set; }
-        public DateTime? DeletedAt { get; set; }
-        public int? DeletedBy_ID { get; set; }
+        public DateTime? UpdatedAt { get; set; } = null;
+        public int? UpdatedBy_ID { get; set; } = null;
+        public bool IsDeleted { get; set; } = false;
+        public DateTime? DeletedAt { get; set; } = null;
+        public int? DeletedBy_ID { get; set; } = null;
 
         // Navigation
-        public clsStaff UpdatedBy { get; set; }
-        public clsStaff DeletedBy { get; set; }
-        public ICollection<clsPhoneNumber> PhoneNumbers { get; set; }
-        public clsStaff Staff { get; set; }
-        public clsPatient Patient { get; set; }
+        public clsStaff UpdatedBy { get; set; } = null;
+        public clsStaff DeletedBy { get; set; } = null;
+        public IEnumerable<clsPhoneNumber> PhoneNumbers { get; set; }
     }
 }
