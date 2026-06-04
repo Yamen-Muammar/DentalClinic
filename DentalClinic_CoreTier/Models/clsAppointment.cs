@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Models;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace DentalClinic_CoreTier.Models
 {
@@ -16,11 +17,11 @@ namespace DentalClinic_CoreTier.Models
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
         public string Status { get; set; } // Scheduled | Confirmed | Completed | Cancelled | NoShow
-        public string Cause { get; set; }
-        public int? Payment_ID { get; set; }
+        public string Cause { get; set; } = null;
+        public int? Payment_ID { get; set; } = null;
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy_ID { get; set; }
+        public DateTime? UpdatedAt { get; set; } = null;
+        public int? UpdatedBy_ID { get; set; } = null;
 
         //// Navigation
         public clsProblem Problem { get; set; }
