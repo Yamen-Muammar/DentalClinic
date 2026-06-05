@@ -9,5 +9,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IRoleService : IGRUDService<clsRole>
     {
+        Task<Dictionary<string, long>> GetAllRolesAsync();
     }
 }

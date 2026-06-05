@@ -150,6 +150,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clsAuth.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IAppointmentRepository.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IBloodTypeRepository.cs" />
     <Compile Include="Interfaces\RepositoryInterfaces\IDbConnectionFactory.cs" />

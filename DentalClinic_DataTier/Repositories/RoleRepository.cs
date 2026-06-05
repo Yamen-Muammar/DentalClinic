@@ -23,7 +23,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 int returnedRoleID = -1;
                 const string query = @"
-                    INSERT INTO Roles (RoleName, RolePermissionCode)
+                    INSERT INTO enRoles (RoleName, RolePermissionCode)
                     VALUES (@RoleName, @RolePermissionCode);
                     SELECT SCOPE_IDENTITY();";
 
@@ -52,7 +52,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 const string query = @"
                     SELECT RoleID, RoleName, RolePermissionCode
-                    FROM Roles
+                    FROM enRoles
                     WHERE RoleID = @RoleID";
 
                 using (var conn = _connectionFactory.CreateConnection())
@@ -74,7 +74,7 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
-        public async Task<IEnumerable<clsRole>> GetAllRolesAsync()
+        public async Task<Dictionary<string, long>> GetAllRolesAsync()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace DentalClinic_DataTier.Repositories
                     SELECT RoleID, RoleName, RolePermissionCode
                     FROM Roles";
 
-                var list = new List<clsRole>();
+                Dictionary<string, long> keyValues = new Dictionary<string, long>();
                 using (var conn = _connectionFactory.CreateConnection())
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -90,10 +90,13 @@ namespace DentalClinic_DataTier.Repositories
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
-                            list.Add(MapRole(reader));
+                        {
+                           clsRole role =  MapRole(reader);
+                           keyValues[role.RoleName] = role.RolePermissionCode;
+                        }                            
                     }
                 }
-                return list;
+                return keyValues;
             }
             catch (Exception)
             {
@@ -107,7 +110,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 bool isUpdated = false;
                 const string query = @"
-                    UPDATE Roles
+                    UPDATE enRoles
                     SET RoleName           = @RoleName,
                         RolePermissionCode = @RolePermissionCode
                     WHERE RoleID = @RoleID";
@@ -136,7 +139,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 bool isUpdated = false;
                 const string query = @"
-                    UPDATE Roles
+                    UPDATE enRoles
                     SET RolePermissionCode = @RolePermissionCode
                     WHERE RoleID = @RoleID";
 
@@ -163,7 +166,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 RoleID             = reader.GetInt32(reader.GetOrdinal("RoleID")),
                 RoleName           = reader.GetString(reader.GetOrdinal("RoleName")),
-                RolePermissionCode = reader.GetInt64(reader.GetOrdinal("RolePermissionCode")),
+                RolePermissionCode = Convert.ToInt64(reader["RolePermissionCode"]),
             };
         }
     }

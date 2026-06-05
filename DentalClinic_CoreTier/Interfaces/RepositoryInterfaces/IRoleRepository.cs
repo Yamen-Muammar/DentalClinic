@@ -11,7 +11,7 @@ namespace DentalClinic_CoreTier.Interfaces
     {
         Task<int> AddRoleAsync(clsRole role);
         Task<clsRole> GetRoleByIdAsync(int roleId);
-        Task<IEnumerable<clsRole>> GetAllRolesAsync();
+        Task<Dictionary<string,long>> GetAllRolesAsync();
         Task<bool> UpdateRoleAsync(clsRole role);
 
         // Specific method to easily modify bitwise authorization masks from a management UI

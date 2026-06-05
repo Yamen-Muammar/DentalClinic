@@ -17,9 +17,14 @@ namespace DentalClinic_BusinessTier.Services
             _roleRepository = roleRepository;
         }
 
+        public Task<Dictionary<string, long>> GetAllRolesAsync()
+        {
+            return _roleRepository.GetAllRolesAsync();
+        }
+
         public Task<clsRole> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _roleRepository.GetRoleByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsRole obj)
