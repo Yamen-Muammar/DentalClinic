@@ -12,13 +12,13 @@ namespace DentalClinic_CoreTier.Models
         public int MedicalFileID { get; set; }
         public int Patient_ID { get; set; }
         public DateTime CreationDate { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy_ID { get; set; }
-        public string GeneralAllergies { get; set; }
+        public DateTime? UpdatedAt { get; set; } = null;
+        public int? UpdatedBy_ID { get; set; } = null;
+        public string GeneralAllergies { get; set; } = null;
 
         // Navigation
-        public clsPatient Patient { get; set; } 
-        public clsStaff UpdatedBy { get; set; }
+        public clsPatient Patient { get; set; }
+        public clsStaff UpdatedBy { get; set; } = null;
         public ICollection<clsProblem> Problems { get; set; }
     }
 }
