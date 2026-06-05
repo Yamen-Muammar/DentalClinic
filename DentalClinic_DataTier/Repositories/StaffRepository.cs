@@ -36,7 +36,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@Role_ID",        staff.Role_ID);
                     cmd.Parameters.AddWithValue("@UserName",       staff.UserName);
                     cmd.Parameters.AddWithValue("@HashedPassword", staff.HashedPassword);
-                    cmd.Parameters.AddWithValue("@HireDate",       staff.HireDate);
+                    cmd.Parameters.AddWithValue("@HireDate",       (object)staff.HireDate ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@IsActive",       staff.IsActive);
                     cmd.Parameters.AddWithValue("@CreatedAt",      staff.CreatedAt);
 
@@ -122,7 +122,6 @@ namespace DentalClinic_DataTier.Repositories
                         Role_ID        = @Role_ID,
                         UserName       = @UserName,
                         HashedPassword = @HashedPassword,
-                        HireDate       = @HireDate,
                         IsActive       = @IsActive,
                         UpdatedAt      = @UpdatedAt,
                         UpdatedBy_ID   = @UpdatedBy_ID
@@ -136,7 +135,6 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@Role_ID",        staff.Role_ID);
                     cmd.Parameters.AddWithValue("@UserName",       staff.UserName);
                     cmd.Parameters.AddWithValue("@HashedPassword", staff.HashedPassword);
-                    cmd.Parameters.AddWithValue("@HireDate",       staff.HireDate);
                     cmd.Parameters.AddWithValue("@IsActive",       staff.IsActive);
                     cmd.Parameters.AddWithValue("@UpdatedAt",      (object)staff.UpdatedAt    ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@UpdatedBy_ID",   (object)staff.UpdatedBy_ID ?? DBNull.Value);
@@ -213,6 +211,7 @@ namespace DentalClinic_DataTier.Repositories
 
         private static clsStaff MapStaff(SqlDataReader reader)
         {
+            int hireDateOrd  = reader.GetOrdinal("HireDate");
             int updatedAtOrd = reader.GetOrdinal("UpdatedAt");
             int updatedByOrd = reader.GetOrdinal("UpdatedBy_ID");
             int deletedAtOrd = reader.GetOrdinal("DeletedAt");
@@ -225,7 +224,7 @@ namespace DentalClinic_DataTier.Repositories
                 Role_ID        = reader.GetInt32(reader.GetOrdinal("Role_ID")),
                 UserName       = reader.GetString(reader.GetOrdinal("UserName")),
                 HashedPassword = reader.GetString(reader.GetOrdinal("HashedPassword")),
-                HireDate       = reader.GetDateTime(reader.GetOrdinal("HireDate")),
+                HireDate       = reader.IsDBNull(hireDateOrd) ? (DateTime?)null : reader.GetDateTime(hireDateOrd),
                 IsActive       = reader.GetBoolean(reader.GetOrdinal("IsActive")),
                 CreatedAt      = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 IsDeleted      = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
