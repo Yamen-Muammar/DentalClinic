@@ -15,22 +15,21 @@ namespace DentalClinic_CoreTier.Models
         public int Role_ID { get; set; }
         public string UserName { get; set; }
         public string HashedPassword { get; set; }
-        public DateTime HireDate { get; set; }
+        public DateTime? HireDate { get; set; } = null;
         public bool IsActive { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public int? UpdatedBy_ID { get; set; }
+        public DateTime? UpdatedAt { get; set; } = null;
+        public int? UpdatedBy_ID { get; set; } = null;
 
-        public DateTime? DeletedAt { get; set; }
-        public int? DeletedBy_ID { get; set; }
+        public DateTime? DeletedAt { get; set; } = null;
+        public int? DeletedBy_ID { get; set; } = null;
         public bool IsDeleted { get; set; }
 
 
         // Navigation
         public clsPerson Person { get; set; }
         public clsRole Role { get; set; }
-        public clsStaff UpdatedBy { get; set; }
-        public clsDoctor Doctor { get; set; }
+        public clsStaff UpdatedBy { get; set; } = null;
 
         //// Reverse nav — records this staff member has touched
         //public ICollection<Payment> PaymentsCreated { get; set; } = [];
