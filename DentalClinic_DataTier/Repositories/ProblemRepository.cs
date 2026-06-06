@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
@@ -36,7 +37,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@Diagnosis",      (object)problem.Diagnosis  ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@TotalCost",      (object)problem.TotalCost  ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@ActualPaid",     (object)problem.ActualPaid ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Status",         problem.Status);
+                    cmd.Parameters.AddWithValue("@Status",         problem.Status.ToString());
                     cmd.Parameters.AddWithValue("@CreationDate",   problem.CreationDate);
 
                     await conn.OpenAsync();
@@ -135,7 +136,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@Diagnosis",      (object)problem.Diagnosis    ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@TotalCost",      (object)problem.TotalCost    ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@ActualPaid",     (object)problem.ActualPaid   ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@Status",         problem.Status);
+                    cmd.Parameters.AddWithValue("@Status",         problem.Status.ToString());
                     cmd.Parameters.AddWithValue("@UpdatedAt",      (object)problem.UpdatedAt    ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@UpdatedBy_ID",   (object)problem.UpdatedBy_ID ?? DBNull.Value);
 
@@ -150,7 +151,7 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
-        public async Task<bool> UpdateProblemStatusAsync(int problemId, string status, int updatedById)
+        public async Task<bool> UpdateProblemStatusAsync(int problemId, myEnums.enProblemStatus status, int updatedById)
         {
             try
             {
@@ -166,7 +167,7 @@ namespace DentalClinic_DataTier.Repositories
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@ProblemID",    problemId);
-                    cmd.Parameters.AddWithValue("@Status",       status);
+                    cmd.Parameters.AddWithValue("@Status",       status.ToString());
                     cmd.Parameters.AddWithValue("@UpdatedBy_ID", updatedById);
 
                     await conn.OpenAsync();
@@ -195,7 +196,7 @@ namespace DentalClinic_DataTier.Repositories
                 Diagnosis      = reader.IsDBNull(diagnosisOrd)  ? null            : reader.GetString(diagnosisOrd),
                 TotalCost      = reader.IsDBNull(totalCostOrd)  ? (decimal?)null  : reader.GetDecimal(totalCostOrd),
                 ActualPaid     = reader.IsDBNull(actualPaidOrd) ? (decimal?)null  : reader.GetDecimal(actualPaidOrd),
-                Status         = reader.GetString(reader.GetOrdinal("Status")),
+                Status         = (myEnums.enProblemStatus)Enum.Parse(typeof(myEnums.enProblemStatus), reader.GetString(reader.GetOrdinal("Status"))),
                 CreationDate   = reader.GetDateTime(reader.GetOrdinal("CreationDate")),
                 UpdatedAt      = reader.IsDBNull(updatedAtOrd)  ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID   = reader.IsDBNull(updatedByOrd)  ? (int?)null      : reader.GetInt32(updatedByOrd),

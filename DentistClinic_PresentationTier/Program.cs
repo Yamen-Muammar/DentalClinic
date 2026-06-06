@@ -62,6 +62,8 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<IProblemRepository, ProblemRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IPaymentRepository, PaymentRepository>();
+            services.AddTransient<IPaymentTypeRepository, PaymentRepository>();
+            services.AddTransient<IPaymentDestinationRepository, PaymentRepository>();
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IBloodTypeRepository, BloodTypeRepository>();
@@ -75,7 +77,7 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<IBloodTypeService, BloodTypeService>();
             services.AddTransient<IRoleService, RoleService>();
             services.AddTransient<IPersonService, PersonService>();
-
+            services.AddTransient<IPaymentService, PaymentService>();
             // Forms
             services.AddTransient<frmLogin>();
             services.AddTransient<frmMain>();

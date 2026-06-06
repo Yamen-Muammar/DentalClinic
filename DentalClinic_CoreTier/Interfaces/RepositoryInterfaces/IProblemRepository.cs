@@ -15,6 +15,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<bool> UpdateProblemAsync(clsProblem problem);
 
         // Specific method for quickly changing status without loading the whole object
-        Task<bool> UpdateProblemStatusAsync(int problemId, string status, int updatedById);
+        Task<bool> UpdateProblemStatusAsync(int problemId, myEnums.enProblemStatus status, int updatedById);
     }
 }

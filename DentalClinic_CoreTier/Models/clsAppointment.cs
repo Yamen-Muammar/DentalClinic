@@ -16,7 +16,7 @@ namespace DentalClinic_CoreTier.Models
         public DateTime AppointmentDate { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan EndTime { get; set; }
-        public string Status { get; set; } // Scheduled | Confirmed | Completed | Cancelled | NoShow
+        public myEnums.enAppointmentStatus Status { get; set; } = myEnums.enAppointmentStatus.Scheduled;
         public string Cause { get; set; } = null;
         public int? Payment_ID { get; set; } = null;
         public DateTime CreatedAt { get; set; }

@@ -16,6 +16,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId);
 
         Task<bool> UpdateAppointmentAsync(clsAppointment appointment);
-        Task<bool> UpdateAppointmentStatusAsync(int appointmentId, string status, int updatedById);
+        Task<bool> UpdateAppointmentStatusAsync(int appointmentId, myEnums.enAppointmentStatus status, int updatedById);
     }
 }

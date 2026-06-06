@@ -23,5 +23,26 @@ namespace DentalClinic_CoreTier
             Admin=1,
             Doctor=2,            
         }
+
+        public enum enAppointmentStatus
+        {
+            Scheduled = 1,
+            Confirmed = 2,
+            Completed = 3,
+            Cancelled = 4,
+            NoShow= 5
+        }
+
+        public enum enGenderTypes
+        {
+            Male = 1,
+            Female = 2
+        }
+
+        public enum enProblemStatus
+        {
+            New, InProgress,Done,Closed
+        }
+        
     }    
 }

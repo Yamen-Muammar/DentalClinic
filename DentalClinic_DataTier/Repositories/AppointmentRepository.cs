@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
@@ -37,7 +38,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
                     cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
                     cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
-                    cmd.Parameters.AddWithValue("@Status",          appointment.Status);
+                    cmd.Parameters.AddWithValue("@Status",          appointment.Status.ToString());
                     cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@CreatedAt",       appointment.CreatedAt);
@@ -174,7 +175,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@AppointmentDate", appointment.AppointmentDate);
                     cmd.Parameters.AddWithValue("@StartTime",       appointment.StartTime);
                     cmd.Parameters.AddWithValue("@EndTime",         appointment.EndTime);
-                    cmd.Parameters.AddWithValue("@Status",          appointment.Status);
+                    cmd.Parameters.AddWithValue("@Status",          appointment.Status.ToString());
                     cmd.Parameters.AddWithValue("@Cause",           (object)appointment.Cause ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@Payment_ID",      (object)appointment.Payment_ID ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@UpdatedAt",       (object)appointment.UpdatedAt ?? DBNull.Value);
@@ -191,7 +192,7 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
-        public async Task<bool> UpdateAppointmentStatusAsync(int appointmentId, string status, int updatedById)
+        public async Task<bool> UpdateAppointmentStatusAsync(int appointmentId, myEnums.enAppointmentStatus status, int updatedById)
         {
             try
             {
@@ -207,7 +208,7 @@ namespace DentalClinic_DataTier.Repositories
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@AppointmentID", appointmentId);
-                    cmd.Parameters.AddWithValue("@Status",        status);
+                    cmd.Parameters.AddWithValue("@Status",        status.ToString());
                     cmd.Parameters.AddWithValue("@UpdatedBy_ID",  updatedById);
 
                     await conn.OpenAsync();
@@ -236,7 +237,7 @@ namespace DentalClinic_DataTier.Repositories
                 AppointmentDate = reader.GetDateTime(reader.GetOrdinal("AppointmentDate")),
                 StartTime       = (TimeSpan)reader.GetValue(reader.GetOrdinal("StartTime")),
                 EndTime         = (TimeSpan)reader.GetValue(reader.GetOrdinal("EndTime")),
-                Status          = reader.GetString(reader.GetOrdinal("Status")),
+                Status          = (myEnums.enAppointmentStatus)Enum.Parse(typeof(myEnums.enAppointmentStatus), reader.GetString(reader.GetOrdinal("Status"))),
                 Cause           = reader.IsDBNull(causeOrd)     ? null            : reader.GetString(causeOrd),
                 Payment_ID      = reader.IsDBNull(paymentOrd)   ? (int?)null      : reader.GetInt32(paymentOrd),
                 CreatedAt       = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
