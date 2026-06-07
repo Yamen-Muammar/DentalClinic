@@ -15,5 +15,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<bool> UpdateStaffAsync(clsStaff staff);
         Task<clsStaff> GetStaffByUsernameAsync(string username);
         Task<bool> ChangeActiveStatusAsync(int staffId, bool isActive, int updatedById);
+        Task<bool> SoftDeleteStaff(int deletedById, int staffID);
     }
 }

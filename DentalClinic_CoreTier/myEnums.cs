@@ -15,7 +15,8 @@ namespace DentalClinic_CoreTier
             ManagePayments = 4,
             ViewReports = 8,
             ManageStaff = 16,
-            ManageRoles = 32
+            ManageRoles = 32,
+            ManageReports = 64,            
         }
 
         public enum enRoles

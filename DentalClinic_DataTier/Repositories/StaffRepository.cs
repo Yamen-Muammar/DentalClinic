@@ -209,6 +209,34 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
+        public async Task<bool> SoftDeleteStaff(int deletedById, int staffID)
+        {
+            try
+            {
+                bool isUpdated = false;
+                const string query = @"
+                    UPDATE Staff
+                    SET IsDeleted    = 1,
+                        DeletedAt    = SYSDATETIME(),
+                        DeletedBy_ID = @DeletedBy_ID
+                    WHERE StaffID = @StaffID";
+
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@StaffID",     staffID);
+                    cmd.Parameters.AddWithValue("@DeletedBy_ID", deletedById);
+
+                    await conn.OpenAsync();
+                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
+                }
+                return isUpdated;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         private static clsStaff MapStaff(SqlDataReader reader)
         {
             int hireDateOrd  = reader.GetOrdinal("HireDate");
