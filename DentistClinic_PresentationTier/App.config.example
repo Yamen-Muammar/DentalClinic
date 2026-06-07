@@ -55,4 +55,11 @@
 			</dependentAssembly>
 		</assemblyBinding>
 	</runtime>
+	<connectionStrings>
+		<add name="DentalClinic" connectionString="Add The Right Connection String"
+			 providerName=".NET Framework Data Provider for SQL Server" />
+	</connectionStrings>
+	<System.Windows.Forms.ApplicationConfigurationSection>
+		<add key="DpiAwareness" value="PerMonitorV2" />
+	</System.Windows.Forms.ApplicationConfigurationSection>
 </configuration>

@@ -21,15 +21,29 @@ namespace DentistClinic_PresentationTier
             InitializeComponent();
             _staffService = staffService;
         }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
-            {
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+        }
+
+        private void btnVisionChar_Click(object sender, EventArgs e)
+        {
+            tbPassword.UseSystemPasswordChar = !tbPassword.UseSystemPasswordChar;
+
+            if (!tbPassword.UseSystemPasswordChar)
+            {
+                btnVisionChar.FillColor = Color.White;
             }
-            
+            else
+            {
+                btnVisionChar.FillColor = Color.Transparent;
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

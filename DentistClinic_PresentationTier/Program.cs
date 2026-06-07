@@ -10,6 +10,7 @@ using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_DataTier;
 using DentalClinic_DataTier.Repositories;
+using DentistClinic_PresentationTier.Controls.MainUIControls;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DentistClinic_PresentationTier
@@ -35,10 +36,8 @@ namespace DentistClinic_PresentationTier
             ServiceProvider = services.BuildServiceProvider();
 
             // RIGHT HERE: Instead of Application.Run(new LoginForm())
-            // We request the form directly from our ServiceProvider container
-            var loginForm = ServiceProvider.GetRequiredService<frmLogin>();
-
-            using (loginForm = ServiceProvider.GetRequiredService<frmLogin>())
+            // We request the form directly from our ServiceProvider container           
+            using (var loginForm = ServiceProvider.GetRequiredService<frmLogin>())
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)
                 {
@@ -81,6 +80,13 @@ namespace DentistClinic_PresentationTier
             // Forms
             services.AddTransient<frmLogin>();
             services.AddTransient<frmMain>();
+            services.AddTransient<ctrlDashBoard>();
+            services.AddTransient<ctrlManagePatients>();
+            services.AddTransient<ctrlManageAppointment>();
+            services.AddTransient<ctrlManagePayments>();
+            services.AddTransient<ctrlManageReports>();
+            services.AddTransient<ctrlManageStaff>();
+            services.AddTransient<ctrlManageRoles>();                        
         }
     }
 }

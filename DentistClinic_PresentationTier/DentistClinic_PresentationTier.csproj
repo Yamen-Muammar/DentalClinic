@@ -106,6 +106,48 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\MainUIControls\ctrlDashBoard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlDashBoard.Designer.cs">
+      <DependentUpon>ctrlDashBoard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageAppointment.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageAppointment.Designer.cs">
+      <DependentUpon>ctrlManageAppointment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManagePatients.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManagePatients.Designer.cs">
+      <DependentUpon>ctrlManagePatients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManagePayments.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManagePayments.Designer.cs">
+      <DependentUpon>ctrlManagePayments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageReports.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageReports.Designer.cs">
+      <DependentUpon>ctrlManageReports.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageRoles.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageRoles.Designer.cs">
+      <DependentUpon>ctrlManageRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageStaff.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\MainUIControls\ctrlManageStaff.Designer.cs">
+      <DependentUpon>ctrlManageStaff.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -120,6 +162,27 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlDashBoard.resx">
+      <DependentUpon>ctrlDashBoard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManageAppointment.resx">
+      <DependentUpon>ctrlManageAppointment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManagePatients.resx">
+      <DependentUpon>ctrlManagePatients.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManagePayments.resx">
+      <DependentUpon>ctrlManagePayments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManageReports.resx">
+      <DependentUpon>ctrlManageReports.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManageRoles.resx">
+      <DependentUpon>ctrlManageRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MainUIControls\ctrlManageStaff.resx">
+      <DependentUpon>ctrlManageStaff.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
     </EmbeddedResource>
@@ -134,6 +197,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="App.config.example" />
     <None Include="packages.config" />
