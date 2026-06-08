@@ -254,11 +254,11 @@ namespace DentalClinic_DataTier.Repositories
                 HashedPassword = reader.GetString(reader.GetOrdinal("HashedPassword")),
                 HireDate       = reader.IsDBNull(hireDateOrd) ? (DateTime?)null : reader.GetDateTime(hireDateOrd),
                 IsActive       = reader.GetBoolean(reader.GetOrdinal("IsActive")),
-                CreatedAt      = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
+                //CreatedAt      = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 IsDeleted      = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
-                UpdatedAt      = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
+                //UpdatedAt      = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID   = reader.IsDBNull(updatedByOrd) ? (int?)null      : reader.GetInt32(updatedByOrd),
-                DeletedAt      = reader.IsDBNull(deletedAtOrd) ? (DateTime?)null : reader.GetDateTime(deletedAtOrd),
+                //DeletedAt      = reader.IsDBNull(deletedAtOrd) ? (DateTime?)null : reader.GetDateTime(deletedAtOrd),
                 DeletedBy_ID   = reader.IsDBNull(deletedByOrd) ? (int?)null      : reader.GetInt32(deletedByOrd),
             };
         }

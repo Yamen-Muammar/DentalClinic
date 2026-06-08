@@ -23,7 +23,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 int returnedPersonID = -1;
                 const string query = @"
-                    INSERT INTO Persons
+                    INSERT INTO People
                         (FirstName, LastName, SecondName, NationalNo, DateOfBirth, Gender, CreatedAt)
                     VALUES
                         (@FirstName, @LastName, @SecondName, @NationalNo, @DateOfBirth, @Gender, @CreatedAt);
@@ -61,7 +61,7 @@ namespace DentalClinic_DataTier.Repositories
                     SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
                            DateOfBirth, Gender, CreatedAt, UpdatedAt, UpdatedBy_ID,
                            IsDeleted, DeletedAt, DeletedBy_ID
-                    FROM Persons
+                    FROM People
                     WHERE PersonID = @PersonID AND IsDeleted = 0";
 
                 using (var conn = _connectionFactory.CreateConnection())
@@ -91,7 +91,7 @@ namespace DentalClinic_DataTier.Repositories
                     SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
                            DateOfBirth, Gender, CreatedAt, UpdatedAt, UpdatedBy_ID,
                            IsDeleted, DeletedAt, DeletedBy_ID
-                    FROM Persons
+                    FROM People
                     WHERE NationalNo = @NationalNo AND IsDeleted = 0";
 
                 using (var conn = _connectionFactory.CreateConnection())
@@ -119,7 +119,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 bool isUpdated = false;
                 const string query = @"
-                    UPDATE Persons
+                    UPDATE People
                     SET FirstName    = @FirstName,
                         LastName     = @LastName,
                         SecondName   = @SecondName,
@@ -160,7 +160,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 bool isUpdated = false;
                 const string query = @"
-                    UPDATE Persons
+                    UPDATE People
                     SET IsDeleted    = 1,
                         DeletedAt    = SYSDATETIME(),
                         DeletedBy_ID = @DeletedBy_ID
@@ -374,6 +374,7 @@ namespace DentalClinic_DataTier.Repositories
         {
             int secondNameOrd = reader.GetOrdinal("SecondName");
             int nationalNoOrd = reader.GetOrdinal("NationalNo");
+            int dateofbirthOrd = reader.GetOrdinal("DateOfBirth");
             int updatedAtOrd  = reader.GetOrdinal("UpdatedAt");
             int updatedByOrd  = reader.GetOrdinal("UpdatedBy_ID");
             int deletedAtOrd  = reader.GetOrdinal("DeletedAt");
@@ -386,7 +387,7 @@ namespace DentalClinic_DataTier.Repositories
                 LastName     = reader.GetString(reader.GetOrdinal("LastName")),
                 SecondName   = reader.IsDBNull(secondNameOrd) ? null            : reader.GetString(secondNameOrd),
                 NationalNo   = reader.IsDBNull(nationalNoOrd) ? null            : reader.GetString(nationalNoOrd),
-                DateOfBirth  = reader.GetDateTime(reader.GetOrdinal("DateOfBirth")),
+                DateOfBirth  = reader.IsDBNull(dateofbirthOrd)? (DateTime?)null            : reader.GetDateTime(dateofbirthOrd),
                 Gender       = reader.GetString(reader.GetOrdinal("Gender"))[0],
                 CreatedAt    = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt    = reader.IsDBNull(updatedAtOrd)  ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),

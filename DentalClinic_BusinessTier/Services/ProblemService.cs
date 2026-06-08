@@ -19,7 +19,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<clsProblem> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _problemRepository.GetProblemByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsProblem obj)

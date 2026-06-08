@@ -12,31 +12,26 @@ namespace DentistClinic_PresentationTier
     {
         public int StaffID { get; private set; }
         public string UserName { get; private set; }
-        public clsPerson Person { get; private set; }
         public long PermissionCode { get; private set; }
         public int RoleID { get; private set; }
+        public clsStaff Staff { get; private set; }
 
-        public clsRole Role { get; private set; }
-
-        public void Set(clsStaff staff, clsRole role,clsPerson person)
+        public void Set(clsStaff staff)
         {
             StaffID = staff.StaffID;
             UserName = staff.UserName;
-            PermissionCode = role.RolePermissionCode;
-            RoleID = role.RoleID;
-            Role = role;
-            Person = person;
-
+            PermissionCode = staff.Role.RolePermissionCode;
+            RoleID = staff.Role_ID;
+            Staff = staff;
         }
 
         public void Clear()
         {
             StaffID = 0;
             UserName = null;
-            Person = null;
+            Staff = null;
             PermissionCode = 0;
             RoleID = 0;
-            Role = null;
         }
     }
 }

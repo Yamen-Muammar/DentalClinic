@@ -19,7 +19,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<clsAppointment> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _appointmentRepository.GetAppointmentByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsAppointment obj)

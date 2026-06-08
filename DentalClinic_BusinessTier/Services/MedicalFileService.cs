@@ -19,7 +19,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<clsMedicalFile> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _medicalFileRepository.GetMedicalFileByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsMedicalFile obj)

@@ -17,9 +17,14 @@ namespace DentalClinic_BusinessTier.Services
             _personRepository = personRepository;
         }
 
-        public Task<clsPerson> GetByIdAsync(int objId)
+        public async Task<clsPerson> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            clsPerson person = await _personRepository.GetPersonByIdAsync(objId);
+            if (person == null) return null;
+
+            person.PhoneNumbers = await _personRepository.GetPhoneNumbersByPersonIdAsync(person.PersonID);
+
+            return person;
         }
 
         public Task<int> InsertAsync(clsPerson obj)

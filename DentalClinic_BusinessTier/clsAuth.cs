@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DentalClinic_BusinessTier
 {
-    internal class clsAuth
+    internal static class clsAuth
     {
         private const int SaltSize = 16;
         private const int HashSize = 32;
@@ -17,7 +17,7 @@ namespace DentalClinic_BusinessTier
         /// Hashes a password and returns a single Base64 string containing both the salt and the hash.
         /// Save this string directly to your database.
         /// </summary>
-        public async Task<string> HashPassword(string password)
+        public static async Task<string> HashPassword(string password)
         {
             return await Task.Run(() =>
             {
@@ -47,7 +47,7 @@ namespace DentalClinic_BusinessTier
         /// <summary>
         /// Compares a plain-text password typed by the user with the hashed string from the database.
         /// </summary>
-        public async Task<bool> VerifyPassword(string enteredPassword, string savedHash)
+        public static async Task<bool> VerifyPassword(string enteredPassword, string savedHash)
         {
             return await Task.Run(() =>
             {

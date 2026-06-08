@@ -15,7 +15,7 @@ namespace DentalClinic_CoreTier.Models
         public string FullName => $"{FirstName} {LastName}";
         public string SecondName { get; set; } = null; //nullable
         public string NationalNo { get; set; } = null; //nullable
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; } = null;
         public char Gender { get; set; }           // 'M' or 'F'
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; } = null;

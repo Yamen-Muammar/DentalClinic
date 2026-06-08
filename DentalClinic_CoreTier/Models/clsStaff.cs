@@ -17,11 +17,11 @@ namespace DentalClinic_CoreTier.Models
         public string HashedPassword { get; set; }
         public DateTime? HireDate { get; set; } = null;
         public bool IsActive { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; } = null;
+        public DateTime CreatedAt { get;  }
+        public DateTime? UpdatedAt { get;} = null;
         public int? UpdatedBy_ID { get; set; } = null;
 
-        public DateTime? DeletedAt { get; set; } = null;
+        public DateTime? DeletedAt { get;} = null;
         public int? DeletedBy_ID { get; set; } = null;
         public bool IsDeleted { get; set; }
 

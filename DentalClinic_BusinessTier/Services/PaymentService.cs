@@ -25,7 +25,7 @@ namespace DentalClinic_BusinessTier.Services
         //Payments
         public Task<clsPayment> GetByIdAsync(int objId)
         {
-            throw new NotImplementedException();
+            return _paymentRepository.GetPaymentByIdAsync(objId);
         }
 
         public Task<int> InsertAsync(clsPayment obj)

@@ -52,7 +52,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 const string query = @"
                     SELECT RoleID, RoleName, RolePermissionCode
-                    FROM enRoles
+                    FROM Roles
                     WHERE RoleID = @RoleID";
 
                 using (var conn = _connectionFactory.CreateConnection())

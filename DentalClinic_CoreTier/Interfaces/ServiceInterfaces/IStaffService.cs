@@ -9,5 +9,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IStaffService : IGRUDService<clsStaff>
     {
+        Task<clsStaff> LoginAsync(string username, string Password);
     }
 }
