@@ -27,8 +27,30 @@ namespace DentistClinic_PresentationTier
         }
         private async void btnLogin_Click(object sender, EventArgs e)
         {
+            Task.Run(() =>
+            {
+                this.Invoke((Action) (() =>
+                {
+                    _startLoading(true);
+                }));        
+            });
+          
+           
             try
             {
+                if (string.IsNullOrEmpty(tbUsername.Text))
+                {
+                    MessageBox.Show("يرجـئ إدخال اسم المستخدم", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tbUsername.Focus();
+                    return;
+                }
+                else if (string.IsNullOrEmpty(tbPassword.Text))
+                {
+                    MessageBox.Show("يرجـئ إدخال كلمة المرور", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    tbPassword.Focus();
+                    return;
+                }
+
                 string username = tbUsername.Text;
                 string password = tbPassword.Text;
 
@@ -45,13 +67,33 @@ namespace DentistClinic_PresentationTier
             {
                 MessageBox.Show("اسم المستخدم أو كلمة المرور غير صحيحة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("الرجاء الاتصال في آدمن\n->>Error"+ex.Message,"Error",MessageBoxButtons.OK,MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _startLoading(false);
+            }
+        }
+        private void _startLoading(bool enable)
+        {
+            btnLogin.Enabled = !enable;
+            if (!enable)
+            {
+                guna2WinProgressIndicator1.Stop();
+                guna2WinProgressIndicator1.Visible = false;
+                btnLogin.Text = "دخول";
+            }
+            else
+            {
+                guna2WinProgressIndicator1.Start();
+                btnLogin.Enabled = false;
+                btnLogin.Text = "";
+                guna2WinProgressIndicator1.Visible = true;
             }
             
         }
-
         private void btnVisionChar_Click(object sender, EventArgs e)
         {
             tbPassword.UseSystemPasswordChar = !tbPassword.UseSystemPasswordChar;

@@ -31,13 +31,14 @@
             this.guna2GradientPanel1 = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.label2 = new System.Windows.Forms.Label();
             this.cbRememberMe = new Guna.UI2.WinForms.Guna2CustomCheckBox();
+            this.btnVisionChar = new Guna.UI2.WinForms.Guna2Button();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPassword = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbUsername = new Guna.UI2.WinForms.Guna2TextBox();
             this.btnLogin = new Guna.UI2.WinForms.Guna2Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnClose = new Guna.UI2.WinForms.Guna2CircleButton();
-            this.btnVisionChar = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.guna2GradientPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -46,6 +47,7 @@
             // 
             this.guna2GradientPanel1.BackColor = System.Drawing.Color.Transparent;
             this.guna2GradientPanel1.BorderRadius = 25;
+            this.guna2GradientPanel1.Controls.Add(this.guna2WinProgressIndicator1);
             this.guna2GradientPanel1.Controls.Add(this.label2);
             this.guna2GradientPanel1.Controls.Add(this.cbRememberMe);
             this.guna2GradientPanel1.Controls.Add(this.btnVisionChar);
@@ -97,6 +99,29 @@
             this.cbRememberMe.UncheckedState.BorderRadius = 2;
             this.cbRememberMe.UncheckedState.BorderThickness = 1;
             this.cbRememberMe.UncheckedState.FillColor = System.Drawing.Color.White;
+            // 
+            // btnVisionChar
+            // 
+            this.btnVisionChar.Animated = true;
+            this.btnVisionChar.BorderColor = System.Drawing.Color.White;
+            this.btnVisionChar.BorderRadius = 20;
+            this.btnVisionChar.BorderThickness = 1;
+            this.btnVisionChar.CustomizableEdges.BottomRight = false;
+            this.btnVisionChar.CustomizableEdges.TopRight = false;
+            this.btnVisionChar.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnVisionChar.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnVisionChar.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnVisionChar.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnVisionChar.FillColor = System.Drawing.Color.Transparent;
+            this.btnVisionChar.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnVisionChar.ForeColor = System.Drawing.Color.White;
+            this.btnVisionChar.Image = global::DentistClinic_PresentationTier.Properties.Resources.VisionChars;
+            this.btnVisionChar.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnVisionChar.Location = new System.Drawing.Point(105, 301);
+            this.btnVisionChar.Name = "btnVisionChar";
+            this.btnVisionChar.Size = new System.Drawing.Size(69, 71);
+            this.btnVisionChar.TabIndex = 3;
+            this.btnVisionChar.Click += new System.EventHandler(this.btnVisionChar_Click);
             // 
             // label1
             // 
@@ -216,28 +241,16 @@
             this.btnClose.TabIndex = 3;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // btnVisionChar
+            // guna2WinProgressIndicator1
             // 
-            this.btnVisionChar.Animated = true;
-            this.btnVisionChar.BorderColor = System.Drawing.Color.White;
-            this.btnVisionChar.BorderRadius = 20;
-            this.btnVisionChar.BorderThickness = 1;
-            this.btnVisionChar.CustomizableEdges.BottomRight = false;
-            this.btnVisionChar.CustomizableEdges.TopRight = false;
-            this.btnVisionChar.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnVisionChar.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnVisionChar.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnVisionChar.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnVisionChar.FillColor = System.Drawing.Color.Transparent;
-            this.btnVisionChar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnVisionChar.ForeColor = System.Drawing.Color.White;
-            this.btnVisionChar.Image = global::DentistClinic_PresentationTier.Properties.Resources.VisionChars;
-            this.btnVisionChar.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnVisionChar.Location = new System.Drawing.Point(105, 301);
-            this.btnVisionChar.Name = "btnVisionChar";
-            this.btnVisionChar.Size = new System.Drawing.Size(69, 71);
-            this.btnVisionChar.TabIndex = 3;
-            this.btnVisionChar.Click += new System.EventHandler(this.btnVisionChar_Click);
+            this.guna2WinProgressIndicator1.AutoStart = true;
+            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(296, 489);
+            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
+            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.White;
+            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(80, 80);
+            this.guna2WinProgressIndicator1.TabIndex = 7;
+            this.guna2WinProgressIndicator1.UseTransparentBackground = true;
+            this.guna2WinProgressIndicator1.Visible = false;
             // 
             // frmLogin
             // 
@@ -271,5 +284,6 @@
         private Guna.UI2.WinForms.Guna2CustomCheckBox cbRememberMe;
         private System.Windows.Forms.Label label2;
         private Guna.UI2.WinForms.Guna2CircleButton btnClose;
+        private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator1;
     }
 }
