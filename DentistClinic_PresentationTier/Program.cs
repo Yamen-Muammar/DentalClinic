@@ -86,7 +86,10 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<ctrlManagePayments>();
             services.AddTransient<ctrlManageReports>();
             services.AddTransient<ctrlManageStaff>();
-            services.AddTransient<ctrlManageRoles>();                        
+            services.AddTransient<ctrlManageRoles>();
+            
+            // Session 
+            services.AddSingleton<ISessionContext, WinFormsSessionContext>();
         }
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using DentalClinic_CoreTier;
+using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentistClinic_PresentationTier.Controls.MainUIControls;
@@ -22,9 +23,11 @@ namespace DentistClinic_PresentationTier
         private Color _preColorBeforeEvent;
         private IRoleService _roleService;
         private UserControl _activeControl = null;
-        public frmMain(IRoleService roleService,IBloodTypeService bloodTypeService)
+        private ISessionContext _sessionContext;
+        public frmMain(ISessionContext sessionContext,IRoleService roleService)
         {
             _roleService = roleService;
+            _sessionContext = sessionContext;
             InitializeComponent();
             
         }
@@ -124,7 +127,7 @@ namespace DentistClinic_PresentationTier
                     }
                     break;
                 case "btnReports":
-                    if (_isOkToDo(myEnums.enPermission.ManageRoles))
+                    if (_isOkToDo(myEnums.enPermission.ManageReports))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageReports>();
                         CreateView(wantedCtrl);
@@ -242,7 +245,7 @@ namespace DentistClinic_PresentationTier
 
         private bool _isOkToDo(myEnums.enPermission enPermission)
         {
-            if (clsAuth.IsAuth(myEnums.enRoles.Admin, enPermission))
+            if (clsAuth.IsAuth(_sessionContext.Role, enPermission))
             {
                 return true;
             }
@@ -255,37 +258,43 @@ namespace DentistClinic_PresentationTier
             switch (btn.Name)
             {
                 case "btnDashboard":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin, myEnums.enPermission.ManagePatients))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManagePatients))
                     {
                         return false;
                     }
                     return true;
                 case "btnManagePatients":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin,myEnums.enPermission.ManagePatients))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManagePatients))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageAppointments":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin, myEnums.enPermission.ManageAppointments))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManageAppointments))
                     {
                         return false;
                     }
                     return true;
                 case "btnManagePayments":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin, myEnums.enPermission.ManagePayments))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManagePayments))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageStaff":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin, myEnums.enPermission.ManageStaff))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManageStaff))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageRoles":
-                    if (!clsAuth.IsAuth(myEnums.enRoles.Admin, myEnums.enPermission.ManageRoles))
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManageRoles))
+                    {
+                        return false;
+                    }
+                    return true;
+                case "btnManageReports":
+                    if (!clsAuth.IsAuth(_sessionContext.Role, myEnums.enPermission.ManageReports))
                     {
                         return false;
                     }

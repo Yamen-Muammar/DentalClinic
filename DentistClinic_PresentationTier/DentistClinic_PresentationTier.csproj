@@ -162,6 +162,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WinFormsSessionContext.cs" />
     <EmbeddedResource Include="Controls\MainUIControls\ctrlDashBoard.resx">
       <DependentUpon>ctrlDashBoard.cs</DependentUpon>
     </EmbeddedResource>
