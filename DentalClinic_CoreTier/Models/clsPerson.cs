@@ -12,6 +12,7 @@ namespace DentalClinic_CoreTier.Models
         public int PersonID { get; set; }
         public  string FirstName { get; set; }
         public  string LastName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
         public string SecondName { get; set; } = null; //nullable
         public string NationalNo { get; set; } = null; //nullable
         public DateTime DateOfBirth { get; set; }
