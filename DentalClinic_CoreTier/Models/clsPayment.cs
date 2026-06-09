@@ -21,11 +21,5 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; } = null;
         public int? UpdatedBy_ID { get; set; } = null;
 
-        // Navigation
-        public clsPaymentType PaymentType { get; set; }
-        public clsPaymentDestination PaymentDestination { get; set; }
-        public clsAppointment Appointment { get; set; }
-        public clsStaff CreatedBy { get; set; }
-        public clsStaff UpdatedBy { get; set; } = null;
     }
 }

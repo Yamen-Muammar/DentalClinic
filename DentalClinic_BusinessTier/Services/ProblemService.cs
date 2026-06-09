@@ -22,7 +22,7 @@ namespace DentalClinic_BusinessTier.Services
             return _problemRepository.GetProblemByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsProblem obj)
+        public Task<int?> InsertAsync(clsProblem obj)
         {
             throw new NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsProblem obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsProblem obj,  int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

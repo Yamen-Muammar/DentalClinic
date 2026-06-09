@@ -25,12 +25,12 @@ namespace DentalClinic_BusinessTier.Services
             return _bloodTypeRepository.GetBloodTypeByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsBloodType obj)
+        public Task<int?> InsertAsync(clsBloodType obj)
         {
             throw new System.NotSupportedException("BloodType is a reference table and does not support insertions.");
         }
 
-        public Task<bool> UpdateAsync(clsBloodType obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsBloodType obj, int? updatedByID =null)
         {
             throw new System.NotSupportedException("BloodType is a reference table and does not support updates.");
         }

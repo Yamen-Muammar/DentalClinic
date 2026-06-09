@@ -27,7 +27,7 @@ namespace DentalClinic_BusinessTier.Services
             return _roleRepository.GetRoleByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsRole obj)
+        public Task<int?> InsertAsync(clsRole obj)
         {
             throw new NotImplementedException();
         }
@@ -37,7 +37,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsRole obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsRole obj,  int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

@@ -44,12 +44,12 @@
             this.pnlTodayAppointments = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.lblTodayAppoinmentsCount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.indecatorPanel = new System.Windows.Forms.Panel();
-            this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.guna2spnlHedder = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblPageTitle = new System.Windows.Forms.Label();
+            this.indecatorPanel = new System.Windows.Forms.Panel();
+            this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2ShadowPanelAppointments.SuspendLayout();
@@ -58,10 +58,10 @@
             this.pnlTodayPatient.SuspendLayout();
             this.pnlNotConfirmedPayments.SuspendLayout();
             this.pnlTodayAppointments.SuspendLayout();
-            this.indecatorPanel.SuspendLayout();
             this.guna2spnlHedder.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.indecatorPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -284,28 +284,6 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "عدد المواعيد اليوم؛";
             // 
-            // indecatorPanel
-            // 
-            this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator);
-            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
-            this.indecatorPanel.Name = "indecatorPanel";
-            this.indecatorPanel.Size = new System.Drawing.Size(1513, 857);
-            this.indecatorPanel.TabIndex = 11;
-            // 
-            // guna2WinProgressIndicator
-            // 
-            this.guna2WinProgressIndicator.AnimationSpeed = 90;
-            this.guna2WinProgressIndicator.AutoStart = true;
-            this.guna2WinProgressIndicator.BackColor = System.Drawing.Color.Transparent;
-            this.guna2WinProgressIndicator.Location = new System.Drawing.Point(641, 318);
-            this.guna2WinProgressIndicator.Name = "guna2WinProgressIndicator";
-            this.guna2WinProgressIndicator.NumberOfCircles = 15;
-            this.guna2WinProgressIndicator.ProgressColor = System.Drawing.Color.SteelBlue;
-            this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
-            this.guna2WinProgressIndicator.TabIndex = 12;
-            // 
             // guna2spnlHedder
             // 
             this.guna2spnlHedder.BackColor = System.Drawing.Color.Transparent;
@@ -359,12 +337,34 @@
             this.lblPageTitle.Text = "لوحة التحكم";
             this.lblPageTitle.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
+            // indecatorPanel
+            // 
+            this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator);
+            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
+            this.indecatorPanel.Name = "indecatorPanel";
+            this.indecatorPanel.Size = new System.Drawing.Size(1513, 857);
+            this.indecatorPanel.TabIndex = 11;
+            // 
+            // guna2WinProgressIndicator
+            // 
+            this.guna2WinProgressIndicator.AnimationSpeed = 90;
+            this.guna2WinProgressIndicator.AutoStart = true;
+            this.guna2WinProgressIndicator.BackColor = System.Drawing.Color.Transparent;
+            this.guna2WinProgressIndicator.Location = new System.Drawing.Point(641, 318);
+            this.guna2WinProgressIndicator.Name = "guna2WinProgressIndicator";
+            this.guna2WinProgressIndicator.NumberOfCircles = 15;
+            this.guna2WinProgressIndicator.ProgressColor = System.Drawing.Color.SteelBlue;
+            this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
+            this.guna2WinProgressIndicator.TabIndex = 12;
+            // 
             // ctrlDashBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.Controls.Add(this.indecatorPanel);
+            //this.Controls.Add(this.indecatorPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ctrlDashBoard";
             this.Size = new System.Drawing.Size(1513, 857);
@@ -381,11 +381,11 @@
             this.pnlNotConfirmedPayments.PerformLayout();
             this.pnlTodayAppointments.ResumeLayout(false);
             this.pnlTodayAppointments.PerformLayout();
-            this.indecatorPanel.ResumeLayout(false);
             this.guna2spnlHedder.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.indecatorPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

@@ -87,7 +87,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("72 Monospace", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label2.Location = new System.Drawing.Point(450, 400);
+            this.label2.Location = new System.Drawing.Point(438, 400);
             this.label2.Name = "label2";
             this.label2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label2.Size = new System.Drawing.Size(68, 31);
@@ -96,13 +96,11 @@
             // 
             // cbRememberMe
             // 
-            this.cbRememberMe.Checked = true;
+            this.cbRememberMe.Animated = true;
             this.cbRememberMe.CheckedState.BorderColor = System.Drawing.Color.White;
-            this.cbRememberMe.CheckedState.BorderRadius = 5;
+            this.cbRememberMe.CheckedState.BorderRadius = 10;
             this.cbRememberMe.CheckedState.BorderThickness = 1;
             this.cbRememberMe.CheckedState.FillColor = System.Drawing.Color.SteelBlue;
-            this.cbRememberMe.CustomizableEdges.BottomLeft = false;
-            this.cbRememberMe.CustomizableEdges.TopLeft = false;
             this.cbRememberMe.Location = new System.Drawing.Point(524, 391);
             this.cbRememberMe.Name = "cbRememberMe";
             this.cbRememberMe.Size = new System.Drawing.Size(31, 40);

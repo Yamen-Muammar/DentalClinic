@@ -23,10 +23,5 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; } = null;
         public int? UpdatedBy_ID { get; set; } = null;
 
-        //// Navigation
-        public clsProblem Problem { get; set; }
-        public clsDoctor Doctor { get; set; }
-        public clsPayment Payment { get; set; }
-        public clsStaff UpdatedBy { get; set; }
     }
 }

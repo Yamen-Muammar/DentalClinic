@@ -17,9 +17,5 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; } = null;
         public int? UpdatedBy_ID { get; set; } = null;
 
-        // Navigation
-        public clsStaff Staff { get; set; }
-        public clsStaff UpdatedBy { get; set; } = null;
-        // public ICollection<clsAppointment> Appointments { get; set; }
     }
 }

@@ -24,9 +24,5 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? DeletedAt { get; set; } = null;
         public int? DeletedBy_ID { get; set; } = null;
 
-        // Navigation
-        public clsStaff UpdatedBy { get; set; } = null;
-        public clsStaff DeletedBy { get; set; } = null;
-        public IEnumerable<clsPhoneNumber> PhoneNumbers { get; set; }
     }
 }

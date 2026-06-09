@@ -12,36 +12,49 @@ namespace DentalClinic_BusinessTier.Services
     public class DoctorService : IDoctorService
     {
         private IDoctorRepository _doctorRepository;
-        private IStaffService _staffService;
-        public DoctorService(IDoctorRepository doctorRepository, IStaffService staffService)
+
+        public DoctorService(IDoctorRepository doctorRepository)
         {
             _doctorRepository = doctorRepository;
-            _staffService = staffService;
         }
 
-        public async Task<clsDoctor> GetByIdAsync(int objId)
+        public Task<clsDoctor> GetByIdAsync(int objId)
         {
-            clsDoctor doctor = await _doctorRepository.GetDoctorByIdAsync(objId);
-            if (doctor == null) return null;
-
-            doctor.Staff = await _staffService.GetByIdAsync(doctor.Staff_ID);
-
-            return doctor;
+            return _doctorRepository.GetDoctorByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsDoctor obj)
+        public Task<int?> InsertAsync(clsDoctor obj)
         {
             throw new NotImplementedException();
         }
 
         public Task<bool> SoftDeleteAsync(int objId, int deletedById)
         {
+
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsDoctor obj, int updatedByID = -1)
+        public async Task<bool> UpdateAsync(clsDoctor obj,  int? updatedByID =null)
+        {            
+            if (!_isObjValid(obj))
+            {
+                return false;
+            }
+
+            if (updatedByID == null)
+            {
+                throw new ArgumentNullException("updatedByID", "you must pass the ID of the updateter");
+            }
+            obj.UpdatedBy_ID = updatedByID.Value;
+            return await _doctorRepository.UpdateDoctorAsync(obj);
+        }
+
+        //helper methods 
+
+        private bool _isObjValid(clsDoctor doctor)
         {
-            throw new NotImplementedException();
+            if (doctor == null) throw new ArgumentNullException("Doctor Object is Null", "Can not update a null object");            
+            return true;
         }
     }
 }

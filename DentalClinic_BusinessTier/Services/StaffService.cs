@@ -12,31 +12,22 @@ namespace DentalClinic_BusinessTier.Services
 {
     public class StaffService : IStaffService
     {
-        private IStaffRepository  _staffRepository;
-        private IPersonService _personService;
-        private IRoleService _roleService;
-        public StaffService(IPersonService personService,IRoleService roleService,IStaffRepository staffRepository)
+        private IStaffRepository _staffRepository;
+
+        public StaffService(IStaffRepository staffRepository)
         {
-            _staffRepository = staffRepository;            
-            _personService = personService;
-            _roleService = roleService;
+            _staffRepository = staffRepository;
         }
 
-        public async Task<clsStaff> GetByIdAsync(int objId)
+        public Task<clsStaff> GetByIdAsync(int objId)
         {
-            clsStaff staff = await _staffRepository.GetStaffByIdAsync(objId);
-            if (staff == null) return null;
-
-            staff.Person = await _personService.GetByIdAsync(staff.Person_ID);
-            staff.Role = await _roleService.GetByIdAsync(staff.Role_ID);
-
-            return staff;
+            return _staffRepository.GetStaffByIdAsync(objId);
         }
 
-        public async Task<clsStaff> LoginAsync(string username,string password)
+        public async Task<clsStaff> LoginAsync(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) throw new ArgumentNullException("username or password is null");
-            
+
             clsStaff staffDataFromDB = await _staffRepository.GetStaffByUsernameAsync(username);
 
             if (staffDataFromDB == null)
@@ -49,28 +40,15 @@ namespace DentalClinic_BusinessTier.Services
                 throw new AuthenticationException("Staff is not active");
             }
 
-            if (!await clsAuth.VerifyPassword(password,staffDataFromDB.HashedPassword))
+            if (!await clsAuth.VerifyPassword(password, staffDataFromDB.HashedPassword))
             {
                 throw new InvalidCredentialException("Username or Password Wrong");
-            }
-
-            staffDataFromDB.Role = await _roleService.GetByIdAsync(staffDataFromDB.Role_ID);
-            if (staffDataFromDB.Role == null)
-            {
-                throw new Exception("Can not get role data");
-            }
-
-            staffDataFromDB.Person = await _personService.GetByIdAsync(staffDataFromDB.Person_ID);
-
-            if (staffDataFromDB.Person == null)
-            {
-                throw new Exception("Can not get Person data");
             }
 
             return staffDataFromDB;
         }
 
-        public async Task<int> InsertAsync(clsStaff obj)
+        public async Task<int?> InsertAsync(clsStaff obj)
         {            
             return await _staffRepository.AddStaffAsync(obj);
         }
@@ -80,7 +58,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateAsync(clsStaff obj, int updatedByID = -1)
+        public async Task<bool> UpdateAsync(clsStaff obj, int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

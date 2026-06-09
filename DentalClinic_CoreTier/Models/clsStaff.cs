@@ -26,13 +26,5 @@ namespace DentalClinic_CoreTier.Models
         public bool IsDeleted { get; set; }
 
 
-        // Navigation
-        public clsPerson Person { get; set; }
-        public clsRole Role { get; set; }
-        public clsStaff UpdatedBy { get; set; } = null;
-
-        //// Reverse nav — records this staff member has touched
-        //public ICollection<Payment> PaymentsCreated { get; set; } = [];
-        //public ICollection<Payment> PaymentsUpdated { get; set; } = [];
     }
 }

@@ -12,24 +12,18 @@ namespace DentalClinic_BusinessTier.Services
     public class PatientService : IPatientService
     {
         private IPatientRepository _patientRepository;
-        private IPersonService _personService;
-        public PatientService(IPatientRepository patientRepository, IPersonService personService)
+
+        public PatientService(IPatientRepository patientRepository)
         {
             _patientRepository = patientRepository;
-            _personService = personService;
         }
 
-        public async Task<clsPatient> GetByIdAsync(int objId)
+        public Task<clsPatient> GetByIdAsync(int objId)
         {
-            clsPatient patient = await _patientRepository.GetPatientByIdAsync(objId);
-            if (patient == null) return null;
-
-            patient.Person = await _personService.GetByIdAsync(patient.Person_ID);
-
-            return patient;
+            return _patientRepository.GetPatientByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsPatient obj)
+        public Task<int?> InsertAsync(clsPatient obj)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +33,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsPatient obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

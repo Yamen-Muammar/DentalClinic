@@ -20,8 +20,5 @@ namespace DentalClinic_CoreTier.Models
         public decimal? ActualPaid { get; set; }
         
 
-        // Navigation
-        public clsMedicalFile MedicalFile { get; set; }
-        public clsStaff UpdatedBy { get; set; }
     }
 }

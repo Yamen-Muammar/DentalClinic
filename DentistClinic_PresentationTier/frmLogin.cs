@@ -26,6 +26,7 @@ namespace DentistClinic_PresentationTier
             Enctypt,
             Decrpt,
         }
+
         private IStaffService _staffService;
         private ISessionContext _sessionContext;
         public frmLogin(ISessionContext sessionContext,IStaffService staffService)
@@ -132,7 +133,7 @@ namespace DentistClinic_PresentationTier
         {
             if (SaveData.Default.RemeberME)
             {
-                cbRememberMe.Enabled = cbRememberMe.Checked;
+                cbRememberMe.Checked = SaveData.Default.RemeberME;
                 tbUsername.Text = SaveData.Default.Username;
                 if (!string.IsNullOrEmpty(SaveData.Default.SavedPassword))
                 {

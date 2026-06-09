@@ -16,9 +16,5 @@ namespace DentalClinic_CoreTier.Models
         public int? UpdatedBy_ID { get; set; } = null;
         public string GeneralAllergies { get; set; } = null;
 
-        // Navigation
-        public clsPatient Patient { get; set; }
-        public clsStaff UpdatedBy { get; set; } = null;
-        public ICollection<clsProblem> Problems { get; set; }
     }
 }

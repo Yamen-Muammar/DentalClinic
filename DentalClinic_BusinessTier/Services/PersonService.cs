@@ -17,17 +17,12 @@ namespace DentalClinic_BusinessTier.Services
             _personRepository = personRepository;
         }
 
-        public async Task<clsPerson> GetByIdAsync(int objId)
+        public Task<clsPerson> GetByIdAsync(int objId)
         {
-            clsPerson person = await _personRepository.GetPersonByIdAsync(objId);
-            if (person == null) return null;
-
-            person.PhoneNumbers = await _personRepository.GetPhoneNumbersByPersonIdAsync(person.PersonID);
-
-            return person;
+            return _personRepository.GetPersonByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsPerson obj)
+        public Task<int?> InsertAsync(clsPerson obj)
         {
             throw new NotImplementedException();
         }
@@ -37,7 +32,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsPerson obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsPerson obj, int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

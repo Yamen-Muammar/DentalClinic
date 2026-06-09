@@ -22,7 +22,7 @@ namespace DentalClinic_BusinessTier.Services
             return _medicalFileRepository.GetMedicalFileByIdAsync(objId);
         }
 
-        public Task<int> InsertAsync(clsMedicalFile obj)
+        public Task<int?> InsertAsync(clsMedicalFile obj)
         {
             throw new NotImplementedException();
         }
@@ -32,7 +32,7 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsMedicalFile obj, int updatedByID = -1)
+        public Task<bool> UpdateAsync(clsMedicalFile obj, int? updatedByID =null)
         {
             throw new NotImplementedException();
         }

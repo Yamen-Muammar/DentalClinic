@@ -17,10 +17,5 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy_ID { get; set; }
 
-        // Navigation
-        public clsPerson Person { get; set; }
-        public clsBloodType BloodType { get; set; }
-        public clsStaff UpdatedBy { get; set; }
-        public clsMedicalFile MedicalFile { get; set; }
     }
 }

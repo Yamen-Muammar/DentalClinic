@@ -9,9 +9,9 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IGRUDService<T>
     {
-        Task<int> InsertAsync(T obj);
+        Task<int?> InsertAsync(T obj);
         Task<T> GetByIdAsync(int objId);
-        Task<bool> UpdateAsync(T obj,int updatedByID = -1);
+        Task<bool> UpdateAsync(T obj,int? updatedByID = null);
         Task<bool> SoftDeleteAsync(int objId, int deletedById);
     }
 }
