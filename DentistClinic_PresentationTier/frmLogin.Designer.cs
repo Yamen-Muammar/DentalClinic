@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.guna2GradientPanel1 = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.label2 = new System.Windows.Forms.Label();
             this.cbRememberMe = new Guna.UI2.WinForms.Guna2CustomCheckBox();
             this.btnVisionChar = new Guna.UI2.WinForms.Guna2Button();
@@ -38,7 +39,6 @@
             this.btnLogin = new Guna.UI2.WinForms.Guna2Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnClose = new Guna.UI2.WinForms.Guna2CircleButton();
-            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.guna2GradientPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -69,6 +69,18 @@
             this.guna2GradientPanel1.ShadowDecoration.Shadow = new System.Windows.Forms.Padding(20);
             this.guna2GradientPanel1.Size = new System.Drawing.Size(677, 678);
             this.guna2GradientPanel1.TabIndex = 2;
+            // 
+            // guna2WinProgressIndicator1
+            // 
+            this.guna2WinProgressIndicator1.AnimationSpeed = 90;
+            this.guna2WinProgressIndicator1.AutoStart = true;
+            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(296, 489);
+            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
+            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.White;
+            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(80, 80);
+            this.guna2WinProgressIndicator1.TabIndex = 7;
+            this.guna2WinProgressIndicator1.UseTransparentBackground = true;
+            this.guna2WinProgressIndicator1.Visible = false;
             // 
             // label2
             // 
@@ -241,17 +253,6 @@
             this.btnClose.TabIndex = 3;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // guna2WinProgressIndicator1
-            // 
-            this.guna2WinProgressIndicator1.AutoStart = true;
-            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(296, 489);
-            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
-            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.White;
-            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(80, 80);
-            this.guna2WinProgressIndicator1.TabIndex = 7;
-            this.guna2WinProgressIndicator1.UseTransparentBackground = true;
-            this.guna2WinProgressIndicator1.Visible = false;
-            // 
             // frmLogin
             // 
             this.AcceptButton = this.btnLogin;
@@ -266,6 +267,7 @@
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "frmLogin";
+            this.Load += new System.EventHandler(this.frmLogin_Load);
             this.guna2GradientPanel1.ResumeLayout(false);
             this.guna2GradientPanel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);

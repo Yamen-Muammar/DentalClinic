@@ -47,7 +47,7 @@ namespace DentistClinic_PresentationTier
         {
             await _loadRolesFromDB();
             _createButtons();
-           
+            lblStaffName.Text =  _sessionContext.Staff.Person.FullName;
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
             CreateView(dashboard);
         }
