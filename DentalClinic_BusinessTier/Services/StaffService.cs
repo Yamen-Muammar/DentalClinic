@@ -13,15 +13,29 @@ namespace DentalClinic_BusinessTier.Services
     public class StaffService : IStaffService
     {
         private IStaffRepository _staffRepository;
+        private IRoleService _roleService;
+        private IPersonService _personService;
 
-        public StaffService(IStaffRepository staffRepository)
+        public StaffService(IStaffRepository staffRepository,IRoleService roleService , IPersonService personService)
         {
             _staffRepository = staffRepository;
+            _roleService = roleService;
+            _personService  = personService;
         }
 
-        public Task<clsStaff> GetByIdAsync(int objId)
+        public async Task<clsStaff> GetByIdAsync(int objId)
         {
-            return _staffRepository.GetStaffByIdAsync(objId);
+            clsStaff Staff = await _staffRepository.GetStaffByIdAsync(objId);
+            if (Staff == null)
+            {
+                return null;
+            }
+
+            Staff.RoleInfo = await _roleService.GetByIdAsync(Staff.Role_ID);
+
+            Staff.PersonInfo = await _personService.GetByIdAsync(Staff.Person_ID);        
+            
+            return Staff;
         }
 
         public async Task<clsStaff> LoginAsync(string username, string password)
@@ -45,6 +59,10 @@ namespace DentalClinic_BusinessTier.Services
                 throw new InvalidCredentialException("Username or Password Wrong");
             }
 
+            staffDataFromDB.RoleInfo = await _roleService.GetByIdAsync(staffDataFromDB.Role_ID);
+
+            staffDataFromDB.PersonInfo = await _personService.GetByIdAsync(staffDataFromDB.Person_ID);
+
             return staffDataFromDB;
         }
 
@@ -55,12 +73,41 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
         {
-            throw new NotImplementedException();
+           return await _staffRepository.SoftDeleteStaff(objId, deletedById);
         }
 
-        public async Task<bool> UpdateAsync(clsStaff obj, int? updatedByID =null)
+        public async Task<bool> UpdateAsync(clsStaff obj, int? updatedByID = null)
         {
-            throw new NotImplementedException();
+            if (!_validateStaff(obj))
+            {
+                throw new ArgumentException("Invalid staff data");
+            }
+
+            if (updatedByID == null)
+            {
+                throw new ArgumentNullException("Update ID Just be provided");
+            }
+
+            obj.UpdatedBy_ID = updatedByID;
+
+            return await _staffRepository.UpdateStaffAsync(obj);
+        }
+
+        private bool _validateStaff(clsStaff staff)
+        {
+            if (staff == null)
+            {
+                return false;
+            }
+            if (string.IsNullOrEmpty(staff.UserName) || string.IsNullOrEmpty(staff.HashedPassword))
+            {
+                return false;
+            }
+            if (staff.Person_ID <= 0 || staff.Role_ID <= 0)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

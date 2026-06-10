@@ -11,7 +11,6 @@ namespace DentalClinic_CoreTier.Interfaces
     {
         int StaffID { get; }
         string UserName { get; }
-        long PermissionCode { get; }
         int RoleID { get; }
         clsStaff Staff { get; }
         void Set(clsStaff staff);

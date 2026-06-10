@@ -20,7 +20,6 @@ namespace DentistClinic_PresentationTier
 {
     public partial class frmMain : Form
     {
-        private Color _preColorBeforeEvent;
         private IRoleService _roleService;
         private UserControl _activeControl = null;
         private ISessionContext _sessionContext;
@@ -42,16 +41,14 @@ namespace DentistClinic_PresentationTier
                 return cp;
             }
         }
-
         private async void frmMain_Load(object sender, EventArgs e)
         {
             await _loadRolesFromDB();
             _createButtons();
-            lblStaffName.Text =  _sessionContext.Staff.Person.FullName;
+            lblStaffName.Text =  _sessionContext.Staff.PersonInfo.FullName;
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
             CreateView(dashboard);
         }
-
         private void CreateView(object control)
         {
             mainLayoutPanel.SuspendLayout();
@@ -245,56 +242,55 @@ namespace DentistClinic_PresentationTier
 
         private bool _isOkToDo(myEnums.enPermission enPermission)
         {
-            if (clsAuth.IsAuth(_sessionContext.Staff.Role, enPermission))
+            if (clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, enPermission))
             {
                 return true;
             }
             MessageBox.Show("ليس لديك الصلاحيات لفعل هذا الامر\nكلم الادمن اذا هناك خطا", "رفض وصول", MessageBoxButtons.OK, MessageBoxIcon.Information);
             return false;
         }
-
         private bool _isButtonVisible(Guna2Button btn)
         {
             switch (btn.Name)
             {
                 case "btnDashboard":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManagePatients))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
                     {
                         return false;
                     }
                     return true;
                 case "btnManagePatients":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManagePatients))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageAppointments":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManageAppointments))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageAppointments))
                     {
                         return false;
                     }
                     return true;
                 case "btnManagePayments":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManagePayments))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePayments))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageStaff":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManageStaff))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageStaff))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageRoles":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManageRoles))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageRoles))
                     {
                         return false;
                     }
                     return true;
                 case "btnManageReports":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.Role, myEnums.enPermission.ManageReports))
+                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageReports))
                     {
                         return false;
                     }
@@ -303,7 +299,5 @@ namespace DentistClinic_PresentationTier
                     return false;
             }
         }
-
-       
     }
 }

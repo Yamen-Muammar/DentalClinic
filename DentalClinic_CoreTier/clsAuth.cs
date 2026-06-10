@@ -17,9 +17,9 @@ namespace DentalClinic_CoreTier
         /// <param name="UserRole"></param>
         /// <param name="operation"></param>
         /// <returns></returns>
-        public static bool IsAuth(clsRole UserRole, myEnums.enPermission operation)
+        public static bool IsAuth(long rolePermissionCode, myEnums.enPermission operation)
         {
-            return _checkPermission(UserRole.RolePermissionCode, (long)operation);
+            return _checkPermission(rolePermissionCode, (long)operation);
         }
         /// <summary>
         /// Check if the Login User is Authnticated By Manual Role Entering.

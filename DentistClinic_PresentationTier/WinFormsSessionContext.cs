@@ -12,7 +12,6 @@ namespace DentistClinic_PresentationTier
     {
         public int StaffID { get; private set; }
         public string UserName { get; private set; }
-        public long PermissionCode { get; private set; }
         public int RoleID { get; private set; }
         public clsStaff Staff { get; private set; }
 
@@ -20,7 +19,6 @@ namespace DentistClinic_PresentationTier
         {
             StaffID = staff.StaffID;
             UserName = staff.UserName;
-            PermissionCode = staff.Role.RolePermissionCode;
             RoleID = staff.Role_ID;
             Staff = staff;
         }
@@ -30,8 +28,8 @@ namespace DentistClinic_PresentationTier
             StaffID = 0;
             UserName = null;
             Staff = null;
-            PermissionCode = 0;
             RoleID = 0;
+            
         }
     }
 }

@@ -25,6 +25,8 @@ namespace DentalClinic_CoreTier.Models
         public int? DeletedBy_ID { get; set; } = null;
         public bool IsDeleted { get; set; }
 
-
+        //navigation
+        public clsPerson PersonInfo { get; set; } = null;
+        public clsRole RoleInfo { get; set; } = null;
     }
 }

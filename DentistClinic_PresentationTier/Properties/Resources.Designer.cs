@@ -61,11 +61,41 @@ namespace DentistClinic_PresentationTier.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] appIcon {
+            get {
+                object obj = ResourceManager.GetObject("appIcon", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Appointments32 {
             get {
                 object obj = ResourceManager.GetObject("Appointments32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArowDown {
+            get {
+                object obj = ResourceManager.GetObject("ArowDown", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ArowUp {
+            get {
+                object obj = ResourceManager.GetObject("ArowUp", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

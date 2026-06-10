@@ -67,8 +67,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.25828F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.74172F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 32.78255F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.21745F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.guna2spnlHedder, 0, 0);
@@ -94,7 +94,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.78947F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84.21053F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(466, 740);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(490, 740);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // guna2ShadowPanelAppointments
@@ -103,13 +103,14 @@
             this.guna2ShadowPanelAppointments.Controls.Add(this.label2);
             this.guna2ShadowPanelAppointments.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2ShadowPanelAppointments.FillColor = System.Drawing.Color.SlateGray;
-            this.guna2ShadowPanelAppointments.Location = new System.Drawing.Point(3, 3);
+            this.guna2ShadowPanelAppointments.Location = new System.Drawing.Point(0, 0);
+            this.guna2ShadowPanelAppointments.Margin = new System.Windows.Forms.Padding(0);
             this.guna2ShadowPanelAppointments.Name = "guna2ShadowPanelAppointments";
             this.guna2ShadowPanelAppointments.Radius = 10;
             this.guna2ShadowPanelAppointments.ShadowColor = System.Drawing.Color.Black;
             this.guna2ShadowPanelAppointments.ShadowDepth = 70;
             this.guna2ShadowPanelAppointments.ShadowShift = 7;
-            this.guna2ShadowPanelAppointments.Size = new System.Drawing.Size(460, 110);
+            this.guna2ShadowPanelAppointments.Size = new System.Drawing.Size(490, 116);
             this.guna2ShadowPanelAppointments.TabIndex = 10;
             // 
             // label2
@@ -137,18 +138,22 @@
             this.guna2ShadowPanelTodayApp.Name = "guna2ShadowPanelTodayApp";
             this.guna2ShadowPanelTodayApp.Radius = 10;
             this.guna2ShadowPanelTodayApp.ShadowColor = System.Drawing.Color.Black;
-            this.guna2ShadowPanelTodayApp.Size = new System.Drawing.Size(456, 614);
+            this.guna2ShadowPanelTodayApp.Size = new System.Drawing.Size(480, 614);
             this.guna2ShadowPanelTodayApp.TabIndex = 11;
             // 
             // flpTodayAppointmentList
             // 
+            this.flpTodayAppointmentList.AutoScroll = true;
+            this.flpTodayAppointmentList.AutoScrollMargin = new System.Drawing.Size(10, 10);
             this.flpTodayAppointmentList.BackColor = System.Drawing.Color.Transparent;
             this.flpTodayAppointmentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpTodayAppointmentList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTodayAppointmentList.Location = new System.Drawing.Point(0, 0);
+            this.flpTodayAppointmentList.Margin = new System.Windows.Forms.Padding(0);
             this.flpTodayAppointmentList.Name = "flpTodayAppointmentList";
-            this.flpTodayAppointmentList.Size = new System.Drawing.Size(456, 614);
+            this.flpTodayAppointmentList.Size = new System.Drawing.Size(480, 614);
             this.flpTodayAppointmentList.TabIndex = 0;
+            this.flpTodayAppointmentList.WrapContents = false;
             // 
             // flowLayoutPanel1
             // 
@@ -158,9 +163,9 @@
             this.flowLayoutPanel1.Controls.Add(this.pnlTodayAppointments);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(475, 114);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(499, 114);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1035, 740);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(1011, 740);
             this.flowLayoutPanel1.TabIndex = 12;
             // 
             // pnlTodayPatient
@@ -169,13 +174,13 @@
             this.pnlTodayPatient.Controls.Add(this.lblThisMonthPatients);
             this.pnlTodayPatient.Controls.Add(this.label6);
             this.pnlTodayPatient.FillColor = System.Drawing.Color.White;
-            this.pnlTodayPatient.Location = new System.Drawing.Point(524, 3);
+            this.pnlTodayPatient.Location = new System.Drawing.Point(523, 3);
             this.pnlTodayPatient.Name = "pnlTodayPatient";
             this.pnlTodayPatient.Radius = 10;
             this.pnlTodayPatient.ShadowColor = System.Drawing.Color.Black;
             this.pnlTodayPatient.ShadowDepth = 70;
             this.pnlTodayPatient.ShadowShift = 7;
-            this.pnlTodayPatient.Size = new System.Drawing.Size(508, 144);
+            this.pnlTodayPatient.Size = new System.Drawing.Size(485, 144);
             this.pnlTodayPatient.TabIndex = 10;
             this.pnlTodayPatient.DoubleClick += new System.EventHandler(this.pnlTodayPatient_DoubleClick);
             this.pnlTodayPatient.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
@@ -186,7 +191,7 @@
             this.lblThisMonthPatients.AutoSize = true;
             this.lblThisMonthPatients.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblThisMonthPatients.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblThisMonthPatients.Location = new System.Drawing.Point(400, 60);
+            this.lblThisMonthPatients.Location = new System.Drawing.Point(372, 60);
             this.lblThisMonthPatients.Name = "lblThisMonthPatients";
             this.lblThisMonthPatients.Size = new System.Drawing.Size(84, 65);
             this.lblThisMonthPatients.TabIndex = 3;
@@ -197,7 +202,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label6.Location = new System.Drawing.Point(239, 14);
+            this.label6.Location = new System.Drawing.Point(222, 14);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(245, 32);
             this.label6.TabIndex = 2;
@@ -209,13 +214,13 @@
             this.pnlNotConfirmedPayments.Controls.Add(this.lblunConfirmedPayments);
             this.pnlNotConfirmedPayments.Controls.Add(this.label4);
             this.pnlNotConfirmedPayments.FillColor = System.Drawing.Color.White;
-            this.pnlNotConfirmedPayments.Location = new System.Drawing.Point(10, 3);
+            this.pnlNotConfirmedPayments.Location = new System.Drawing.Point(38, 3);
             this.pnlNotConfirmedPayments.Name = "pnlNotConfirmedPayments";
             this.pnlNotConfirmedPayments.Radius = 10;
             this.pnlNotConfirmedPayments.ShadowColor = System.Drawing.Color.Black;
             this.pnlNotConfirmedPayments.ShadowDepth = 70;
             this.pnlNotConfirmedPayments.ShadowShift = 7;
-            this.pnlNotConfirmedPayments.Size = new System.Drawing.Size(508, 144);
+            this.pnlNotConfirmedPayments.Size = new System.Drawing.Size(479, 144);
             this.pnlNotConfirmedPayments.TabIndex = 9;
             this.pnlNotConfirmedPayments.DoubleClick += new System.EventHandler(this.pnlNotConfirmedPayments_DoubleClick);
             this.pnlNotConfirmedPayments.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
@@ -226,7 +231,7 @@
             this.lblunConfirmedPayments.AutoSize = true;
             this.lblunConfirmedPayments.Font = new System.Drawing.Font("Segoe UI", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblunConfirmedPayments.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblunConfirmedPayments.Location = new System.Drawing.Point(394, 60);
+            this.lblunConfirmedPayments.Location = new System.Drawing.Point(369, 60);
             this.lblunConfirmedPayments.Name = "lblunConfirmedPayments";
             this.lblunConfirmedPayments.Size = new System.Drawing.Size(84, 65);
             this.lblunConfirmedPayments.TabIndex = 3;
@@ -237,7 +242,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.SteelBlue;
-            this.label4.Location = new System.Drawing.Point(213, 14);
+            this.label4.Location = new System.Drawing.Point(200, 14);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(265, 32);
             this.label4.TabIndex = 2;
@@ -249,7 +254,7 @@
             this.pnlTodayAppointments.Controls.Add(this.lblTodayAppoinmentsCount);
             this.pnlTodayAppointments.Controls.Add(this.label3);
             this.pnlTodayAppointments.FillColor = System.Drawing.Color.White;
-            this.pnlTodayAppointments.Location = new System.Drawing.Point(524, 190);
+            this.pnlTodayAppointments.Location = new System.Drawing.Point(500, 190);
             this.pnlTodayAppointments.Margin = new System.Windows.Forms.Padding(3, 40, 3, 3);
             this.pnlTodayAppointments.Name = "pnlTodayAppointments";
             this.pnlTodayAppointments.Radius = 10;
@@ -364,7 +369,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            //this.Controls.Add(this.indecatorPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ctrlDashBoard";
             this.Size = new System.Drawing.Size(1513, 857);
@@ -414,5 +418,19 @@
         private System.Windows.Forms.FlowLayoutPanel flpTodayAppointmentList;
         private System.Windows.Forms.Panel indecatorPanel;
         private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator;
+        private Guna.UI2.WinForms.Guna2ShadowPanel AppointmetPanle;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label9;
+        private Guna.UI2.WinForms.Guna2CircleButton btnDropCause;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label lblPatientName;
+        private System.Windows.Forms.Label lblPatientPhoneNo;
+        private System.Windows.Forms.Label lblDoctorName;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label lblCause;
     }
 }
