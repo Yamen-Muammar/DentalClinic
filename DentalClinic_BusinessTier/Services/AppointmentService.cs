@@ -7,6 +7,7 @@ using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_BusinessTier.Services
 {
@@ -17,6 +18,11 @@ namespace DentalClinic_BusinessTier.Services
         public AppointmentService(IAppointmentRepository appointmentRepository)
         {
             _appointmentRepository = appointmentRepository;
+        }
+
+        public Task<IEnumerable<clsAppointmentsDetails>> GetAppointmentsByDateAsync(DateTime fromDate, DateTime toDate)
+        {
+            return _appointmentRepository.GetAppointmentsByDateAsync(fromDate, toDate);
         }
 
         public Task<clsAppointment> GetByIdAsync(int objId)

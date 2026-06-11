@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_CoreTier.Interfaces
 {
@@ -14,7 +15,7 @@ namespace DentalClinic_CoreTier.Interfaces
 
         Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date);
         Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId);
-
+        Task<IEnumerable<clsAppointmentsDetails>> GetAppointmentsByDateAsync(DateTime fromDate,DateTime toDate);
         Task<bool> UpdateAppointmentAsync(clsAppointment appointment);
         Task<bool> UpdateAppointmentStatusAsync(int appointmentId, myEnums.enAppointmentStatus status, int updatedById);
     }
