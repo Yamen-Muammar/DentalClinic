@@ -16,7 +16,9 @@ namespace DentalClinic_CoreTier.Models
         public int CreatedBy_ID { get; set; }
         public bool IsApproved { get; set; }
         public string SenderNumber { get; set; } = null;
-        public decimal Amount { get; set; }
+        public decimal TotalAmount { get; set; }
+        public decimal ActualPaid { get; set; } = 0;
+        public decimal Remaining { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; } = null;
         public int? UpdatedBy_ID { get; set; } = null;

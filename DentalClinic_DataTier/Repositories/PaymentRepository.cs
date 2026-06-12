@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
@@ -23,9 +24,9 @@ namespace DentalClinic_DataTier.Repositories
                 int returnedPaymentID = -1;
                 const string query = @"
                     INSERT INTO Payments
-                        (PaymentType_ID, PaymentDestination_ID, Appointment_ID, CreatedBy_ID, IsApproved, SenderNumber, Amount, CreatedAt)
+                        (PaymentType_ID, PaymentDestination_ID, Appointment_ID, CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, CreatedAt)
                     VALUES
-                        (@PaymentType_ID, @PaymentDestination_ID, @Appointment_ID, @CreatedBy_ID, @IsApproved, @SenderNumber, @Amount, @CreatedAt);
+                        (@PaymentType_ID, @PaymentDestination_ID, @Appointment_ID, @CreatedBy_ID, @IsApproved, @SenderNumber, @TotalAmount, @ActualPaid, @CreatedAt);
                     SELECT SCOPE_IDENTITY();";
 
                 using (var conn = _connectionFactory.CreateConnection())
@@ -44,7 +45,8 @@ namespace DentalClinic_DataTier.Repositories
                     {
                         cmd.Parameters.AddWithValue("@SenderNumber", DBNull.Value); 
                     }
-                    cmd.Parameters.AddWithValue("@Amount",                payment.Amount);
+                    cmd.Parameters.AddWithValue("@TotalAmount",            payment.TotalAmount);
+                    cmd.Parameters.AddWithValue("@ActualPaid",             payment.ActualPaid);
                     cmd.Parameters.AddWithValue("@CreatedAt",             payment.CreatedAt);
 
                     await conn.OpenAsync();
@@ -59,14 +61,13 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         public async Task<clsPayment> GetPaymentByIdAsync(int paymentId)
         {
             try
             {
                 const string query = @"
                     SELECT PaymentID, PaymentType_ID, PaymentDestination_ID, Appointment_ID,
-                           CreatedBy_ID, IsApproved, SenderNumber, Amount, CreatedAt, UpdatedAt, UpdatedBy_ID
+                           CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, Remaining, CreatedAt, UpdatedAt, UpdatedBy_ID
                     FROM Payments
                     WHERE PaymentID = @PaymentID";
 
@@ -88,18 +89,15 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
-        public async Task<IEnumerable<clsPayment>> GetPaymentsByAppointmentIdAsync(int appointmentId)
+        public async Task<clsPayment> GetPaymentByAppointmentIdAsync(int appointmentId)
         {
             try
             {
                 const string query = @"
                     SELECT PaymentID, PaymentType_ID, PaymentDestination_ID, Appointment_ID,
-                           CreatedBy_ID, IsApproved, SenderNumber, Amount, CreatedAt, UpdatedAt, UpdatedBy_ID
+                           CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, Remaining, CreatedAt, UpdatedAt, UpdatedBy_ID
                     FROM Payments
                     WHERE Appointment_ID = @Appointment_ID";
-
-                var list = new List<clsPayment>();
                 using (var conn = _connectionFactory.CreateConnection())
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -107,25 +105,24 @@ namespace DentalClinic_DataTier.Repositories
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        while (await reader.ReadAsync())
-                            list.Add(MapPayment(reader));
+                        if (await reader.ReadAsync())
+                           return MapPayment(reader);
                     }
                 }
-                return list;
             }
             catch (Exception)
             {
                 throw;
             }
+            return null;
         }
-
         public async Task<IEnumerable<clsPayment>> GetPaymentsByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
             try
             {
                 const string query = @"
                     SELECT PaymentID, PaymentType_ID, PaymentDestination_ID, Appointment_ID,
-                           CreatedBy_ID, IsApproved, SenderNumber, Amount, CreatedAt, UpdatedAt, UpdatedBy_ID
+                           CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, Remaining, CreatedAt, UpdatedAt, UpdatedBy_ID
                     FROM Payments
                     WHERE CreatedAt BETWEEN @StartDate AND @EndDate";
 
@@ -149,7 +146,6 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         public async Task<bool> UpdatePaymentApprovalAsync(int paymentId, bool isApproved, int updatedById)
         {
             try
@@ -179,7 +175,147 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
+        public async Task<IEnumerable<clsPayment>> GetPaymentsByProblemIdAsync(int problemId)
+        {
+            var list = new List<clsPayment>();
+            try
+            {
+                const string query = @"
+                    SELECT Payments.PaymentID, Payments.PaymentType_ID, Payments.PaymentDestination_ID, Payments.Appointment_ID,
+                           Payments.CreatedBy_ID, Payments.IsApproved, Payments.SenderNumber, Payments.TotalAmount, Payments.ActualPaid, Payments.Remaining, Payments.CreatedAt, Payments.UpdatedAt, Payments.UpdatedBy_ID
+                    FROM Payments
+                    INNER JOIN Appointments ON Payments.Appointment_ID = Appointments.AppointmentID
+                    WHERE Appointments.Problem_ID = @Problem_ID";
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Problem_ID", problemId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapPayment(reader));
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return list;
+        }
+        public async Task<IEnumerable<clsPayment>> GetNotApprovedPaymentsAsync()
+        {
+            try
+            {
+                const string query = @"
+                    SELECT PaymentID, PaymentType_ID, PaymentDestination_ID, Appointment_ID,
+                           CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, Remaining, CreatedAt, UpdatedAt, UpdatedBy_ID
+                    FROM Payments
+                    WHERE IsApproved = 0";
 
+                var list = new List<clsPayment>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapPayment(reader));
+                    }
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<clsPayment>> GetApprovedPaymentsAsync()
+        {
+            try
+            {
+                const string query = @"
+                    SELECT PaymentID, PaymentType_ID, PaymentDestination_ID, Appointment_ID,
+                           CreatedBy_ID, IsApproved, SenderNumber, TotalAmount, ActualPaid, Remaining, CreatedAt, UpdatedAt, UpdatedBy_ID
+                    FROM Payments
+                    WHERE IsApproved = 1";
+
+                var list = new List<clsPayment>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapPayment(reader));
+                    }
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<int?> GetNotApprovedPaymentsCount()
+        {
+            try
+            {
+                const string query = "SELECT COUNT(Payments.PaymentID) FROM Payments WHERE IsApproved = 0";
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    return (int)await cmd.ExecuteScalarAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+        public async Task<int?> GetPaymentsCount()
+        {
+            try
+            {
+                const string query = "SELECT COUNT(Payments.PaymentID) FROM Payments";
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    return (int)await cmd.ExecuteScalarAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public async Task<int?> GetApprovedPaymentsCount()
+        {
+            try
+            {
+                const string query = "SELECT COUNT(Payments.PaymentID) FROM Payments WHERE IsApproved = 1";
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    return (int)await cmd.ExecuteScalarAsync();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
         public async Task<IEnumerable<clsPaymentType>> GetAllPaymentTypesAsync()
         {
             try
@@ -204,7 +340,6 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         public async Task<clsPaymentType> GetPaymentTypeByIdAsync(int paymentTypeId)
         {
             try
@@ -229,7 +364,6 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         public async Task<IEnumerable<clsPaymentDestination>> GetAllPaymentDestinationsAsync()
         {
             try
@@ -254,7 +388,6 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         public async Task<clsPaymentDestination> GetPaymentDestinationByIdAsync(int destinationId)
         {
             try
@@ -279,29 +412,30 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-
         private static clsPayment MapPayment(SqlDataReader reader)
         {
+            int appointmentOrd  = reader.GetOrdinal("Appointment_ID");
             int senderNumberOrd = reader.GetOrdinal("SenderNumber");
-            int updatedAtOrd  = reader.GetOrdinal("UpdatedAt");
-            int updatedByOrd  = reader.GetOrdinal("UpdatedBy_ID");
+            int updatedAtOrd    = reader.GetOrdinal("UpdatedAt");
+            int updatedByOrd    = reader.GetOrdinal("UpdatedBy_ID");
 
             return new clsPayment
             {
                 PaymentID             = reader.GetInt32(reader.GetOrdinal("PaymentID")),
                 PaymentType_ID        = reader.GetInt32(reader.GetOrdinal("PaymentType_ID")),
                 PaymentDestination_ID = reader.GetInt32(reader.GetOrdinal("PaymentDestination_ID")),
-                Appointment_ID        = reader.GetInt32(reader.GetOrdinal("Appointment_ID")),
+                Appointment_ID        = reader.IsDBNull(appointmentOrd) ? (int?)null : reader.GetInt32(appointmentOrd),
                 CreatedBy_ID          = reader.GetInt32(reader.GetOrdinal("CreatedBy_ID")),
                 IsApproved            = reader.GetBoolean(reader.GetOrdinal("IsApproved")),
-                SenderNumber          = reader.IsDBNull(senderNumberOrd)? null:  reader.GetString(senderNumberOrd),
-                Amount                = reader.GetDecimal(reader.GetOrdinal("Amount")),
+                SenderNumber          = reader.IsDBNull(senderNumberOrd) ? null : reader.GetString(senderNumberOrd),
+                TotalAmount           = reader.GetDecimal(reader.GetOrdinal("TotalAmount")),
+                ActualPaid            = reader.GetDecimal(reader.GetOrdinal("ActualPaid")),
+                Remaining             = reader.GetDecimal(reader.GetOrdinal("Remaining")),
                 CreatedAt             = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt             = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID          = reader.IsDBNull(updatedByOrd) ? (int?)null      : reader.GetInt32(updatedByOrd),
             };
         }
-
         private static clsPaymentType MapPaymentType(SqlDataReader reader)
         {
             return new clsPaymentType
@@ -310,7 +444,6 @@ namespace DentalClinic_DataTier.Repositories
                 PaymentTypeName = reader.GetString(reader.GetOrdinal("PaymentTypeName")),
             };
         }
-
         private static clsPaymentDestination MapPaymentDestination(SqlDataReader reader)
         {
             return new clsPaymentDestination
@@ -318,6 +451,6 @@ namespace DentalClinic_DataTier.Repositories
                 PaymentDestinationID   = reader.GetInt32(reader.GetOrdinal("PaymentDestinationID")),
                 PaymentDestinationName = reader.GetString(reader.GetOrdinal("PaymentDestinationName")),
             };
-        }
+        }        
     }
 }

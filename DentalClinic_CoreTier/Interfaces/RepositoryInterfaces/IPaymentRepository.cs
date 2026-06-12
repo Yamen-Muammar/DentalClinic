@@ -11,7 +11,13 @@ namespace DentalClinic_CoreTier.Interfaces
     {
         Task<int> AddPaymentAsync(clsPayment payment);
         Task<clsPayment> GetPaymentByIdAsync(int paymentId);
-        Task<IEnumerable<clsPayment>> GetPaymentsByAppointmentIdAsync(int appointmentId);
+        Task<clsPayment> GetPaymentByAppointmentIdAsync(int appointmentId);
+        Task<IEnumerable<clsPayment>> GetPaymentsByProblemIdAsync(int problemId);
+        Task<IEnumerable<clsPayment>> GetNotApprovedPaymentsAsync();
+        Task<IEnumerable<clsPayment>> GetApprovedPaymentsAsync();
+        Task<int?> GetNotApprovedPaymentsCount();
+        Task<int?> GetPaymentsCount();
+        Task<int?> GetApprovedPaymentsCount();
 
         // For accounting audits
         Task<IEnumerable<clsPayment>> GetPaymentsByDateRangeAsync(System.DateTime startDate, System.DateTime endDate);

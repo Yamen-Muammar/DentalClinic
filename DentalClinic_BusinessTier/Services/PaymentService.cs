@@ -22,29 +22,38 @@ namespace DentalClinic_BusinessTier.Services
             _paymentTypeRepository = paymentTypeRepository;
             _paymentDestinationRepository = paymentDestinationRepository;
         }
-        //Payments
-        public Task<clsPayment> GetByIdAsync(int objId)
-        {
-            return _paymentRepository.GetPaymentByIdAsync(objId);
-        }
 
-        public Task<int?> InsertAsync(clsPayment obj)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<int> AddPaymentAsync(clsPayment payment)
+            => await _paymentRepository.AddPaymentAsync(payment);
 
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<clsPayment> GetPaymentByIdAsync(int paymentId)
+            => await _paymentRepository.GetPaymentByIdAsync(paymentId);
 
-        public Task<bool> UpdateAsync(clsPayment obj, int? updatedByID =null)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<clsPayment> GetPaymentByAppointmentIdAsync(int appointmentId)
+            => await _paymentRepository.GetPaymentByAppointmentIdAsync(appointmentId);
 
-        // Payment Types
+        public async Task<IEnumerable<clsPayment>> GetPaymentsByProblemIdAsync(int problemId)
+            => await _paymentRepository.GetPaymentsByProblemIdAsync(problemId);
 
-        // Payment Destination
+        public async Task<IEnumerable<clsPayment>> GetNotApprovedPaymentsAsync()
+            => await _paymentRepository.GetNotApprovedPaymentsAsync();
+
+        public async Task<IEnumerable<clsPayment>> GetApprovedPaymentsAsync()
+            => await _paymentRepository.GetApprovedPaymentsAsync();
+
+        public async Task<int?> GetNotApprovedPaymentsCount()
+            => await _paymentRepository.GetNotApprovedPaymentsCount();
+
+        public async Task<int?> GetPaymentsCount()
+            => await _paymentRepository.GetPaymentsCount();
+
+        public async Task<int?> GetApprovedPaymentsCount()
+            => await _paymentRepository.GetApprovedPaymentsCount();
+
+        public async Task<IEnumerable<clsPayment>> GetPaymentsByDateRangeAsync(DateTime startDate, DateTime endDate)
+            => await _paymentRepository.GetPaymentsByDateRangeAsync(startDate, endDate);
+
+        public async Task<bool> UpdatePaymentApprovalAsync(int paymentId, bool isApproved, int updatedById)
+            => await _paymentRepository.UpdatePaymentApprovalAsync(paymentId, isApproved, updatedById);
     }
 }
