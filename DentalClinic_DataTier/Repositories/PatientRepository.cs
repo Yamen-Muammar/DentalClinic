@@ -166,6 +166,86 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
+        public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
+        {
+            try
+            {
+                const string query = @"
+                    SELECT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
+                           p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
+                    FROM Patients p
+                    INNER JOIN People pe ON p.Person_ID = pe.PersonID
+                    WHERE (pe.FirstName + ' ' + pe.LastName) LIKE @FullName
+                      AND pe.IsDeleted = 0";
+                var list = new List<clsPatient>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@FullName", "%" + fullName + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
+        {
+            try
+            {
+                const string query = @"
+                    SELECT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
+                           p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
+                    FROM Patients p
+                    INNER JOIN People pe ON p.Person_ID = pe.PersonID
+                    WHERE pe.NationalNo LIKE @NationalNo
+                      AND pe.IsDeleted = 0";
+                var list = new List<clsPatient>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NationalNo", "%" + nationalNo + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
+            }
+            catch (Exception) { throw; }
+        }
+
+        public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
+        {
+            try
+            {
+                const string query = @"
+                    SELECT DISTINCT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
+                           p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
+                    FROM Patients p
+                    INNER JOIN People pe ON p.Person_ID = pe.PersonID
+                    INNER JOIN PhoneNumbers ph ON pe.PersonID = ph.Person_ID
+                    WHERE ph.Number LIKE @PhoneNumber
+                      AND ph.IsActive = 1
+                      AND pe.IsDeleted = 0";
+                var list = new List<clsPatient>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PhoneNumber", "%" + phoneNumber + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
+            }
+            catch (Exception) { throw; }
+        }
+
         private static clsPatient MapPatient(SqlDataReader reader)
         {
             int bloodTypeOrd = reader.GetOrdinal("BloodType_ID");

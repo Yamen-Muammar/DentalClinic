@@ -9,5 +9,8 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IPatientService : IGRUDService<clsPatient>
     {
+        Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
+        Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
+        Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
     }
 }

@@ -14,5 +14,8 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<clsPatient> GetPatientByPersonIdAsync(int personId);
         Task<IEnumerable<clsPatient>> GetAllPatientsAsync();
         Task<bool> UpdatePatientAsync(clsPatient patient);
+        Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
+        Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
+        Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
     }
 }

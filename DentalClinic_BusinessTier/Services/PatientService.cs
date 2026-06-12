@@ -40,6 +40,15 @@ namespace DentalClinic_BusinessTier.Services
             throw new NotImplementedException();
         }
 
+        public Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
+            => _patientRepository.SearchByFullNameAsync(fullName);
+
+        public Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
+            => _patientRepository.SearchByNationalNoAsync(nationalNo);
+
+        public Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
+            => _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
+
         private bool _validatePatientObj(clsPatient patient)
         {
             if (patient == null)
