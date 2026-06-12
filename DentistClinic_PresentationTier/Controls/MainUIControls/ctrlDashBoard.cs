@@ -9,7 +9,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.UI.WebControls;
 using System.Windows.Forms;
+using DentalClinic_CoreTier;
+using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 using Guna.UI2.WinForms;
 
 namespace DentistClinic_PresentationTier.Controls.MainUIControls
@@ -21,40 +24,36 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
             down, up
         }
-        public ctrlDashBoard()
+
+        private List<clsAppointmentsDetails> _todayAppointment;
+
+        private IAppointmentService _appointmentService;
+        private IPaymentService _paymentService;
+        public ctrlDashBoard(IAppointmentService appointmentService, IPaymentService paymentService)
         {
             InitializeComponent();
+            _appointmentService = appointmentService;
+            _paymentService = paymentService;
         }
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
-            _loadTodaysAppointments();
-            Task.Run(()=> _handleProgressIndicator(true));
-            //database delay
-            await Task.Run(() => 
-            {
-                for (int i = 0; i < 1000000000; i++) {
-                }
-            });
-            _handleProgressIndicator(false);
+            _buildUI();
         }
         private void pnlTodayPatient_DoubleClick(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
             MessageBox.Show(guna2Panel.Name);
         }
-
         private void pnlNotConfirmedPayments_DoubleClick(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
             MessageBox.Show(guna2Panel.Name);
         }
-
         private void pnlTodayAppointments_DoubleClick(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
             MessageBox.Show(guna2Panel.Name);
         }
-
         private void Panle_MouseEnter(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
@@ -67,7 +66,127 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
             guna2Panel.FillColor = Color.White;
         }
+        private void btnDropCause_Click(object sender, EventArgs e)
+        {
+            Guna2CircleButton senderButton = sender as Guna2CircleButton;
 
+            enDropMode senderDropMode = (enDropMode)senderButton.Tag;
+
+            Guna2ShadowPanel senderAppointmentPanel = senderButton?.Parent as Guna2ShadowPanel;
+
+            Control senderLableCause = senderAppointmentPanel.Controls["senderLableCause"];
+
+            clsAppointmentsDetails appointmentDataFromSender = senderAppointmentPanel.Tag as clsAppointmentsDetails;
+
+            if (senderDropMode == enDropMode.up)
+            {
+                senderLableCause.Text = "";
+                senderAppointmentPanel.Height = mainPanleHeight;
+                senderLableCause.Text = string.Empty;
+                senderButton.Image = Properties.Resources.ArowDown;
+                senderButton.Tag = enDropMode.down;
+            }
+            else
+            {
+                senderLableCause.Text = appointmentDataFromSender.Appointment.Cause;
+                mainPanleHeight = senderAppointmentPanel.Height;
+                senderAppointmentPanel.Height += senderLableCause.Height;
+                senderButton.Image = Properties.Resources.ArowUp;
+                senderButton.Tag = enDropMode.up;
+            }
+        }
+
+        //Appointment Shadow Panel Events and Req
+
+        private Color _appointmentShadowPanelDefaultColor;
+        private void AppointmentShadowPanel_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+
+            clsAppointmentsDetails appointmentsDetails = senderShadowPanel.Tag as clsAppointmentsDetails;
+
+            MessageBox.Show(appointmentsDetails.Appointment.AppointmentID.ToString());
+
+        }
+
+        private void AppointmentShadowPanel_MouseEnter(object sender, EventArgs e)
+        {
+            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+            _appointmentShadowPanelDefaultColor = senderShadowPanel.FillColor;
+            senderShadowPanel.FillColor = Color.Gainsboro;
+        }
+        private void AppointmentShadowPanel_MouseLeave(object sender, EventArgs e)
+        {
+            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+            senderShadowPanel.FillColor = _appointmentShadowPanelDefaultColor;
+        }
+        //Helper Methods
+
+        private async Task _buildUI()
+        {
+            Task.Run(() => _handleProgressIndicator(true));
+
+            await _loadTodaysAppointments();
+            lblTodayAppoinmentsCount.Text = _todayAppointment?.Count.ToString() ?? "??";
+
+            int? notConfirmedPayments = await _getNotApprovaedPaymentsCount();
+            lblunConfirmedPayments.Text = notConfirmedPayments?.ToString() ?? "??";
+
+
+            _handleProgressIndicator(false);
+        }
+        private async Task _getTodaysAppointments()
+        {
+            try
+            {
+                _todayAppointment = (List<clsAppointmentsDetails>)(await _appointmentService.GetAppointmentsByDateAsync(DateTime.Now, DateTime.Now));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async Task _loadTodaysAppointments()
+        {
+            //await _getTodaysAppointments();
+            _loadMockAppointments();
+
+            if (_todayAppointment.Count == 0)
+            {
+                return;
+            }
+            flpTodayAppointmentList.SuspendLayout();
+
+            try
+            {
+                foreach (var appointment in _todayAppointment)
+                {
+                    Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();
+                    shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
+                    _buildAppointmentPanle(appointment, shadowPanel);
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("مشكلة في بناء مواعيـد اليوم\n الرجاء الاتصال بـ آدمن", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+           
+            flpTodayAppointmentList.ResumeLayout(false);
+        }
+        private async Task<int?> _getNotApprovaedPaymentsCount()
+        {
+            try
+            {
+                return await _paymentService.GetNotApprovedPaymentsCount();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("خطأ في جلب بيانات عدد الحوالات المالية غير الؤكـدة", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            return null;
+        }
+
+        //Create View For Req Information
         private void _handleProgressIndicator(bool enable)
         {
             if (enable)
@@ -81,102 +200,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 this.Controls.Remove(this.indecatorPanel);
             }
         }
-
-        private void btnDropCause_Click(object sender, EventArgs e)
-        {
-            Guna2CircleButton button = sender as Guna2CircleButton;
-            enDropMode dropMode = (enDropMode)button.Tag;
-
-            Guna2ShadowPanel shadowPanel = button?.Parent as Guna2ShadowPanel;
-            
-            var lblCause = shadowPanel.Controls["lblCause"];
-
-            clsAppointment appointment = shadowPanel.Tag as clsAppointment;
-
-            if (dropMode == enDropMode.up)
-            {
-                lblCause.Text = "";
-                shadowPanel.Height = mainPanleHeight; 
-                lblCause.Text = string.Empty;
-                button.Image = Properties.Resources.ArowDown;
-                button.Tag = enDropMode.down;
-            }
-            else
-            {
-                lblCause.Text = appointment.Cause;
-                mainPanleHeight = shadowPanel.Height;
-                shadowPanel.Height += lblCause.Height;
-                button.Image = Properties.Resources.ArowUp;
-                button.Tag = enDropMode.up;
-            }
-        }
-
-
-
-        private void _getTodaysAppointments()
-        {
-           
-        }
-        private void _loadTodaysAppointments()
-        {
-            List<clsAppointment> Appointments = new List<clsAppointment>
-            {
-                 new clsAppointment
-                 {
-                     AppointmentDate = DateTime.Now,
-                     Cause = "change and update teeeth\nsffewffffefchange and update teeethchange and update teeeth\nchange and update teeethchange and update teeeth",
-                     StartTime = new TimeSpan(10,30,00),
-                     AppointmentID = 1,
-                     Status = DentalClinic_CoreTier.myEnums.enAppointmentStatus.Scheduled,
-                 },
-                new clsAppointment
-                 {
-                                     AppointmentDate = DateTime.Now,
-                     Cause = "change and update teeeth",
-                     StartTime = new TimeSpan(10,00,00),
-                     AppointmentID = 2,
-                     Status = DentalClinic_CoreTier.myEnums.enAppointmentStatus.Confirmed,
-                 },
-                new clsAppointment
-                 {
-                                     AppointmentDate = DateTime.Now,
-                     Cause = "change and update teeeth",
-                     StartTime = new TimeSpan(10,30,00),
-                     AppointmentID = 3,
-                     Status = DentalClinic_CoreTier.myEnums.enAppointmentStatus.Cancelled,
-                 },
-                new clsAppointment
-                 {
-                                     AppointmentDate = DateTime.Now,
-                     Cause = "change and update teeeth",
-                     StartTime = new TimeSpan(11,30,00),
-                     AppointmentID = 4,
-                     Status = DentalClinic_CoreTier.myEnums.enAppointmentStatus.Confirmed,
-                 },
-                new clsAppointment
-                 {
-                                     AppointmentDate = DateTime.Now,
-                     Cause = "change and update teeeth",
-                     StartTime = new TimeSpan(02,30,00),
-                     AppointmentID = 5,
-                     Status = DentalClinic_CoreTier.myEnums.enAppointmentStatus.Confirmed,
-                 },
-
-            };
-
-            flpTodayAppointmentList.SuspendLayout();
-            foreach (var appointment in Appointments)
-            {
-                Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();
-                shadowPanel.Name = appointment.AppointmentID.ToString();
-                _buildAppointmentPanle(appointment,shadowPanel);
-            }
-            flpTodayAppointmentList.ResumeLayout(false);
-        }
-
-
-        //Create View For Req Information
-        private void _buildAppointmentPanle(clsAppointment appointment,Guna2ShadowPanel shadowPanel)
+        private void _buildAppointmentPanle(clsAppointmentsDetails appointment, Guna2ShadowPanel shadowPanel)
         {
             btnDropCause = new Guna.UI2.WinForms.Guna2CircleButton();
             label10 = new System.Windows.Forms.Label();
@@ -289,7 +313,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.lblPatientName.Name = "lblPatientName";
             this.lblPatientName.Size = new System.Drawing.Size(109, 53);
             this.lblPatientName.TabIndex = 0;
-            this.lblPatientName.Text = "يامن معمر";
+            this.lblPatientName.Text = appointment.PatientFullName;
             // 
             // lblPatientPhoneNo
             // 
@@ -300,7 +324,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.lblPatientPhoneNo.Name = "lblPatientPhoneNo";
             this.lblPatientPhoneNo.Size = new System.Drawing.Size(145, 33);
             this.lblPatientPhoneNo.TabIndex = 0;
-            this.lblPatientPhoneNo.Text = "0567405140";
+            this.lblPatientPhoneNo.Text = appointment.PatientPhone ?? "N/A";
             // 
             // lblDoctorName
             // 
@@ -313,7 +337,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.lblDoctorName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblDoctorName.Size = new System.Drawing.Size(117, 39);
             this.lblDoctorName.TabIndex = 0;
-            this.lblDoctorName.Text = "محمود الحسني";
+            this.lblDoctorName.Text = appointment.DoctorFullName;
             this.lblDoctorName.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // label11
@@ -325,7 +349,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.label11.Name = "lblAppoitmentTime";
             this.label11.Size = new System.Drawing.Size(70, 22);
             this.label11.TabIndex = 0;
-            this.label11.Text = "09:30";
+            this.label11.Text = appointment.Appointment.StartTime.ToString();
             // 
             // label12
             // 
@@ -338,10 +362,10 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label12.Size = new System.Drawing.Size(73, 39);
             this.label12.TabIndex = 0;
-            this.label12.Text = "محجوزة";
+            this.label12.Text = clsUtilities.GetAppointmentStatusText(appointment.Appointment.Status);
             this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // lblCause
+            // senderLableCause
             // 
             this.lblCause.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
             | System.Windows.Forms.AnchorStyles.Right)));
@@ -350,7 +374,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.lblCause.ForeColor = System.Drawing.Color.Black;
             this.lblCause.Location = new System.Drawing.Point(20, 300);
             this.lblCause.MaximumSize = new System.Drawing.Size(440, 0);
-            this.lblCause.Name = "lblCause";
+            this.lblCause.Name = "senderLableCause";
             this.lblCause.Size = new System.Drawing.Size(411, 245);
             this.lblCause.TabIndex = 0;
             this.lblCause.Text = "";
@@ -375,16 +399,73 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             shadowPanel.FillColor = System.Drawing.Color.GhostWhite;
             shadowPanel.Location = new System.Drawing.Point(3, 3);
             shadowPanel.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            shadowPanel.Name = appointment.AppointmentID.ToString();
+            shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
             shadowPanel.Radius = 10;
             shadowPanel.ShadowColor = System.Drawing.Color.Black;
             shadowPanel.Size = new System.Drawing.Size(450, 325);
             shadowPanel.TabIndex = 0;
             shadowPanel.Tag = appointment;
+            shadowPanel.MouseDoubleClick += AppointmentShadowPanel_MouseDoubleClick;
+            shadowPanel.MouseEnter += AppointmentShadowPanel_MouseEnter;
+            shadowPanel.MouseLeave += AppointmentShadowPanel_MouseLeave;
 
             this.flpTodayAppointmentList.Controls.Add(shadowPanel);
             shadowPanel.ResumeLayout(false);
             shadowPanel.PerformLayout();
+        }
+
+        private void _loadMockAppointments()
+        {
+            _todayAppointment = new List<clsAppointmentsDetails>()
+            {
+                new clsAppointmentsDetails()
+                {
+                    Appointment= new clsAppointment{ AppointmentID = 1 , AppointmentDate = DateTime.Now,
+                    StartTime = new TimeSpan(9,30,0),
+                    EndTime = new TimeSpan(10,30,0),
+                    Status = myEnums.enAppointmentStatus.Scheduled,
+                    Cause = "المريض يعاني من ألم في الأسنان العلوية ويريد فحص شامل لتحديد السبب والعلاج المناسب." },
+                    PatientID = 1,
+                    PatientFullName = "يامن معمر",
+                    PatientPhone = "0567405140",
+                    DoctorFullName = "محمود الحسني",
+                   
+                },
+                new clsAppointmentsDetails()
+                { 
+                    Appointment = new clsAppointment{AppointmentID = 2,
+                    AppointmentDate = DateTime.Now,
+                    StartTime = new TimeSpan(11,0,0),
+                    EndTime = new TimeSpan(12,0,0),
+                    Status = myEnums.enAppointmentStatus.Confirmed,
+                    Cause = "المريضة تعاني من حساسية في الأسنان وتريد استشارة حول كيفية التعامل معها ومنع تفاقمها."},
+                    
+                    PatientID = 2,
+                    PatientFullName = "سارة أحمد",
+                    PatientPhone = "0551234567",
+                    DoctorFullName = "د. علي محمد",
+
+                }
+                ,
+                new clsAppointmentsDetails()
+                {
+                    Appointment = new clsAppointment
+                    {
+                     AppointmentID = 2,
+                     AppointmentDate = DateTime.Now,
+                    StartTime = new TimeSpan(11,0,0),
+                    EndTime = new TimeSpan(12,0,0),
+                    Status = myEnums.enAppointmentStatus.NoShow,
+                    Cause = "المريضة تعاني من حساسية في الأسنان وتريد استشارة حول كيفية التعامل معها ومنع تفاقمها."
+                    },
+                   
+                    PatientID = 2,
+                    PatientFullName = "سارة أحمد",
+                    PatientPhone = null,
+                    DoctorFullName = "د. علي محمد",
+                    
+                }
+            };
         }
     }
 }

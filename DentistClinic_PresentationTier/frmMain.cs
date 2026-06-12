@@ -45,7 +45,6 @@ namespace DentistClinic_PresentationTier
         {
             await _loadRolesFromDB();
             _createButtons();
-            lblStaffName.Text =  _sessionContext.Staff.PersonInfo.FullName;
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
             CreateView(dashboard);
         }
@@ -146,47 +145,47 @@ namespace DentistClinic_PresentationTier
                 {
                         Name = "btnDashboard",
                         Text = "لوحة التـحكم",
-                        Image = Properties.Resources.patientBtn
+                        Image = Properties.Resources.Dashboard
                 },
                 new Guna2Button
                 {
                         Name = "btnManagePatients",
                         Text = "إدارة المرضى",
-                        Image = Properties.Resources.patientBtn
+                        Image = Properties.Resources.ManagePatients
                 },
                 new Guna2Button
                 {
                         Name = "btnManageAppointments",
                         Text = "إدارة المواعيد",
-                        Image = Properties.Resources.manageAppointment
+                        Image = Properties.Resources.ManageAppointment
                 },
                 new Guna2Button
                 {
                         Name = "btnManagePayments",
                         Text = "إدارة المدفوعات",
-                        Image = Properties.Resources.managePayments
+                        Image = Properties.Resources.ManagePayments
                 },
                 new Guna2Button
                 {
                         Name = "btnManageStaff",
                         Text = "إدارة الكادر",
-                       Image = Properties.Resources.manageStaff
+                       Image = Properties.Resources.ManageStaff
                 },
                 new Guna2Button
                 {
                         Name = "btnManageRoles",
                         Text = "إدارة الصلاحيات",
-                        Image = Properties.Resources.manageRoles
+                        Image = Properties.Resources.ManageRoles
                 },new Guna2Button
                 {
                         Name = "btnReports",
                         Text = "التقارير",
-                        Image = Properties.Resources.manageRoles
+                        Image = Properties.Resources.ManageReports
                 },new Guna2Button
                 {
                         Name = "btnLogout",
                         Text = "تسجيل خروج",
-                        Image = Properties.Resources.manageRoles
+                        Image = Properties.Resources.Logout
                 }
 
             };
@@ -227,6 +226,7 @@ namespace DentistClinic_PresentationTier
 
             flowLayoutPanelButtons.Controls.Add(button);
         }
+
         //Helper methods
         private async Task _loadRolesFromDB()
         {
@@ -239,7 +239,6 @@ namespace DentistClinic_PresentationTier
                 MessageBox.Show("مشكلة في الحصول على بيانات التصاريح و الرجاء الاتصال على يامن واخذ صورة للتنبيه \n " +"Error => ("+ ex.Message + ")", "Error" , MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
-
         private bool _isOkToDo(myEnums.enPermission enPermission)
         {
             if (clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, enPermission))

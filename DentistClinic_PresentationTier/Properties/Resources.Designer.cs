@@ -113,9 +113,9 @@ namespace DentistClinic_PresentationTier.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap manageAppointment {
+        internal static System.Drawing.Bitmap Dashboard {
             get {
-                object obj = ResourceManager.GetObject("manageAppointment", resourceCulture);
+                object obj = ResourceManager.GetObject("Dashboard", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -123,9 +123,9 @@ namespace DentistClinic_PresentationTier.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap managePayments {
+        internal static System.Drawing.Bitmap Logout {
             get {
-                object obj = ResourceManager.GetObject("managePayments", resourceCulture);
+                object obj = ResourceManager.GetObject("Logout", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -133,9 +133,9 @@ namespace DentistClinic_PresentationTier.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap manageRoles {
+        internal static System.Drawing.Bitmap ManageAppointment {
             get {
-                object obj = ResourceManager.GetObject("manageRoles", resourceCulture);
+                object obj = ResourceManager.GetObject("ManageAppointment", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -143,9 +143,49 @@ namespace DentistClinic_PresentationTier.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap manageStaff {
+        internal static System.Drawing.Bitmap ManagePatients {
             get {
-                object obj = ResourceManager.GetObject("manageStaff", resourceCulture);
+                object obj = ResourceManager.GetObject("ManagePatients", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ManagePayments {
+            get {
+                object obj = ResourceManager.GetObject("ManagePayments", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ManageReports {
+            get {
+                object obj = ResourceManager.GetObject("ManageReports", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ManageRoles {
+            get {
+                object obj = ResourceManager.GetObject("ManageRoles", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap ManageStaff {
+            get {
+                object obj = ResourceManager.GetObject("ManageStaff", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -166,16 +206,6 @@ namespace DentistClinic_PresentationTier.Properties {
         internal static System.Drawing.Bitmap Patient32 {
             get {
                 object obj = ResourceManager.GetObject("Patient32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap patientBtn {
-            get {
-                object obj = ResourceManager.GetObject("patientBtn", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

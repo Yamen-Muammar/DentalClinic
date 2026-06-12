@@ -316,6 +316,48 @@ namespace DentalClinic_DataTier.Repositories
             }
             
         }
+        public async Task<bool> UpdatePaymentAsync(clsPayment payment)
+        {
+            try
+            {
+                const string query = @"
+                    UPDATE Payments
+                    SET PaymentType_ID        = @PaymentType_ID,
+                        PaymentDestination_ID = @PaymentDestination_ID,
+                        Appointment_ID        = @Appointment_ID,
+                        IsApproved            = @IsApproved,
+                        SenderNumber          = @SenderNumber,
+                        TotalAmount           = @TotalAmount,
+                        ActualPaid            = @ActualPaid,
+                        UpdatedAt             = SYSDATETIME(),
+                        UpdatedBy_ID          = @UpdatedBy_ID
+                    WHERE PaymentID = @PaymentID";
+
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PaymentID",            payment.PaymentID);
+                    cmd.Parameters.AddWithValue("@PaymentType_ID",        payment.PaymentType_ID);
+                    cmd.Parameters.AddWithValue("@PaymentDestination_ID", payment.PaymentDestination_ID);
+                    cmd.Parameters.AddWithValue("@Appointment_ID",
+                        payment.Appointment_ID.HasValue ? (object)payment.Appointment_ID.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@IsApproved",           payment.IsApproved);
+                    cmd.Parameters.AddWithValue("@SenderNumber",
+                        payment.SenderNumber != null ? (object)payment.SenderNumber : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TotalAmount",          payment.TotalAmount);
+                    cmd.Parameters.AddWithValue("@ActualPaid",           payment.ActualPaid);
+                    cmd.Parameters.AddWithValue("@UpdatedBy_ID",
+                        payment.UpdatedBy_ID.HasValue ? (object)payment.UpdatedBy_ID.Value : DBNull.Value);
+
+                    await conn.OpenAsync();
+                    return await cmd.ExecuteNonQueryAsync() > 0;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<clsPaymentType>> GetAllPaymentTypesAsync()
         {
             try

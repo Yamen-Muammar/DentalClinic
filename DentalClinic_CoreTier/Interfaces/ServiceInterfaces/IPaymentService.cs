@@ -23,5 +23,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
         Task<IEnumerable<clsPayment>> GetPaymentsByDateRangeAsync(System.DateTime startDate, System.DateTime endDate);
 
         Task<bool> UpdatePaymentApprovalAsync(int paymentId, bool isApproved, int updatedById);
+        Task<bool> UpdatePaymentAsync(clsPayment payment,int UpdatedBy_ID);
     }
 }

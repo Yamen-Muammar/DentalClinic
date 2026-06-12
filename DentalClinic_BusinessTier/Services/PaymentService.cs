@@ -23,8 +23,42 @@ namespace DentalClinic_BusinessTier.Services
             _paymentDestinationRepository = paymentDestinationRepository;
         }
 
+        private bool _validatePaymentObj(clsPayment payment)
+        {
+            if (payment == null)
+                throw new ArgumentNullException("payment");
+
+            if (payment.PaymentType_ID <= 0)
+                throw new ArgumentException("PaymentType_ID must be a valid ID > 0");
+
+            if (payment.PaymentDestination_ID <= 0)
+                throw new ArgumentException("PaymentDestination_ID must be a valid ID > 0");
+
+            if (payment.Appointment_ID != null && payment.Appointment_ID <= 0)
+                throw new ArgumentException("Appointment_ID must be > 0 when provided");
+
+            if (payment.CreatedBy_ID <= 0)
+                throw new ArgumentException("CreatedBy_ID must be a valid staff ID > 0");
+
+            if (payment.TotalAmount <= 0)
+                throw new ArgumentException("TotalAmount must be greater than zero");
+
+            if (payment.ActualPaid < 0)
+                throw new ArgumentException("ActualPaid cannot be negative");
+
+            if (payment.ActualPaid > payment.TotalAmount)
+                throw new ArgumentException("ActualPaid cannot exceed TotalAmount");
+            if (payment.UpdatedBy_ID <= 0)
+                throw new ArgumentException("UpdatedBy_ID must be a valid staff ID > 0");
+
+            return true;
+        }
+
         public async Task<int> AddPaymentAsync(clsPayment payment)
-            => await _paymentRepository.AddPaymentAsync(payment);
+        {
+            _validatePaymentObj(payment);
+            return await _paymentRepository.AddPaymentAsync(payment);
+        }
 
         public async Task<clsPayment> GetPaymentByIdAsync(int paymentId)
             => await _paymentRepository.GetPaymentByIdAsync(paymentId);
@@ -55,5 +89,12 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<bool> UpdatePaymentApprovalAsync(int paymentId, bool isApproved, int updatedById)
             => await _paymentRepository.UpdatePaymentApprovalAsync(paymentId, isApproved, updatedById);
+
+        public Task<bool> UpdatePaymentAsync(clsPayment payment , int UpdateByID)
+        {
+            payment.UpdatedBy_ID = UpdateByID;
+            _validatePaymentObj(payment);
+            return _paymentRepository.UpdatePaymentAsync(payment);
+        }
     }
 }
