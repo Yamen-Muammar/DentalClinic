@@ -32,12 +32,12 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<int?> InsertAsync(clsAppointment obj)
         {
-            // TODO : Implemetn the insert logic.
+            
             if (!_validateAppointmentObj(obj))
             {
                 return null;
             }
-            int? insertedAppointmentID = null;
+            int? insertedAppointmentID = await _appointmentRepository.AddAppointmentAsync(obj);
 
             return insertedAppointmentID;
         }

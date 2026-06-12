@@ -16,7 +16,7 @@ namespace DentalClinic_CoreTier.Models
         public string SecondName { get; set; } = null; //nullable
         public string NationalNo { get; set; } = null; //nullable
         public DateTime? DateOfBirth { get; set; } = null;
-        public char Gender { get; set; }           // 'M' or 'F'
+        public myEnums.enGenderTypes Gender { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; } = null;
         public int? UpdatedBy_ID { get; set; } = null;

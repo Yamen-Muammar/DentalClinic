@@ -26,6 +26,18 @@ namespace DentalClinic_CoreTier
                     return "؟؟؟";
             }
         }
+        public static string GetPersonGenderText(myEnums.enGenderTypes gender)
+        {
+            switch (gender)
+            {
+                case myEnums.enGenderTypes.M:
+                    return "ذَكـر";
+                case myEnums.enGenderTypes.F:
+                    return "أُنثـى";
+                default:
+                    return "؟؟؟";
+            }
+        }
 
     }
 }

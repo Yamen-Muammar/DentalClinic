@@ -24,6 +24,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<int?> InsertAsync(clsMedicalFile obj)
         {
+            _validateMedicalFileObj(obj);
             throw new NotImplementedException();
         }
 
@@ -34,7 +35,19 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<bool> UpdateAsync(clsMedicalFile obj, int? updatedByID =null)
         {
+            _validateMedicalFileObj(obj);
             throw new NotImplementedException();
+        }
+
+        private bool _validateMedicalFileObj(clsMedicalFile medicalFile)
+        {
+            if (medicalFile == null)
+                throw new ArgumentNullException("medicalFile");
+
+            if (medicalFile.Patient_ID <= 0)
+                throw new ArgumentException("Patient_ID must be a valid ID > 0");
+
+            return true;
         }
     }
 }

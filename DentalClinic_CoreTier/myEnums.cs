@@ -37,8 +37,8 @@ namespace DentalClinic_CoreTier
 
         public enum enGenderTypes
         {
-            Male = 1,
-            Female = 2
+            M = 1,
+            F = 2
         }
 
         public enum enProblemStatus

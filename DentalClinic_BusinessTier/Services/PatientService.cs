@@ -25,6 +25,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<int?> InsertAsync(clsPatient obj)
         {
+            _validatePatientObj(obj);
             throw new NotImplementedException();
         }
 
@@ -35,7 +36,22 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
         {
+            _validatePatientObj(obj);
             throw new NotImplementedException();
+        }
+
+        private bool _validatePatientObj(clsPatient patient)
+        {
+            if (patient == null)
+                throw new ArgumentNullException("patient");
+
+            if (patient.Person_ID <= 0)
+                throw new ArgumentException("Person_ID must be a valid ID > 0");
+
+            if (patient.BloodType_ID != null && patient.BloodType_ID <= 0)
+                throw new ArgumentException("BloodType_ID must be > 0 when provided");
+
+            return true;
         }
     }
 }

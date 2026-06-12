@@ -16,9 +16,7 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy_ID { get; set; }
         public myEnums.enProblemStatus Status { get; set; } = myEnums.enProblemStatus.New;
-        public decimal? TotalCost { get; set; } // Doctor's set price
-        public decimal? ActualPaid { get; set; }
-        
-
+        public decimal? TotalCost { get; set; } = null;// Doctor's set price
+        public decimal? ActualPaid { get; set; } = null;
     }
 }

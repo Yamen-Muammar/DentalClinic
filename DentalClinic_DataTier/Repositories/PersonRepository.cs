@@ -37,7 +37,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@SecondName",  (object)person.SecondName ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@NationalNo",  (object)person.NationalNo ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@DateOfBirth", person.DateOfBirth);
-                    cmd.Parameters.AddWithValue("@Gender",      person.Gender);
+                    cmd.Parameters.AddWithValue("@Gender",      person.Gender.ToString());
                     cmd.Parameters.AddWithValue("@CreatedAt",   person.CreatedAt);
 
                     await conn.OpenAsync();
@@ -139,7 +139,7 @@ namespace DentalClinic_DataTier.Repositories
                     cmd.Parameters.AddWithValue("@SecondName",   (object)person.SecondName  ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@NationalNo",   (object)person.NationalNo  ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@DateOfBirth",  person.DateOfBirth);
-                    cmd.Parameters.AddWithValue("@Gender",       person.Gender);
+                    cmd.Parameters.AddWithValue("@Gender",       person.Gender.ToString());
                     cmd.Parameters.AddWithValue("@UpdatedAt",    (object)person.UpdatedAt    ?? DBNull.Value);
                     cmd.Parameters.AddWithValue("@UpdatedBy_ID", (object)person.UpdatedBy_ID ?? DBNull.Value);
 
@@ -388,7 +388,7 @@ namespace DentalClinic_DataTier.Repositories
                 SecondName   = reader.IsDBNull(secondNameOrd) ? null            : reader.GetString(secondNameOrd),
                 NationalNo   = reader.IsDBNull(nationalNoOrd) ? null            : reader.GetString(nationalNoOrd),
                 DateOfBirth  = reader.IsDBNull(dateofbirthOrd)? (DateTime?)null            : reader.GetDateTime(dateofbirthOrd),
-                Gender       = reader.GetString(reader.GetOrdinal("Gender"))[0],
+                Gender       = (myEnums.enGenderTypes)Enum.Parse(typeof(myEnums.enGenderTypes), reader.GetString(reader.GetOrdinal("Gender"))),
                 CreatedAt    = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt    = reader.IsDBNull(updatedAtOrd)  ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID = reader.IsDBNull(updatedByOrd)  ? (int?)null      : reader.GetInt32(updatedByOrd),

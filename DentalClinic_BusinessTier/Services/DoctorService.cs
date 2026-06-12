@@ -25,6 +25,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<int?> InsertAsync(clsDoctor obj)
         {
+            _validateDoctorObj(obj);
             throw new NotImplementedException();
         }
 
@@ -35,8 +36,8 @@ namespace DentalClinic_BusinessTier.Services
         }
 
         public async Task<bool> UpdateAsync(clsDoctor obj,  int? updatedByID =null)
-        {            
-            if (!_isObjValid(obj))
+        {
+            if (!_validateDoctorObj(obj))
             {
                 return false;
             }
@@ -49,11 +50,16 @@ namespace DentalClinic_BusinessTier.Services
             return await _doctorRepository.UpdateDoctorAsync(obj);
         }
 
-        //helper methods 
+        //helper methods
 
-        private bool _isObjValid(clsDoctor doctor)
+        private bool _validateDoctorObj(clsDoctor doctor)
         {
-            if (doctor == null) throw new ArgumentNullException("Doctor Object is Null", "Can not update a null object");            
+            if (doctor == null)
+                throw new ArgumentNullException("doctor");
+
+            if (doctor.Staff_ID <= 0)
+                throw new ArgumentException("Staff_ID must be a valid ID > 0");
+
             return true;
         }
     }

@@ -29,6 +29,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<int?> InsertAsync(clsRole obj)
         {
+            _validateRoleObj(obj);
             throw new NotImplementedException();
         }
 
@@ -39,7 +40,22 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<bool> UpdateAsync(clsRole obj,  int? updatedByID =null)
         {
+            _validateRoleObj(obj);
             throw new NotImplementedException();
+        }
+
+        private bool _validateRoleObj(clsRole role)
+        {
+            if (role == null)
+                throw new ArgumentNullException("role");
+
+            if (string.IsNullOrWhiteSpace(role.RoleName))
+                throw new ArgumentException("RoleName cannot be null or empty");
+
+            if (role.RolePermissionCode < 0)
+                throw new ArgumentException("RolePermissionCode cannot be negative");
+
+            return true;
         }
     }
 }

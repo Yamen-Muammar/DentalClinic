@@ -165,6 +165,12 @@
     <Compile Include="Controls\MainUIControls\ctrlManageStaff.Designer.cs">
       <DependentUpon>ctrlManageStaff.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ModelsControls\PersonControls\ctrlPersonInformation.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ModelsControls\PersonControls\ctrlPersonInformation.Designer.cs">
+      <DependentUpon>ctrlPersonInformation.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -200,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\MainUIControls\ctrlManageStaff.resx">
       <DependentUpon>ctrlManageStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ModelsControls\PersonControls\ctrlPersonInformation.resx">
+      <DependentUpon>ctrlPersonInformation.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>

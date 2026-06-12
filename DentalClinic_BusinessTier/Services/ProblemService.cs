@@ -24,6 +24,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<int?> InsertAsync(clsProblem obj)
         {
+            _validateProblemObj(obj);
             throw new NotImplementedException();
         }
 
@@ -34,7 +35,28 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<bool> UpdateAsync(clsProblem obj,  int? updatedByID =null)
         {
+            _validateProblemObj(obj);
             throw new NotImplementedException();
+        }
+
+        private bool _validateProblemObj(clsProblem problem)
+        {
+            if (problem == null)
+                throw new ArgumentNullException("problem");
+
+            if (problem.MedicalFile_ID <= 0)
+                throw new ArgumentException("MedicalFile_ID must be a valid ID > 0");
+
+            if (problem.TotalCost != null && problem.TotalCost < 0)
+                throw new ArgumentException("TotalCost cannot be negative");
+
+            if (problem.ActualPaid != null && problem.ActualPaid < 0)
+                throw new ArgumentException("ActualPaid cannot be negative");
+
+            if (problem.TotalCost != null && problem.ActualPaid != null && problem.ActualPaid > problem.TotalCost)
+                throw new ArgumentException("ActualPaid cannot exceed TotalCost");
+
+            return true;
         }
     }
 }
