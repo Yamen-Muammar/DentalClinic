@@ -44,8 +44,11 @@
             this.lblGender = new System.Windows.Forms.Label();
             this.lblFullName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.indecatorPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.MainContainerControl.SuspendLayout();
             this.spPhoneNums.SuspendLayout();
+            this.indecatorPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainContainerControl
@@ -54,6 +57,7 @@
             this.MainContainerControl.BorderColor = System.Drawing.Color.White;
             this.MainContainerControl.BorderRadius = 10;
             this.MainContainerControl.BorderThickness = 4;
+            this.MainContainerControl.Controls.Add(this.indecatorPanel);
             this.MainContainerControl.Controls.Add(this.btnEditePatientInfo);
             this.MainContainerControl.Controls.Add(this.spPhoneNums);
             this.MainContainerControl.Controls.Add(this.label6);
@@ -271,6 +275,29 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "اسم المريض :";
             // 
+            // indecatorPanel
+            // 
+            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator1);
+            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.indecatorPanel.FillColor = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.FillColor2 = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
+            this.indecatorPanel.Name = "indecatorPanel";
+            this.indecatorPanel.Size = new System.Drawing.Size(1085, 540);
+            this.indecatorPanel.TabIndex = 3;
+            // 
+            // guna2WinProgressIndicator1
+            // 
+            this.guna2WinProgressIndicator1.AnimationSpeed = 90;
+            this.guna2WinProgressIndicator1.AutoStart = true;
+            this.guna2WinProgressIndicator1.CircleSize = 3F;
+            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(455, 165);
+            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
+            this.guna2WinProgressIndicator1.NumberOfCircles = 12;
+            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.SteelBlue;
+            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(145, 136);
+            this.guna2WinProgressIndicator1.TabIndex = 0;
+            // 
             // ctrlPersonInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -283,6 +310,7 @@
             this.MainContainerControl.ResumeLayout(false);
             this.MainContainerControl.PerformLayout();
             this.spPhoneNums.ResumeLayout(false);
+            this.indecatorPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -309,5 +337,7 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label14;
         private Guna.UI2.WinForms.Guna2CircleButton btnEditePatientInfo;
+        private Guna.UI2.WinForms.Guna2GradientPanel indecatorPanel;
+        private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator1;
     }
 }

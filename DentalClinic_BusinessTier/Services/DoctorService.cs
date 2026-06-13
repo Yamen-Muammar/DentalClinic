@@ -18,21 +18,21 @@ namespace DentalClinic_BusinessTier.Services
             _doctorRepository = doctorRepository;
         }
 
-        public Task<clsDoctor> GetByIdAsync(int objId)
+        public async Task<clsDoctor> GetByIdAsync(int objId)
         {
-            return _doctorRepository.GetDoctorByIdAsync(objId);
+            return await _doctorRepository.GetDoctorByIdAsync(objId);
         }
 
-        public Task<int?> InsertAsync(clsDoctor obj)
+        public async Task<int?> InsertAsync(clsDoctor obj)
         {
             _validateDoctorObj(obj);
-            throw new NotImplementedException();
+            return await _doctorRepository.AddDoctorAsync(obj);
         }
 
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
+        public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
         {
 
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
 
         public async Task<bool> UpdateAsync(clsDoctor obj,  int? updatedByID =null)

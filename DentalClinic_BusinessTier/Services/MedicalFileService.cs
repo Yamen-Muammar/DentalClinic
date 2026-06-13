@@ -17,26 +17,34 @@ namespace DentalClinic_BusinessTier.Services
             _medicalFileRepository = medicalFileRepository;
         }
 
-        public Task<clsMedicalFile> GetByIdAsync(int objId)
+        public async Task<clsMedicalFile> GetByIdAsync(int objId)
         {
-            return _medicalFileRepository.GetMedicalFileByIdAsync(objId);
+            return await _medicalFileRepository.GetMedicalFileByIdAsync(objId);
         }
 
-        public Task<int?> InsertAsync(clsMedicalFile obj)
+        public async Task<int?> InsertAsync(clsMedicalFile obj)
         {
             _validateMedicalFileObj(obj);
-            throw new NotImplementedException();
+            return await _medicalFileRepository.AddMedicalFileAsync(obj);
         }
 
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
+        public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> UpdateAsync(clsMedicalFile obj, int? updatedByID =null)
+        public async Task<bool> UpdateAsync(clsMedicalFile obj, int? updatedByID =null)
         {
             _validateMedicalFileObj(obj);
-            throw new NotImplementedException();
+
+            if(updatedByID == null)
+            {
+                throw new ArgumentException("You must pass the staff ID");
+            }
+
+            obj.UpdatedBy_ID = updatedByID.Value;
+            
+            return await _medicalFileRepository.UpdateMedicalFileAsync(obj);
         }
 
         private bool _validateMedicalFileObj(clsMedicalFile medicalFile)

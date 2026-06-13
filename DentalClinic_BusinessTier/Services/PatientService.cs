@@ -18,36 +18,44 @@ namespace DentalClinic_BusinessTier.Services
             _patientRepository = patientRepository;
         }
 
-        public Task<clsPatient> GetByIdAsync(int objId)
+        public async Task<clsPatient> GetByIdAsync(int objId)
         {
-            return _patientRepository.GetPatientByIdAsync(objId);
+            return await _patientRepository.GetPatientByIdAsync(objId);
         }
 
-        public Task<int?> InsertAsync(clsPatient obj)
-        {
-            _validatePatientObj(obj);
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
+        public async Task<int?> InsertAsync(clsPatient obj)
         {
             _validatePatientObj(obj);
+
+            return await _patientRepository.AddPatientAsync(obj);
+        }
+
+        public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
+        {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
-            => _patientRepository.SearchByFullNameAsync(fullName);
+        public async Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
+        {
+            _validatePatientObj(obj);
 
-        public Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
-            => _patientRepository.SearchByNationalNoAsync(nationalNo);
+             if(updatedByID == null)
+            {
+                throw new ArgumentException("You must pass the staff ID");
+            }
 
-        public Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
-            => _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
+            obj.UpdatedBy_ID = updatedByID.Value;
+            return await _patientRepository.UpdatePatientAsync(obj);
+        }
+
+        public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
+            => await _patientRepository.SearchByFullNameAsync(fullName);
+
+        public async Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
+            => await _patientRepository.SearchByNationalNoAsync(nationalNo);
+
+        public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
+            =>await _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
 
         private bool _validatePatientObj(clsPatient patient)
         {

@@ -68,6 +68,11 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<int?> InsertAsync(clsStaff obj)
         {            
+            if (!_validateStaff(obj))
+            {
+                throw new ArgumentException("Invalid staff data");
+            }
+
             return await _staffRepository.AddStaffAsync(obj);
         }
 
@@ -83,7 +88,7 @@ namespace DentalClinic_BusinessTier.Services
                 throw new ArgumentException("Invalid staff data");
             }
 
-            if (updatedByID == null)
+            if (updatedByID == null || updatedByID <= 0)
             {
                 throw new ArgumentNullException("Update ID Just be provided");
             }

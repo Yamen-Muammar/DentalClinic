@@ -413,7 +413,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             shadowPanel.ResumeLayout(false);
             shadowPanel.PerformLayout();
         }
-
         private void _loadMockAppointments()
         {
             _todayAppointment = new List<clsAppointmentsDetails>()

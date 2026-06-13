@@ -27,21 +27,25 @@ namespace DentalClinic_BusinessTier.Services
             return _roleRepository.GetRoleByIdAsync(objId);
         }
 
-        public Task<int?> InsertAsync(clsRole obj)
+        public async Task<int?> InsertAsync(clsRole obj)
         {
             _validateRoleObj(obj);
+            return await _roleRepository.AddRoleAsync(obj);
+        }
+
+        public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
+        {            
             throw new NotImplementedException();
         }
 
-        public Task<bool> SoftDeleteAsync(int objId, int deletedById)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAsync(clsRole obj,  int? updatedByID =null)
+        public async Task<bool> UpdateAsync(clsRole obj,  int? updatedByID =null)
         {
             _validateRoleObj(obj);
-            throw new NotImplementedException();
+            if(updatedByID == null || updatedByID <= 0)
+            {
+                throw new ArgumentException("You must pass the staff ID");
+            }
+            return await _roleRepository.UpdateRoleAsync(obj);
         }
 
         private bool _validateRoleObj(clsRole role)

@@ -92,8 +92,13 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<bool> UpdatePaymentAsync(clsPayment payment , int UpdateByID)
         {
-            payment.UpdatedBy_ID = UpdateByID;
             _validatePaymentObj(payment);
+             if(UpdateByID <= 0)
+            {
+                throw new ArgumentException("You must pass the staff ID");
+            }
+
+            payment.UpdatedBy_ID = UpdateByID;
             return _paymentRepository.UpdatePaymentAsync(payment);
         }
     }

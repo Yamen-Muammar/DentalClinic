@@ -9,5 +9,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IProblemService : IGRUDService<clsProblem>
     {
+        Task<bool> UpdateProblemStatusAsync(int problemId, myEnums.enProblemStatus status, int updatedById);
     }
 }

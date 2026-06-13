@@ -32,6 +32,7 @@ namespace DentalClinic_BusinessTier.Services
         {
             if (updatedByID == null)
                 throw new ArgumentNullException("updatedByID");
+                
             _validatePersonObj(obj);
             obj.UpdatedBy_ID = updatedByID;
             obj.UpdatedAt    = DateTime.Now;

@@ -21,18 +21,23 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
         private IPersonService _personService;
         public clsPerson PersonInformation { get; set; }
         public List<clsPhoneNumber> PersonPhoneNumbers { get; set; }
+
+        private int _paasedPersonID;
         public ctrlPersonInformation(IPersonService personService)
         {
             InitializeComponent();
             this._personService = personService;
         }
-        private void ctrlPersonInformation_Load(object sender, EventArgs e)
+        private async void ctrlPersonInformation_Load(object sender, EventArgs e)
         {
+            Task.Run(() => _handleProgressIndicator(true));
+            await _setPersonInformation(_paasedPersonID);
             _buildUI();
+            _handleProgressIndicator(false);
         }
         public async Task SetPersonID(int personID)
         {
-            await _setPersonInformation(personID);
+            _paasedPersonID =personID;
         }
 
         //Helper Methods
@@ -201,6 +206,19 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
         private void btnEditePatientInfo_Click(object sender, EventArgs e)
         {
             // TODO : CALL Edite Patient Form After You Have Done it.
+        }
+        private void _handleProgressIndicator(bool enable)
+        {
+            if (enable)
+            {
+                this.guna2WinProgressIndicator1.Start();
+            }
+            else
+            {
+                this.guna2WinProgressIndicator1.Stop();
+                this.guna2WinProgressIndicator1.Dispose();
+                this.Controls.Remove(this.indecatorPanel);
+            }
         }
     }
 }
