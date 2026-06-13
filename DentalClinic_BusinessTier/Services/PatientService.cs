@@ -12,10 +12,12 @@ namespace DentalClinic_BusinessTier.Services
     public class PatientService : IPatientService
     {
         private IPatientRepository _patientRepository;
+        private IPersonService _personService;
 
-        public PatientService(IPatientRepository patientRepository)
+        public PatientService(IPatientRepository patientRepository,IPersonService personService)
         {
             _patientRepository = patientRepository;
+            _personService = personService;
         }
 
         public async Task<clsPatient> GetByIdAsync(int objId)
@@ -32,7 +34,7 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
         {
-            throw new NotImplementedException();
+            return await _personService.SoftDeleteAsync(objId, deletedById);;
         }
 
         public async Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
