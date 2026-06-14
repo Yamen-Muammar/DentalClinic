@@ -253,7 +253,8 @@ namespace DentalClinic_DataTier.Repositories
                 const string query = @"
                     SELECT PhoneNumberID, Person_ID, Number, IsPrimary, IsActive, CreatedAt, UpdatedAt, UpdatedBy_ID
                     FROM PhoneNumbers
-                    WHERE Person_ID = @Person_ID";
+                    WHERE Person_ID = @Person_ID AND IsActive = 1 
+                    ORDER BY IsPrimary DESC";
 
                 var list = new List<clsPhoneNumber>();
                 using (var conn = _connectionFactory.CreateConnection())

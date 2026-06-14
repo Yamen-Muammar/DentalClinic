@@ -32,6 +32,8 @@
             this.btnEditePatientInfo = new Guna.UI2.WinForms.Guna2CircleButton();
             this.spPhoneNums = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.flpPhoneNumbers = new System.Windows.Forms.FlowLayoutPanel();
+            this.TilePhonesPanel = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.lblNationalNo = new System.Windows.Forms.Label();
             this.lblDateOfBirth = new System.Windows.Forms.Label();
@@ -48,6 +50,7 @@
             this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.MainContainerControl.SuspendLayout();
             this.spPhoneNums.SuspendLayout();
+            this.TilePhonesPanel.SuspendLayout();
             this.indecatorPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +100,7 @@
             this.btnEditePatientInfo.HoverState.FillColor = System.Drawing.Color.Transparent;
             this.btnEditePatientInfo.Image = global::DentistClinic_PresentationTier.Properties.Resources.EditePatientInfo;
             this.btnEditePatientInfo.ImageSize = new System.Drawing.Size(50, 50);
-            this.btnEditePatientInfo.Location = new System.Drawing.Point(13, 449);
+            this.btnEditePatientInfo.Location = new System.Drawing.Point(22, 31);
             this.btnEditePatientInfo.Name = "btnEditePatientInfo";
             this.btnEditePatientInfo.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             this.btnEditePatientInfo.Size = new System.Drawing.Size(77, 76);
@@ -109,27 +112,55 @@
             // 
             this.spPhoneNums.BackColor = System.Drawing.Color.Transparent;
             this.spPhoneNums.Controls.Add(this.flpPhoneNumbers);
+            this.spPhoneNums.Controls.Add(this.TilePhonesPanel);
             this.spPhoneNums.FillColor = System.Drawing.Color.White;
-            this.spPhoneNums.Location = new System.Drawing.Point(13, 31);
+            this.spPhoneNums.Location = new System.Drawing.Point(157, 31);
             this.spPhoneNums.Margin = new System.Windows.Forms.Padding(0);
             this.spPhoneNums.Name = "spPhoneNums";
             this.spPhoneNums.Radius = 10;
             this.spPhoneNums.ShadowColor = System.Drawing.Color.Black;
-            this.spPhoneNums.Size = new System.Drawing.Size(547, 409);
+            this.spPhoneNums.Size = new System.Drawing.Size(403, 384);
             this.spPhoneNums.TabIndex = 1;
             // 
             // flpPhoneNumbers
             // 
             this.flpPhoneNumbers.AutoScroll = true;
-            this.flpPhoneNumbers.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpPhoneNumbers.Dock = System.Windows.Forms.DockStyle.Top;
             this.flpPhoneNumbers.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpPhoneNumbers.Location = new System.Drawing.Point(0, 0);
+            this.flpPhoneNumbers.Location = new System.Drawing.Point(0, 50);
             this.flpPhoneNumbers.Margin = new System.Windows.Forms.Padding(0);
             this.flpPhoneNumbers.Name = "flpPhoneNumbers";
             this.flpPhoneNumbers.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.flpPhoneNumbers.Size = new System.Drawing.Size(547, 409);
+            this.flpPhoneNumbers.Size = new System.Drawing.Size(403, 335);
             this.flpPhoneNumbers.TabIndex = 0;
             this.flpPhoneNumbers.WrapContents = false;
+            // 
+            // TilePhonesPanel
+            // 
+            this.TilePhonesPanel.BorderColor = System.Drawing.Color.White;
+            this.TilePhonesPanel.BorderRadius = 10;
+            this.TilePhonesPanel.BorderThickness = 2;
+            this.TilePhonesPanel.Controls.Add(this.label7);
+            this.TilePhonesPanel.CustomBorderColor = System.Drawing.Color.Transparent;
+            this.TilePhonesPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.TilePhonesPanel.FillColor = System.Drawing.Color.SlateGray;
+            this.TilePhonesPanel.FillColor2 = System.Drawing.Color.LightSlateGray;
+            this.TilePhonesPanel.FillColor3 = System.Drawing.Color.SlateGray;
+            this.TilePhonesPanel.FillColor4 = System.Drawing.Color.SlateGray;
+            this.TilePhonesPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilePhonesPanel.Name = "TilePhonesPanel";
+            this.TilePhonesPanel.Size = new System.Drawing.Size(403, 50);
+            this.TilePhonesPanel.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Mudir MT", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label7.Location = new System.Drawing.Point(154, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(105, 36);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "ارقـام الهاتف";
             // 
             // label6
             // 
@@ -137,7 +168,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Simplified Arabic Fixed", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(841, 488);
+            this.label6.Location = new System.Drawing.Point(841, 388);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(233, 27);
             this.label6.TabIndex = 0;
@@ -149,11 +180,11 @@
             this.lblNationalNo.AutoSize = true;
             this.lblNationalNo.Font = new System.Drawing.Font("Simplified Arabic Fixed", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.lblNationalNo.ForeColor = System.Drawing.Color.White;
-            this.lblNationalNo.Location = new System.Drawing.Point(671, 109);
+            this.lblNationalNo.Location = new System.Drawing.Point(697, 105);
             this.lblNationalNo.Name = "lblNationalNo";
-            this.lblNationalNo.Size = new System.Drawing.Size(138, 27);
+            this.lblNationalNo.Size = new System.Drawing.Size(54, 27);
             this.lblNationalNo.TabIndex = 0;
-            this.lblNationalNo.Text = "420271999";
+            this.lblNationalNo.Text = "؟؟؟";
             // 
             // lblDateOfBirth
             // 
@@ -161,11 +192,11 @@
             this.lblDateOfBirth.AutoSize = true;
             this.lblDateOfBirth.Font = new System.Drawing.Font("Simplified Arabic Fixed", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.lblDateOfBirth.ForeColor = System.Drawing.Color.White;
-            this.lblDateOfBirth.Location = new System.Drawing.Point(635, 165);
+            this.lblDateOfBirth.Location = new System.Drawing.Point(664, 165);
             this.lblDateOfBirth.Name = "lblDateOfBirth";
-            this.lblDateOfBirth.Size = new System.Drawing.Size(152, 27);
+            this.lblDateOfBirth.Size = new System.Drawing.Size(54, 27);
             this.lblDateOfBirth.TabIndex = 0;
-            this.lblDateOfBirth.Text = "20/12/2026";
+            this.lblDateOfBirth.Text = "؟؟؟";
             // 
             // lblLastUpdateDate
             // 
@@ -173,11 +204,11 @@
             this.lblLastUpdateDate.AutoSize = true;
             this.lblLastUpdateDate.Font = new System.Drawing.Font("Simplified Arabic Fixed", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.lblLastUpdateDate.ForeColor = System.Drawing.Color.White;
-            this.lblLastUpdateDate.Location = new System.Drawing.Point(693, 488);
+            this.lblLastUpdateDate.Location = new System.Drawing.Point(693, 388);
             this.lblLastUpdateDate.Name = "lblLastUpdateDate";
-            this.lblLastUpdateDate.Size = new System.Drawing.Size(142, 27);
+            this.lblLastUpdateDate.Size = new System.Drawing.Size(51, 27);
             this.lblLastUpdateDate.TabIndex = 0;
-            this.lblLastUpdateDate.Text = "20/12/2026";
+            this.lblLastUpdateDate.Text = "؟؟؟";
             // 
             // lblCreatedDate
             // 
@@ -185,11 +216,11 @@
             this.lblCreatedDate.AutoSize = true;
             this.lblCreatedDate.Font = new System.Drawing.Font("Simplified Arabic Fixed", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.lblCreatedDate.ForeColor = System.Drawing.Color.White;
-            this.lblCreatedDate.Location = new System.Drawing.Point(732, 449);
+            this.lblCreatedDate.Location = new System.Drawing.Point(732, 349);
             this.lblCreatedDate.Name = "lblCreatedDate";
-            this.lblCreatedDate.Size = new System.Drawing.Size(142, 27);
+            this.lblCreatedDate.Size = new System.Drawing.Size(51, 27);
             this.lblCreatedDate.TabIndex = 0;
-            this.lblCreatedDate.Text = "20/12/2026";
+            this.lblCreatedDate.Text = "؟؟؟";
             // 
             // label5
             // 
@@ -197,7 +228,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Simplified Arabic Fixed", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(880, 449);
+            this.label5.Location = new System.Drawing.Point(880, 349);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(194, 27);
             this.label5.TabIndex = 0;
@@ -247,9 +278,9 @@
             this.lblGender.ForeColor = System.Drawing.Color.White;
             this.lblGender.Location = new System.Drawing.Point(856, 202);
             this.lblGender.Name = "lblGender";
-            this.lblGender.Size = new System.Drawing.Size(62, 58);
+            this.lblGender.Size = new System.Drawing.Size(58, 58);
             this.lblGender.TabIndex = 0;
-            this.lblGender.Text = "ذكر";
+            this.lblGender.Text = "؟؟؟";
             // 
             // lblFullName
             // 
@@ -259,9 +290,9 @@
             this.lblFullName.ForeColor = System.Drawing.Color.White;
             this.lblFullName.Location = new System.Drawing.Point(714, 31);
             this.lblFullName.Name = "lblFullName";
-            this.lblFullName.Size = new System.Drawing.Size(126, 58);
+            this.lblFullName.Size = new System.Drawing.Size(58, 58);
             this.lblFullName.TabIndex = 0;
-            this.lblFullName.Text = "يامن معمر";
+            this.lblFullName.Text = "؟؟؟";
             // 
             // label1
             // 
@@ -310,6 +341,8 @@
             this.MainContainerControl.ResumeLayout(false);
             this.MainContainerControl.PerformLayout();
             this.spPhoneNums.ResumeLayout(false);
+            this.TilePhonesPanel.ResumeLayout(false);
+            this.TilePhonesPanel.PerformLayout();
             this.indecatorPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -339,5 +372,7 @@
         private Guna.UI2.WinForms.Guna2CircleButton btnEditePatientInfo;
         private Guna.UI2.WinForms.Guna2GradientPanel indecatorPanel;
         private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator1;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel TilePhonesPanel;
+        private System.Windows.Forms.Label label7;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -26,6 +27,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
 
         private List<clsAppointmentsDetails> _todayAppointment;
+        private int? _notConfirmedPayments;
 
         private IAppointmentService _appointmentService;
         private IPaymentService _paymentService;
@@ -37,7 +39,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
-            _buildUI();
+            await _buildUI();
         }
         private void pnlTodayPatient_DoubleClick(object sender, EventArgs e)
         {
@@ -124,16 +126,29 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
         private async Task _buildUI()
         {
-            Task.Run(() => _handleProgressIndicator(true));
+            await Task.Delay(200);
 
             await _loadTodaysAppointments();
+            await _getNotConfirmedPayments();
+
+              
             lblTodayAppoinmentsCount.Text = _todayAppointment?.Count.ToString() ?? "??";
 
-            int? notConfirmedPayments = await _getNotApprovaedPaymentsCount();
-            lblunConfirmedPayments.Text = notConfirmedPayments?.ToString() ?? "??";
-
+            lblunConfirmedPayments.Text = _notConfirmedPayments?.ToString() ?? "??";
 
             _handleProgressIndicator(false);
+        }
+
+        private async Task _getNotConfirmedPayments()
+        {
+            try
+            {
+                _notConfirmedPayments = await _getNotApprovaedPaymentsCount();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("خطأ في جلب بيانات عدد الحوالات المالية غير الؤكـدة", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private async Task _getTodaysAppointments()
         {
@@ -155,7 +170,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             {
                 return;
             }
-            flpTodayAppointmentList.SuspendLayout();
 
             try
             {
@@ -170,8 +184,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             {
                 MessageBox.Show("مشكلة في بناء مواعيـد اليوم\n الرجاء الاتصال بـ آدمن", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-           
-            flpTodayAppointmentList.ResumeLayout(false);
+          
         }
         private async Task<int?> _getNotApprovaedPaymentsCount()
         {
@@ -194,10 +207,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 this.guna2WinProgressIndicator.Start();
             }
             else
-            {
+            {                
                 this.guna2WinProgressIndicator.Stop();
-                this.guna2WinProgressIndicator.Dispose();
-                this.Controls.Remove(this.indecatorPanel);
+                //this.guna2WinProgressIndicator.Dispose();
+                //this.Controls.Remove(this.indecatorPanel);
+                indecatorPanel.Visible = false;
             }
         }
         private void _buildAppointmentPanle(clsAppointmentsDetails appointment, Guna2ShadowPanel shadowPanel)

@@ -46,35 +46,36 @@ namespace DentistClinic_PresentationTier
             await _loadRolesFromDB();
             _createButtons();
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-            CreateView(dashboard);
+            await CreateView(dashboard);
         }
-        private void CreateView(object control)
+        private async Task CreateView(object control)
         {
             mainLayoutPanel.SuspendLayout();
+            
+                var newPage = control as UserControl;
 
-            var newPage = control as UserControl;
+                if (_activeControl != null && newPage != null)
+                {
+                    this.mainLayoutPanel.Controls.Remove(_activeControl);
+                    _activeControl.Dispose();
+                }
+                else if (newPage == null)
+                {
+                    return;
+                }
 
-            if (_activeControl != null && newPage != null)
-            {
-                this.mainLayoutPanel.Controls.Remove(_activeControl);
-                _activeControl.Dispose();
-            } else if (newPage == null)
-            {
-                return;
-            }
+                newPage.Dock = DockStyle.Fill;
+                newPage.Margin = new Padding(0);
+                this.mainLayoutPanel.Controls.Add(newPage, 0, 0);
+                this.mainLayoutPanel.SetRowSpan(newPage, 2);
 
-            newPage.Dock = DockStyle.Fill;
-            newPage.Margin = new Padding(0);
-            this.mainLayoutPanel.Controls.Add(newPage, 0, 0);
-            this.mainLayoutPanel.SetRowSpan(newPage, 2);
-
-            _activeControl = newPage;
+                _activeControl = newPage;
 
             mainLayoutPanel.ResumeLayout(true);
         }
 
         //UI events
-        private void DynamicButtons_Click(object sender , EventArgs e)
+        private async void DynamicButtons_Click(object sender , EventArgs e)
         {
             Guna2Button btn = sender as Guna2Button;
 
@@ -84,21 +85,21 @@ namespace DentistClinic_PresentationTier
                     if (_isOkToDo(myEnums.enPermission.Dashboard))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePatients":
                     if (_isOkToDo(myEnums.enPermission.ManagePatients))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManagePatients>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManageAppointments":
                     if (_isOkToDo(myEnums.enPermission.ManageAppointments))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageAppointment>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePayments":

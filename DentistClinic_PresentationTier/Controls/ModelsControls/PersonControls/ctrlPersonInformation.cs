@@ -26,11 +26,16 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
         public ctrlPersonInformation(IPersonService personService)
         {
             InitializeComponent();
-            this._personService = personService;
+            _personService = personService;
         }
         private async void ctrlPersonInformation_Load(object sender, EventArgs e)
         {
-            Task.Run(() => _handleProgressIndicator(true));
+            if(_paasedPersonID <= 0)
+            {
+                MessageBox.Show("لايوجد رقم تعريفي للشخص للبحث عنه", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            };
+            await Task.Delay(200);
             await _setPersonInformation(_paasedPersonID);
             _buildUI();
             _handleProgressIndicator(false);
@@ -79,10 +84,10 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             try
             {
                 collection = (List<clsPhoneNumber>)await _personService.GetPhoneNumbersByPersonIdAsync(PersonInformation.PersonID);
-                if (collection.Count <= 0)
-                {
-                    MessageBox.Show("لايوجد أرقام هاتف لهذا الشخص", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                //if (collection.Count <= 0)
+                //{
+                //    MessageBox.Show("لايوجد أرقام هاتف لهذا الشخص", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
             }
             catch (Exception)
             {
@@ -132,21 +137,21 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Simplified Arabic Fixed", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label12.ForeColor = System.Drawing.Color.White;
-            this.label12.Location = new System.Drawing.Point(348, 34);
+            this.label12.Location = new System.Drawing.Point(191, 34);
             this.label12.Name = "label12";
             this.label12.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label12.Size = new System.Drawing.Size(154, 24);
             this.label12.TabIndex = 0;
             this.label12.Text = "رقم الهاتف :";
             // 
-            // label14
+            // lblPhoneNumer
             // 
             this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label14.AutoSize = true;
-            this.label14.Font = new System.Drawing.Font("Simplified Arabic Fixed", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label14.Font = new System.Drawing.Font("Simplified Arabic Fixed", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label14.ForeColor = System.Drawing.Color.White;
-            this.label14.Location = new System.Drawing.Point(177, 31);
-            this.label14.Name = "label14";
+            this.label14.Location = new System.Drawing.Point(60, 31);
+            this.label14.Name = "lblPhoneNumer";
             this.label14.Size = new System.Drawing.Size(152, 27);
             this.label14.TabIndex = 0;
             this.label14.Text = phoneNumber.Number;
@@ -157,7 +162,7 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Simplified Arabic Fixed", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label15.ForeColor = System.Drawing.Color.White;
-            this.label15.Location = new System.Drawing.Point(300, 70);
+            this.label15.Location = new System.Drawing.Point(150, 70);
             this.label15.Name = "label15";
             this.label15.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label15.Size = new System.Drawing.Size(202, 24);
@@ -168,9 +173,9 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             // 
             this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label16.AutoSize = true;
-            this.label16.Font = new System.Drawing.Font("Simplified Arabic Fixed", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label16.Font = new System.Drawing.Font("Simplified Arabic Fixed", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label16.ForeColor = System.Drawing.Color.White;
-            this.label16.Location = new System.Drawing.Point(228, 67);
+            this.label16.Location = new System.Drawing.Point(72, 67);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(54, 27);
             this.label16.TabIndex = 0;
@@ -190,7 +195,8 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             guna2ShadowPanel1.Radius = 10;
             guna2ShadowPanel1.ShadowColor = System.Drawing.Color.Black;
             guna2ShadowPanel1.ShadowShift = 10;
-            guna2ShadowPanel1.Size = new System.Drawing.Size(525, 130);
+            //guna2ShadowPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            guna2ShadowPanel1.Size = new System.Drawing.Size(380, 130);
             guna2ShadowPanel1.TabIndex = 0;
 
 
@@ -216,8 +222,7 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
             else
             {
                 this.guna2WinProgressIndicator1.Stop();
-                this.guna2WinProgressIndicator1.Dispose();
-                this.Controls.Remove(this.indecatorPanel);
+                indecatorPanel.Visible = enable;
             }
         }
     }

@@ -1,4 +1,8 @@
-﻿namespace DentistClinic_PresentationTier.Controls.MainUIControls
+﻿using System.Web.UI;
+using DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace DentistClinic_PresentationTier.Controls.MainUIControls
 {
     partial class ctrlManagePatients
     {
@@ -114,6 +118,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ctrlManagePatients";
             this.Size = new System.Drawing.Size(1920, 1080);
+            this.Load += new System.EventHandler(this.ctrlManagePatients_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.guna2spnlHedder.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
@@ -130,5 +135,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label lblPageTitle;
+        private ctrlPersonInformation ctrlPersonInformation1;
     }
 }
