@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_CoreTier.Interfaces
 {
@@ -17,5 +18,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
         Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
         Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
+        Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
     }
 }

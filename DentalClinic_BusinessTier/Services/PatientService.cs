@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_BusinessTier.Services
 {
@@ -57,7 +58,10 @@ namespace DentalClinic_BusinessTier.Services
             => await _patientRepository.SearchByNationalNoAsync(nationalNo);
 
         public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
-            =>await _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
+            => await _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
+
+        public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
+            => _patientRepository.GetAllPatientDetailsAsync();
 
         private bool _validatePatientObj(clsPatient patient)
         {

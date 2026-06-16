@@ -365,3 +365,4 @@ CLAUDE.md
 /.vscode
 App.config
 /DentistClinic_PresentationTier/App.config
+loadCtrls.cs

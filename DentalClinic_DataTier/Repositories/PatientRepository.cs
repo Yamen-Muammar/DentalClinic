@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_DataTier.Repositories
 {
@@ -176,7 +177,7 @@ namespace DentalClinic_DataTier.Repositories
                     FROM Patients p
                     INNER JOIN People pe ON p.Person_ID = pe.PersonID
                     WHERE (pe.FirstName + ' ' + pe.LastName) LIKE @FullName
-                      AND pe.IsDeleted = 0";
+                      AND pe.IsDeleted = 0;";
                 var list = new List<clsPatient>();
                 using (var conn = _connectionFactory.CreateConnection())
                 using (var cmd = new SqlCommand(query, conn))
@@ -262,6 +263,40 @@ namespace DentalClinic_DataTier.Repositories
                 CreatedAt      = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt      = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID   = reader.IsDBNull(updatedByOrd) ? (int?)null      : reader.GetInt32(updatedByOrd),
+            };
+        }
+
+        public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
+        {
+            try
+            {
+                const string query =
+                    "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType FROM vw_PatientDetails";
+
+                var list = new List<clsPatientView>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatientView(reader));
+                }
+                return list;
+            }
+            catch (Exception) { throw; }
+        }
+
+        private static clsPatientView MapPatientView(SqlDataReader reader)
+        {
+            return new clsPatientView
+            {
+                ID            = reader.GetInt32(reader.GetOrdinal("PatientID")),
+                FullName      = reader.GetString(reader.GetOrdinal("FullName")),
+                Age           = reader.GetString(reader.GetOrdinal("Age")),
+                Gender        = reader.GetString(reader.GetOrdinal("Gender")),
+                PhoneNumber   = reader.GetString(reader.GetOrdinal("Number")),
+                BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName")),
             };
         }
     }
