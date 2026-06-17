@@ -23,7 +23,13 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<clsPatient> GetByIdAsync(int objId)
         {
-            return await _patientRepository.GetPatientByIdAsync(objId);
+            clsPatient patient = await _patientRepository.GetPatientByIdAsync(objId);
+            if (patient == null)            
+            {
+                return null;
+            }
+            patient.PersonInfo = await _personService.GetByIdAsync(patient.Person_ID);
+            return patient;
         }
 
         public async Task<int?> InsertAsync(clsPatient obj)

@@ -17,5 +17,7 @@ namespace DentalClinic_CoreTier.Models
         public DateTime? UpdatedAt { get; set; }
         public int? UpdatedBy_ID { get; set; }
 
+        public clsPerson PersonInfo { get; set; }
+
     }
 }

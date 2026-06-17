@@ -293,10 +293,10 @@ namespace DentalClinic_DataTier.Repositories
             {
                 ID            = reader.GetInt32(reader.GetOrdinal("PatientID")),
                 FullName      = reader.GetString(reader.GetOrdinal("FullName")),
-                Age           = reader.GetString(reader.GetOrdinal("Age")),
+                Age           = (reader.GetInt32(reader.GetOrdinal("Age"))!=-1)? reader.GetString(reader.GetOrdinal("Age")):"N/A",
                 Gender        = reader.GetString(reader.GetOrdinal("Gender")),
-                PhoneNumber   = reader.GetString(reader.GetOrdinal("Number")),
-                BloodTypeName = reader.GetString(reader.GetOrdinal("BloodTypeName")),
+                PhoneNumber   = reader.GetString(reader.GetOrdinal("PhoneNumber")),
+                BloodTypeName = reader.GetString(reader.GetOrdinal("BloodType")),
             };
         }
     }
