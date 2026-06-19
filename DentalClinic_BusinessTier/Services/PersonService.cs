@@ -21,7 +21,16 @@ namespace DentalClinic_BusinessTier.Services
         public async Task<int?> InsertAsync(clsPerson obj)
         {
             _validatePersonObj(obj);
+            _validatePhoneNumbers(obj.PhoneNumbers);
             obj.CreatedAt = DateTime.Now;
+            if (obj.PhoneNumbers != null)
+            {
+                foreach (var phone in obj.PhoneNumbers)
+                {
+                    phone.CreatedAt = DateTime.Now;
+                    phone.IsActive  = true;
+                }
+            }
             return await _personRepository.AddPersonAsync(obj);
         }
 
@@ -65,6 +74,17 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<bool> SetAllPersonNumbersNonPrimaryAsync(int personId, int updatedById)
             => await _personRepository.SetAllPersonNumbersNonPrimaryAsync(personId, updatedById);
+
+        private void _validatePhoneNumbers(List<clsPhoneNumber> phones)
+        {
+            if (phones == null || phones.Count == 0) return;
+
+            if (phones.Any(p => string.IsNullOrWhiteSpace(p.Number)))
+                throw new ArgumentException("All phone numbers must have a value.");
+
+            if (phones.Count(p => p.IsPrimary) > 1)
+                throw new ArgumentException("Only one phone number can be marked as primary.");
+        }
 
         private bool _validatePersonObj(clsPerson person)
         {

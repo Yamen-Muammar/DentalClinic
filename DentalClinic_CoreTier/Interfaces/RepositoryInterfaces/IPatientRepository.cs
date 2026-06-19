@@ -11,6 +11,7 @@ namespace DentalClinic_CoreTier.Interfaces
     public interface IPatientRepository
     {
         Task<int> AddPatientAsync(clsPatient patient);
+        Task<int> AddPatientWithPersonAsync(clsPatient patient);
         Task<clsPatient> GetPatientByIdAsync(int patientId);
         Task<clsPatient> GetPatientByPersonIdAsync(int personId);
         Task<IEnumerable<clsPatient>> GetAllPatientsAsync();

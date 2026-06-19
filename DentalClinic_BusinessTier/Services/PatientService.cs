@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
@@ -34,9 +35,31 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<int?> InsertAsync(clsPatient obj)
         {
-            _validatePatientObj(obj);
+            if (obj == null)
+                throw new ArgumentNullException("obj");
 
-            return await _patientRepository.AddPatientAsync(obj);
+            if (obj.PersonInfo != null)
+            {
+                _validateNewPersonForPatient(obj.PersonInfo);
+
+                obj.PersonInfo.CreatedAt = DateTime.Now;
+                if (obj.PersonInfo.PhoneNumbers != null)
+                {
+                    foreach (var phone in obj.PersonInfo.PhoneNumbers)
+                    {
+                        phone.CreatedAt = DateTime.Now;
+                        phone.IsActive  = true;
+                    }
+                }
+                obj.CreatedAt = DateTime.Now;
+                return await _patientRepository.AddPatientWithPersonAsync(obj);
+            }
+            else
+            {
+                _validatePatientObj(obj);
+                obj.CreatedAt = DateTime.Now;
+                return await _patientRepository.AddPatientAsync(obj);
+            }
         }
 
         public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
@@ -68,6 +91,30 @@ namespace DentalClinic_BusinessTier.Services
 
         public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
             => _patientRepository.GetAllPatientDetailsAsync();
+
+        private void _validateNewPersonForPatient(clsPerson person)
+        {
+            if (string.IsNullOrWhiteSpace(person.FirstName))
+                throw new ArgumentException("FirstName cannot be null or empty");
+
+            if (string.IsNullOrWhiteSpace(person.LastName))
+                throw new ArgumentException("LastName cannot be null or empty");
+
+            if (!Enum.IsDefined(typeof(myEnums.enGenderTypes), person.Gender))
+                throw new ArgumentException("Gender must be M or F");
+
+            if (person.DateOfBirth != null && person.DateOfBirth >= DateTime.Today)
+                throw new ArgumentException("DateOfBirth must be in the past");
+
+            if (person.PhoneNumbers != null && person.PhoneNumbers.Count > 0)
+            {
+                if (person.PhoneNumbers.Any(p => string.IsNullOrWhiteSpace(p.Number)))
+                    throw new ArgumentException("All phone numbers must have a value.");
+
+                if (person.PhoneNumbers.Count(p => p.IsPrimary) > 1)
+                    throw new ArgumentException("Only one phone number can be marked as primary.");
+            }
+        }
 
         private bool _validatePatientObj(clsPatient patient)
         {

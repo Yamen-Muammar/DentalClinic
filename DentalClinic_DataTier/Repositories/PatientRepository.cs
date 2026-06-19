@@ -49,6 +49,113 @@ namespace DentalClinic_DataTier.Repositories
             }
         }
 
+        public async Task<int> AddPatientWithPersonAsync(clsPatient patient)
+        {
+            int returnedPatientID = -1;
+
+            using (var conn = _connectionFactory.CreateConnection())
+            {
+                await conn.OpenAsync();
+                using (var transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        int personId = await _insertPersonAsync(conn, transaction, patient.PersonInfo);
+                        await _insertPhoneNumbersAsync(conn, transaction, personId, patient.PersonInfo.PhoneNumbers);
+
+                        patient.Person_ID = personId;
+                        returnedPatientID = await _insertPatientAsync(conn, transaction, patient);
+
+                        transaction.Commit();
+                        return returnedPatientID;
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
+        }
+
+        private async Task<int> _insertPersonAsync(SqlConnection conn, SqlTransaction transaction, clsPerson person)
+        {
+            int personId = -1;
+            const string query = @"
+                INSERT INTO People
+                    (FirstName, LastName, SecondName, NationalNo, DateOfBirth, Gender, CreatedAt)
+                VALUES
+                    (@FirstName, @LastName, @SecondName, @NationalNo, @DateOfBirth, @Gender, @CreatedAt);
+                SELECT SCOPE_IDENTITY();";
+
+            using (var cmd = new SqlCommand(query, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@FirstName",   person.FirstName);
+                cmd.Parameters.AddWithValue("@LastName",    person.LastName);
+                cmd.Parameters.AddWithValue("@SecondName",  (object)person.SecondName  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NationalNo",  (object)person.NationalNo  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DateOfBirth", (object)person.DateOfBirth ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Gender",      person.Gender.ToString());
+                cmd.Parameters.AddWithValue("@CreatedAt",   person.CreatedAt);
+
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                    personId = insertedID;
+            }
+            return personId;
+        }
+
+        private async Task _insertPhoneNumbersAsync(SqlConnection conn, SqlTransaction transaction, int personId, List<clsPhoneNumber> phones)
+        {
+            if (phones == null || phones.Count == 0) return;
+
+            const string query = @"
+                INSERT INTO PhoneNumbers
+                    (Person_ID, Number, IsPrimary, IsActive, CreatedAt)
+                VALUES
+                    (@Person_ID, @Number, @IsPrimary, @IsActive, @CreatedAt);
+                SELECT SCOPE_IDENTITY();";
+
+            foreach (var phone in phones)
+            {
+                phone.Person_ID = personId;
+                using (var cmd = new SqlCommand(query, conn, transaction))
+                {
+                    cmd.Parameters.AddWithValue("@Person_ID", phone.Person_ID);
+                    cmd.Parameters.AddWithValue("@Number",    phone.Number);
+                    cmd.Parameters.AddWithValue("@IsPrimary", phone.IsPrimary);
+                    cmd.Parameters.AddWithValue("@IsActive",  phone.IsActive);
+                    cmd.Parameters.AddWithValue("@CreatedAt", phone.CreatedAt);
+
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result != null && int.TryParse(result.ToString(), out int phoneId))
+                        phone.PhoneNumberID = phoneId;
+                }
+            }
+        }
+
+        private async Task<int> _insertPatientAsync(SqlConnection conn, SqlTransaction transaction, clsPatient patient)
+        {
+            int patientId = -1;
+            const string query = @"
+                INSERT INTO Patients (Person_ID, BloodType_ID, HealthProblems, CreatedAt)
+                VALUES (@Person_ID, @BloodType_ID, @HealthProblems, @CreatedAt);
+                SELECT SCOPE_IDENTITY();";
+
+            using (var cmd = new SqlCommand(query, conn, transaction))
+            {
+                cmd.Parameters.AddWithValue("@Person_ID",      patient.Person_ID);
+                cmd.Parameters.AddWithValue("@BloodType_ID",   (object)patient.BloodType_ID   ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@HealthProblems", (object)patient.HealthProblems ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CreatedAt",      patient.CreatedAt);
+
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                    patientId = insertedID;
+            }
+            return patientId;
+        }
+
         public async Task<clsPatient> GetPatientByIdAsync(int patientId)
         {
             try
