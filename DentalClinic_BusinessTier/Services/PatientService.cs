@@ -124,9 +124,6 @@ namespace DentalClinic_BusinessTier.Services
             if (patient.Person_ID <= 0)
                 throw new ArgumentException("Person_ID must be a valid ID > 0");
 
-            if (patient.BloodType_ID != null && patient.BloodType_ID <= 0)
-                throw new ArgumentException("BloodType_ID must be > 0 when provided");
-
             return true;
         }
     }

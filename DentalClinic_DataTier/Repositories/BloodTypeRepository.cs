@@ -22,7 +22,7 @@ namespace DentalClinic_DataTier.Repositories
             try
             {
                 var list = new List<clsBloodType>();
-                const string query = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes";
+                const string query = "SELECT BloodTypeID, BloodTypeName FROM BloodTypes Order by BloodTypeID ASC";
 
                 using (var conn = _connectionFactory.CreateConnection())
                 using (var cmd = new SqlCommand(query, conn))
