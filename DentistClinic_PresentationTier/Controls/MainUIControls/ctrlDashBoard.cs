@@ -429,56 +429,10 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private void _loadMockAppointments()
         {
-            _todayAppointment = new List<clsAppointmentsDetails>()
-            {
-                new clsAppointmentsDetails()
-                {
-                    Appointment= new clsAppointment{ AppointmentID = 1 , AppointmentDate = DateTime.Now,
-                    StartTime = new TimeSpan(9,30,0),
-                    EndTime = new TimeSpan(10,30,0),
-                    Status = myEnums.enAppointmentStatus.Scheduled,
-                    Cause = "المريض يعاني من ألم في الأسنان العلوية ويريد فحص شامل لتحديد السبب والعلاج المناسب." },
-                    PatientID = 1,
-                    PatientFullName = "يامن معمر",
-                    PatientPhone = "0567405140",
-                    DoctorFullName = "محمود الحسني",
-                   
-                },
-                new clsAppointmentsDetails()
-                { 
-                    Appointment = new clsAppointment{AppointmentID = 2,
-                    AppointmentDate = DateTime.Now,
-                    StartTime = new TimeSpan(11,0,0),
-                    EndTime = new TimeSpan(12,0,0),
-                    Status = myEnums.enAppointmentStatus.Confirmed,
-                    Cause = "المريضة تعاني من حساسية في الأسنان وتريد استشارة حول كيفية التعامل معها ومنع تفاقمها."},
-                    
-                    PatientID = 2,
-                    PatientFullName = "سارة أحمد",
-                    PatientPhone = "0551234567",
-                    DoctorFullName = "د. علي محمد",
-
-                }
-                ,
-                new clsAppointmentsDetails()
-                {
-                    Appointment = new clsAppointment
-                    {
-                     AppointmentID = 2,
-                     AppointmentDate = DateTime.Now,
-                    StartTime = new TimeSpan(11,0,0),
-                    EndTime = new TimeSpan(12,0,0),
-                    Status = myEnums.enAppointmentStatus.NoShow,
-                    Cause = "المريضة تعاني من حساسية في الأسنان وتريد استشارة حول كيفية التعامل معها ومنع تفاقمها."
-                    },
-                   
-                    PatientID = 2,
-                    PatientFullName = "سارة أحمد",
-                    PatientPhone = null,
-                    DoctorFullName = "د. علي محمد",
-                    
-                }
-            };
+            IEnumerable<clsAppointmentsDetails> todayAppointment = new List<clsAppointmentsDetails>();
+            clsGenrateMockData._loadMockAppointments(ref todayAppointment);
+            _todayAppointment = (List<clsAppointmentsDetails>)todayAppointment;
         }
+        
     }
 }

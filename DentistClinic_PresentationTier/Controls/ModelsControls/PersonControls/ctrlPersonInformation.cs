@@ -32,13 +32,24 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
         {
             if(_paasedPersonID <= 0)
             {
-                MessageBox.Show("لايوجد رقم تعريفي للشخص للبحث عنه", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("رقم تعريفي للشخص غير صحيح", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _handleNoDataPanel(true);
                 return;
             };
+
             await Task.Delay(200);
-            await _setPersonInformation(_paasedPersonID);
-            _buildUI();
+
+            if(await _setPersonInformation(_paasedPersonID))
+            {
+                _buildUI();
+                _handleNoDataPanel(false);
+            }
+            else
+            {
+                _handleNoDataPanel(true);
+            }
             _handleProgressIndicator(false);
+
         }
         public async Task SetPersonID(int personID)
         {
@@ -46,15 +57,17 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
         }
 
         //Helper Methods
-        private async Task _setPersonInformation(int personID)
+        private async Task<bool> _setPersonInformation(int personID)
         {
             PersonInformation = await _getPersonInformationByPersonIDAsync(personID);
             if (PersonInformation == null)
             {
                 MessageBox.Show("الشخص غير موجود", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                _mainContentControlerVisabiltyStatus(false);
+                //_mainContentControlerVisabiltyStatus(false);
+                return false;
             }
             PersonPhoneNumbers= await _getPersonPhoneNumbers();
+            return true;
         }
         private async Task<clsPerson> _getPersonInformationByPersonIDAsync(int personID)
         {
@@ -224,6 +237,11 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls
                 this.guna2WinProgressIndicator1.Stop();
                 indecatorPanel.Visible = enable;
             }
+        }
+
+        private void _handleNoDataPanel(bool enable)
+        {
+            noPersonInfoPanel.Visible = enable;      
         }
     }
 }

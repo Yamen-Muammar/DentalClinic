@@ -48,10 +48,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.indecatorPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
+            this.noPersonInfoPanel = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.label8 = new System.Windows.Forms.Label();
             this.MainContainerControl.SuspendLayout();
             this.spPhoneNums.SuspendLayout();
             this.TilePhonesPanel.SuspendLayout();
             this.indecatorPanel.SuspendLayout();
+            this.noPersonInfoPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainContainerControl
@@ -61,6 +64,7 @@
             this.MainContainerControl.BorderRadius = 10;
             this.MainContainerControl.BorderThickness = 4;
             this.MainContainerControl.Controls.Add(this.indecatorPanel);
+            this.MainContainerControl.Controls.Add(this.noPersonInfoPanel);
             this.MainContainerControl.Controls.Add(this.btnEditePatientInfo);
             this.MainContainerControl.Controls.Add(this.spPhoneNums);
             this.MainContainerControl.Controls.Add(this.label6);
@@ -110,16 +114,18 @@
             // 
             // spPhoneNums
             // 
-            this.spPhoneNums.BackColor = System.Drawing.Color.Transparent;
+            this.spPhoneNums.BackColor = System.Drawing.Color.LightSteelBlue;
             this.spPhoneNums.Controls.Add(this.flpPhoneNumbers);
             this.spPhoneNums.Controls.Add(this.TilePhonesPanel);
-            this.spPhoneNums.FillColor = System.Drawing.Color.White;
-            this.spPhoneNums.Location = new System.Drawing.Point(157, 31);
+            this.spPhoneNums.FillColor = System.Drawing.Color.LightSteelBlue;
+            this.spPhoneNums.ForeColor = System.Drawing.Color.Transparent;
+            this.spPhoneNums.Location = new System.Drawing.Point(112, 31);
             this.spPhoneNums.Margin = new System.Windows.Forms.Padding(0);
             this.spPhoneNums.Name = "spPhoneNums";
+            this.spPhoneNums.Padding = new System.Windows.Forms.Padding(10);
             this.spPhoneNums.Radius = 10;
             this.spPhoneNums.ShadowColor = System.Drawing.Color.Black;
-            this.spPhoneNums.Size = new System.Drawing.Size(403, 384);
+            this.spPhoneNums.Size = new System.Drawing.Size(459, 384);
             this.spPhoneNums.TabIndex = 1;
             // 
             // flpPhoneNumbers
@@ -127,18 +133,18 @@
             this.flpPhoneNumbers.AutoScroll = true;
             this.flpPhoneNumbers.Dock = System.Windows.Forms.DockStyle.Top;
             this.flpPhoneNumbers.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpPhoneNumbers.Location = new System.Drawing.Point(0, 50);
+            this.flpPhoneNumbers.Location = new System.Drawing.Point(10, 60);
             this.flpPhoneNumbers.Margin = new System.Windows.Forms.Padding(0);
             this.flpPhoneNumbers.Name = "flpPhoneNumbers";
             this.flpPhoneNumbers.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.flpPhoneNumbers.Size = new System.Drawing.Size(403, 335);
+            this.flpPhoneNumbers.Size = new System.Drawing.Size(439, 314);
             this.flpPhoneNumbers.TabIndex = 0;
             this.flpPhoneNumbers.WrapContents = false;
             // 
             // TilePhonesPanel
             // 
             this.TilePhonesPanel.BorderColor = System.Drawing.Color.White;
-            this.TilePhonesPanel.BorderRadius = 10;
+            this.TilePhonesPanel.BorderRadius = 15;
             this.TilePhonesPanel.BorderThickness = 2;
             this.TilePhonesPanel.Controls.Add(this.label7);
             this.TilePhonesPanel.CustomBorderColor = System.Drawing.Color.Transparent;
@@ -147,16 +153,17 @@
             this.TilePhonesPanel.FillColor2 = System.Drawing.Color.LightSlateGray;
             this.TilePhonesPanel.FillColor3 = System.Drawing.Color.SlateGray;
             this.TilePhonesPanel.FillColor4 = System.Drawing.Color.SlateGray;
-            this.TilePhonesPanel.Location = new System.Drawing.Point(0, 0);
+            this.TilePhonesPanel.Location = new System.Drawing.Point(10, 10);
             this.TilePhonesPanel.Name = "TilePhonesPanel";
-            this.TilePhonesPanel.Size = new System.Drawing.Size(403, 50);
+            this.TilePhonesPanel.Size = new System.Drawing.Size(439, 50);
             this.TilePhonesPanel.TabIndex = 1;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("Mudir MT", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label7.Location = new System.Drawing.Point(154, 0);
+            this.label7.Location = new System.Drawing.Point(171, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 36);
             this.label7.TabIndex = 0;
@@ -329,6 +336,30 @@
             this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(145, 136);
             this.guna2WinProgressIndicator1.TabIndex = 0;
             // 
+            // noPersonInfoPanel
+            // 
+            this.noPersonInfoPanel.Controls.Add(this.label8);
+            this.noPersonInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.noPersonInfoPanel.FillColor = System.Drawing.Color.LightSteelBlue;
+            this.noPersonInfoPanel.FillColor2 = System.Drawing.Color.Gainsboro;
+            this.noPersonInfoPanel.FillColor3 = System.Drawing.Color.SteelBlue;
+            this.noPersonInfoPanel.FillColor4 = System.Drawing.Color.LightGoldenrodYellow;
+            this.noPersonInfoPanel.Location = new System.Drawing.Point(0, 0);
+            this.noPersonInfoPanel.Name = "noPersonInfoPanel";
+            this.noPersonInfoPanel.Size = new System.Drawing.Size(1085, 540);
+            this.noPersonInfoPanel.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Mudir MT", 26F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label8.ForeColor = System.Drawing.Color.AliceBlue;
+            this.label8.Location = new System.Drawing.Point(276, 187);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(461, 95);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "لايوجد بيانات للشخص ";
+            // 
             // ctrlPersonInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -344,6 +375,8 @@
             this.TilePhonesPanel.ResumeLayout(false);
             this.TilePhonesPanel.PerformLayout();
             this.indecatorPanel.ResumeLayout(false);
+            this.noPersonInfoPanel.ResumeLayout(false);
+            this.noPersonInfoPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -374,5 +407,7 @@
         private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator1;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel TilePhonesPanel;
         private System.Windows.Forms.Label label7;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel noPersonInfoPanel;
+        private System.Windows.Forms.Label label8;
     }
 }

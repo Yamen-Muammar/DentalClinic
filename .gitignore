@@ -366,3 +366,4 @@ CLAUDE.md
 App.config
 /DentistClinic_PresentationTier/App.config
 loadCtrls.cs
+clsGenrateMockData.cs
