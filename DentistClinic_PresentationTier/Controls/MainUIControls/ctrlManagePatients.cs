@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
+using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentalClinic_CoreTier.ViewModels;
@@ -26,15 +27,18 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             FullName,
             PhoneNumber,
         }
-
+        private clsPatient SelectedPatientInfo { get; set; }
         private enSearchType _searchType = enSearchType.FullName;
         private readonly IPatientService _patientService;
+        private readonly IPersonService _personService;
         private IEnumerable<clsPatientView> _allPatients;
-
+        private ISessionContext _sessionContext;
         private int selectedPatientID  { get; set;  }
-        public ctrlManagePatients(IPatientService patientService)
+        public ctrlManagePatients(IPersonService personService,IPatientService patientService,ISessionContext sessionContext)
         {
             _patientService = patientService;
+            _personService = personService;
+            _sessionContext = sessionContext;
             InitializeComponent();
             //typeof(DataGridView)
             //.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
@@ -47,11 +51,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async Task _buildDGV()
         {
-
+            _handelDGVIndecator(true);
             await _getAllPatientsData();
             //clsGenrateMockData._getMockPatients(ref _allPatients);
             _bindPatientsToGrid(_allPatients);
-            _hideDGVIndecator();
+            await Task.Delay(200);
+            _handelDGVIndecator(false);
         }
 
         //UI Events 
@@ -88,7 +93,27 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
 
         }
+        private async void btnDeletePatient_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (await _personService.SoftDeleteAsync(SelectedPatientInfo.Person_ID, _sessionContext.StaffID))
+                {
+                    MessageBox.Show("تم حذف المريض بنجاح", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    await _buildDGV();
+                }
+                else
+                {
+                    MessageBox.Show("لم يتم حذف المريض ", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
 
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            
+        }
         private void cbSearchFilters_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedFilter = cbSearchFilters.SelectedItem.ToString();
@@ -193,17 +218,17 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             return patient;
         }
 
-        private void _hideDGVIndecator()
+        private void _handelDGVIndecator(bool enable)
         {
-            dgvIndecatorPanel.Visible = false;
+            dgvIndecatorPanel.Visible = enable;
         }
 
         private async Task _buildShourtcutsPanel(int patientId, string fullName, string phoneNumber)
         {
             selectedPatientID = patientId;
-            clsPatient selectedPatientInfo = await _getPatientInfo(selectedPatientID);
-            _fillPatientInfoAtUI(selectedPatientInfo, fullName, phoneNumber);
+            SelectedPatientInfo = await _getPatientInfo(selectedPatientID);
+            _fillPatientInfoAtUI(SelectedPatientInfo, fullName, phoneNumber);
             shourcutsPatientPanel.Visible = true;
-        }
+        }      
     }
 }

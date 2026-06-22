@@ -155,7 +155,7 @@ namespace DentalClinic_DataTier.Repositories
                 const string query = @"
                     SELECT AppointmentID,Problem_ID, Doctor_ID,AppointmentDate, StartTime, EndTime,
                     Status, Cause, Payment_ID, CreatedAt, UpdatedAt,UpdatedBy_ID,
-                    PatientID,PatientFullName ,Number ,
+                    PatientID,PatientFullName ,PhoneNumber,
                     DoctorFullName,MedicalFileID
                     FROM vw_AppointmentsDetails
                     WHERE CAST(AppointmentDate AS DATE) BETWEEN CAST(@FromDate AS DATE) AND CAST(@ToDate AS DATE)";
@@ -281,7 +281,7 @@ namespace DentalClinic_DataTier.Repositories
 
         private static clsAppointmentsDetails MapAppointmentDetails(SqlDataReader reader)
         {
-            int phoneOrd = reader.GetOrdinal("PatientPhone");
+            int phoneOrd = reader.GetOrdinal("PhoneNumber");
             clsAppointmentsDetails AppointmentsDetails = new clsAppointmentsDetails
             {
                 MedicalFileID = reader.GetInt32(reader.GetOrdinal("MedicalFileID")),

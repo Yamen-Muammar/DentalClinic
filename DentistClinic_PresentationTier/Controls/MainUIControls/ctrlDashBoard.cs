@@ -163,16 +163,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async Task _loadTodaysAppointments()
         {
-            //await _getTodaysAppointments();
-            _loadMockAppointments();
-
-            if (_todayAppointment.Count == 0)
-            {
-                return;
-            }
+            await _getTodaysAppointments();
+            //_loadMockAppointments();
 
             try
             {
+                if (_todayAppointment.Count == 0)
+                {
+                    return;
+                }
+
                 foreach (var appointment in _todayAppointment)
                 {
                     Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();

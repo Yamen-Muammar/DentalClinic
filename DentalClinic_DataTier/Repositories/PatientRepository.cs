@@ -393,7 +393,7 @@ namespace DentalClinic_DataTier.Repositories
             {
                 ID            = reader.GetInt32(reader.GetOrdinal("PatientID")),
                 FullName      = reader.GetString(reader.GetOrdinal("FullName")),
-                Age           = reader.GetInt32(reader.GetOrdinal("Age")).ToString(),
+                Age           = (reader.GetInt32(reader.GetOrdinal("Age")).ToString()== "-1" )? "N/A":reader.GetInt32(reader.GetOrdinal("Age")).ToString(),                
                 Gender        = reader.GetString(reader.GetOrdinal("Gender")),
                 PhoneNumber   = reader.IsDBNull(phoneOrd)     ? string.Empty : reader.GetString(phoneOrd),
                 BloodTypeName = reader.IsDBNull(bloodTypeOrd) ? string.Empty : reader.GetString(bloodTypeOrd),
