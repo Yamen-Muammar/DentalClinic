@@ -167,7 +167,7 @@
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(105, 36);
             this.label7.TabIndex = 0;
-            this.label7.Text = "ارقـام الهاتف";
+            this.label7.Text = "رقم الهاتف";
             // 
             // label6
             // 
@@ -398,10 +398,6 @@
         private System.Windows.Forms.Label lblDateOfBirth;
         private System.Windows.Forms.Label lblLastUpdateDate;
         private System.Windows.Forms.FlowLayoutPanel flpPhoneNumbers;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.Label label14;
         private Guna.UI2.WinForms.Guna2CircleButton btnEditePatientInfo;
         private Guna.UI2.WinForms.Guna2GradientPanel indecatorPanel;
         private Guna.UI2.WinForms.Guna2WinProgressIndicator guna2WinProgressIndicator1;

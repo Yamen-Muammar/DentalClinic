@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier;
@@ -21,444 +20,160 @@ namespace DentalClinic_DataTier.Repositories
         public async Task<int> AddPersonAsync(clsPerson person)
         {
             int returnedPersonID = -1;
-            const string insertPersonQuery = @"
+            const string query = @"
                 INSERT INTO People
-                    (FirstName, LastName, SecondName, NationalNo, DateOfBirth, Gender, CreatedAt)
+                    (FirstName, LastName, SecondName, NationalNo, DateOfBirth, Gender, PhoneNumber, CreatedAt)
                 VALUES
-                    (@FirstName, @LastName, @SecondName, @NationalNo, @DateOfBirth, @Gender, @CreatedAt);
+                    (@FirstName, @LastName, @SecondName, @NationalNo, @DateOfBirth, @Gender, @PhoneNumber, @CreatedAt);
                 SELECT SCOPE_IDENTITY();";
 
             using (var conn = _connectionFactory.CreateConnection())
+            using (var cmd = new SqlCommand(query, conn))
             {
+                cmd.Parameters.AddWithValue("@FirstName",   person.FirstName);
+                cmd.Parameters.AddWithValue("@LastName",    person.LastName);
+                cmd.Parameters.AddWithValue("@SecondName",  (object)person.SecondName  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NationalNo",  (object)person.NationalNo  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DateOfBirth", (object)person.DateOfBirth ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Gender",      person.Gender.ToString());
+                cmd.Parameters.AddWithValue("@PhoneNumber", (object)person.PhoneNumber ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CreatedAt",   person.CreatedAt);
+
                 await conn.OpenAsync();
-                using (var transaction = conn.BeginTransaction())
-                {
-                    try
-                    {
-                        using (var cmd = new SqlCommand(insertPersonQuery, conn, transaction))
-                        {
-                            cmd.Parameters.AddWithValue("@FirstName",   person.FirstName);
-                            cmd.Parameters.AddWithValue("@LastName",    person.LastName);
-                            cmd.Parameters.AddWithValue("@SecondName",  (object)person.SecondName  ?? DBNull.Value);
-                            cmd.Parameters.AddWithValue("@NationalNo",  (object)person.NationalNo  ?? DBNull.Value);
-                            cmd.Parameters.AddWithValue("@DateOfBirth", (object)person.DateOfBirth ?? DBNull.Value);
-                            cmd.Parameters.AddWithValue("@Gender",      person.Gender.ToString());
-                            cmd.Parameters.AddWithValue("@CreatedAt",   person.CreatedAt);
-
-                            var result = await cmd.ExecuteScalarAsync();
-                            if (result != null && int.TryParse(result.ToString(), out int insertedID))
-                                returnedPersonID = insertedID;
-                        }
-
-                        await _insertPhoneNumbersAsync(conn, transaction, returnedPersonID, person.PhoneNumbers);
-
-                        transaction.Commit();
-                        return returnedPersonID;
-                    }
-                    catch (SqlException ex) when (ex.Number == 2601) // unique index violation
-                    {
-                        transaction.Rollback();
-                        throw new InvalidOperationException("هذا الشخص لديه رقم هاتف رئيسي بالفعل. قم بإلغاء تعيينه أولاً.");
-                    }
-                    catch (Exception)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                    returnedPersonID = insertedID;
             }
-        }
-
-        private async Task _insertPhoneNumbersAsync(SqlConnection conn,SqlTransaction transaction,int personId,List<clsPhoneNumber> phones)
-        {
-            if (phones == null || phones.Count == 0) return;
-
-            const string query = @"
-                INSERT INTO PhoneNumbers
-                    (Person_ID, Number, IsPrimary, IsActive, CreatedAt)
-                VALUES
-                    (@Person_ID, @Number, @IsPrimary, @IsActive, @CreatedAt);
-                SELECT SCOPE_IDENTITY();";
-
-            foreach (var phone in phones)
-            {
-                phone.Person_ID = personId;
-                using (var cmd = new SqlCommand(query, conn, transaction))
-                {
-                    cmd.Parameters.AddWithValue("@Person_ID", phone.Person_ID);
-                    cmd.Parameters.AddWithValue("@Number",    phone.Number);
-                    cmd.Parameters.AddWithValue("@IsPrimary", phone.IsPrimary);
-                    cmd.Parameters.AddWithValue("@IsActive",  phone.IsActive);
-                    cmd.Parameters.AddWithValue("@CreatedAt", phone.CreatedAt);
-
-                    var result = await cmd.ExecuteScalarAsync();
-                    if (result != null && int.TryParse(result.ToString(), out int phoneId))
-                        phone.PhoneNumberID = phoneId;
-                }
-            }
+            return returnedPersonID;
         }
 
         public async Task<clsPerson> GetPersonByIdAsync(int personId)
         {
-            try
-            {
-                const string query = @"
-                    SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
-                           DateOfBirth, Gender, CreatedAt, UpdatedAt, UpdatedBy_ID,
-                           IsDeleted, DeletedAt, DeletedBy_ID
-                    FROM People
-                    WHERE PersonID = @PersonID AND IsDeleted = 0";
+            const string query = @"
+                SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
+                       DateOfBirth, Gender, PhoneNumber, CreatedAt, UpdatedAt, UpdatedBy_ID,
+                       IsDeleted, DeletedAt, DeletedBy_ID
+                FROM People
+                WHERE PersonID = @PersonID AND IsDeleted = 0";
 
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PersonID", personId);
-                    await conn.OpenAsync();
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                            return MapPerson(reader);
-                    }
-                }
-                return null;
-            }
-            catch (Exception)
+            using (var conn = _connectionFactory.CreateConnection())
+            using (var cmd = new SqlCommand(query, conn))
             {
-                throw;
+                cmd.Parameters.AddWithValue("@PersonID", personId);
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                        return MapPerson(reader);
+                }
             }
+            return null;
         }
 
         public async Task<clsPerson> GetPersonByNationalNoAsync(string nationalNo)
         {
-            try
-            {
-                const string query = @"
-                    SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
-                           DateOfBirth, Gender, CreatedAt, UpdatedAt, UpdatedBy_ID,
-                           IsDeleted, DeletedAt, DeletedBy_ID
-                    FROM People
-                    WHERE NationalNo = @NationalNo AND IsDeleted = 0";
+            const string query = @"
+                SELECT PersonID, FirstName, LastName, SecondName, NationalNo,
+                       DateOfBirth, Gender, PhoneNumber, CreatedAt, UpdatedAt, UpdatedBy_ID,
+                       IsDeleted, DeletedAt, DeletedBy_ID
+                FROM People
+                WHERE NationalNo = @NationalNo AND IsDeleted = 0";
 
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@NationalNo", nationalNo);
-                    await conn.OpenAsync();
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                            return MapPerson(reader);
-                    }
-                }
-                return null;
-            }
-            catch (Exception)
+            using (var conn = _connectionFactory.CreateConnection())
+            using (var cmd = new SqlCommand(query, conn))
             {
-                throw;
+                cmd.Parameters.AddWithValue("@NationalNo", nationalNo);
+                await conn.OpenAsync();
+                using (var reader = await cmd.ExecuteReaderAsync())
+                {
+                    if (await reader.ReadAsync())
+                        return MapPerson(reader);
+                }
             }
+            return null;
         }
 
         public async Task<bool> UpdatePersonAsync(clsPerson person)
         {
-            try
-            {
-                bool isUpdated = false;
-                const string query = @"
-                    UPDATE People
-                    SET FirstName    = @FirstName,
-                        LastName     = @LastName,
-                        SecondName   = @SecondName,
-                        NationalNo   = @NationalNo,
-                        DateOfBirth  = @DateOfBirth,
-                        Gender       = @Gender,
-                        UpdatedAt    = @UpdatedAt,
-                        UpdatedBy_ID = @UpdatedBy_ID
-                    WHERE PersonID = @PersonID";
+            const string query = @"
+                UPDATE People
+                SET FirstName    = @FirstName,
+                    LastName     = @LastName,
+                    SecondName   = @SecondName,
+                    NationalNo   = @NationalNo,
+                    DateOfBirth  = @DateOfBirth,
+                    Gender       = @Gender,
+                    PhoneNumber  = @PhoneNumber,
+                    UpdatedAt    = @UpdatedAt,
+                    UpdatedBy_ID = @UpdatedBy_ID
+                WHERE PersonID = @PersonID";
 
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PersonID",     person.PersonID);
-                    cmd.Parameters.AddWithValue("@FirstName",    person.FirstName);
-                    cmd.Parameters.AddWithValue("@LastName",     person.LastName);
-                    cmd.Parameters.AddWithValue("@SecondName",   (object)person.SecondName  ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@NationalNo",   (object)person.NationalNo  ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@DateOfBirth",  person.DateOfBirth);
-                    cmd.Parameters.AddWithValue("@Gender",       person.Gender.ToString());
-                    cmd.Parameters.AddWithValue("@UpdatedAt",    (object)person.UpdatedAt    ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@UpdatedBy_ID", (object)person.UpdatedBy_ID ?? DBNull.Value);
-
-                    await conn.OpenAsync();
-                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
-                }
-                return isUpdated;
-            }
-            catch (Exception)
+            using (var conn = _connectionFactory.CreateConnection())
+            using (var cmd = new SqlCommand(query, conn))
             {
-                throw;
+                cmd.Parameters.AddWithValue("@PersonID",     person.PersonID);
+                cmd.Parameters.AddWithValue("@FirstName",    person.FirstName);
+                cmd.Parameters.AddWithValue("@LastName",     person.LastName);
+                cmd.Parameters.AddWithValue("@SecondName",   (object)person.SecondName  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@NationalNo",   (object)person.NationalNo  ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@DateOfBirth",  (object)person.DateOfBirth ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Gender",       person.Gender.ToString());
+                cmd.Parameters.AddWithValue("@PhoneNumber",  (object)person.PhoneNumber ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@UpdatedAt",    (object)person.UpdatedAt    ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@UpdatedBy_ID", (object)person.UpdatedBy_ID ?? DBNull.Value);
+
+                await conn.OpenAsync();
+                return await cmd.ExecuteNonQueryAsync() > 0;
             }
         }
 
         public async Task<bool> SoftDeletePersonAsync(int personId, int deletedById)
         {
-            try
+            const string query = @"
+                UPDATE People
+                SET IsDeleted    = 1,
+                    DeletedAt    = SYSDATETIME(),
+                    DeletedBy_ID = @DeletedBy_ID
+                WHERE PersonID = @PersonID";
+
+            using (var conn = _connectionFactory.CreateConnection())
+            using (var cmd = new SqlCommand(query, conn))
             {
-                bool isUpdated = false;
-                const string query = @"
-                    UPDATE People
-                    SET IsDeleted    = 1,
-                        DeletedAt    = SYSDATETIME(),
-                        DeletedBy_ID = @DeletedBy_ID
-                    WHERE PersonID = @PersonID";
+                cmd.Parameters.AddWithValue("@PersonID",     personId);
+                cmd.Parameters.AddWithValue("@DeletedBy_ID", deletedById);
 
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PersonID",     personId);
-                    cmd.Parameters.AddWithValue("@DeletedBy_ID", deletedById);
-
-                    await conn.OpenAsync();
-                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
-                }
-                return isUpdated;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<int> AddPhoneNumberAsync(clsPhoneNumber phoneNumber)
-        {
-            try
-            {
-                int returnedPhoneNumberID = -1;
-                const string query = @"
-                    INSERT INTO PhoneNumbers
-                        (Person_ID, Number, IsPrimary, IsActive, CreatedAt)
-                    VALUES
-                        (@Person_ID, @Number, @IsPrimary, @IsActive, @CreatedAt);
-                    SELECT SCOPE_IDENTITY();";
-
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Person_ID",  phoneNumber.Person_ID);
-                    cmd.Parameters.AddWithValue("@Number",     phoneNumber.Number);
-                    cmd.Parameters.AddWithValue("@IsPrimary",  phoneNumber.IsPrimary);
-                    cmd.Parameters.AddWithValue("@IsActive",   phoneNumber.IsActive);
-                    cmd.Parameters.AddWithValue("@CreatedAt",  phoneNumber.CreatedAt);
-
-                    await conn.OpenAsync();
-                    var result = await cmd.ExecuteScalarAsync();
-                    if (result != null && int.TryParse(result.ToString(), out int insertedID))
-                        returnedPhoneNumberID = insertedID;
-                }
-                return returnedPhoneNumberID;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<clsPhoneNumber> GetPhoneNumberByIdAsync(int phoneNumberId)
-        {
-            try
-            {
-                const string query = @"
-                    SELECT PhoneNumberID, Person_ID, Number, IsPrimary, IsActive, CreatedAt, UpdatedAt, UpdatedBy_ID
-                    FROM PhoneNumbers
-                    WHERE PhoneNumberID = @PhoneNumberID";
-
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PhoneNumberID", phoneNumberId);
-                    await conn.OpenAsync();
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                            return MapPhoneNumber(reader);
-                    }
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<IEnumerable<clsPhoneNumber>> GetPhoneNumbersByPersonIdAsync(int personId)
-        {
-            try
-            {
-                const string query = @"
-                    SELECT PhoneNumberID, Person_ID, Number, IsPrimary, IsActive, CreatedAt, UpdatedAt, UpdatedBy_ID
-                    FROM PhoneNumbers
-                    WHERE Person_ID = @Person_ID AND IsActive = 1 
-                    ORDER BY IsPrimary DESC";
-
-                var list = new List<clsPhoneNumber>();
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Person_ID", personId);
-                    await conn.OpenAsync();
-                    using (var reader = await cmd.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                            list.Add(MapPhoneNumber(reader));
-                    }
-                }
-                return list;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> UpdatePhoneNumberAsync(clsPhoneNumber phoneNumber)
-        {
-            try
-            {
-                bool isUpdated = false;
-                const string query = @"
-                    UPDATE PhoneNumbers
-                    SET Person_ID    = @Person_ID,
-                        Number       = @Number,
-                        IsPrimary    = @IsPrimary,
-                        IsActive     = @IsActive,
-                        UpdatedAt    = @UpdatedAt,
-                        UpdatedBy_ID = @UpdatedBy_ID
-                    WHERE PhoneNumberID = @PhoneNumberID";
-
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PhoneNumberID", phoneNumber.PhoneNumberID);
-                    cmd.Parameters.AddWithValue("@Person_ID",     phoneNumber.Person_ID);
-                    cmd.Parameters.AddWithValue("@Number",        phoneNumber.Number);
-                    cmd.Parameters.AddWithValue("@IsPrimary",     phoneNumber.IsPrimary);
-                    cmd.Parameters.AddWithValue("@IsActive",      phoneNumber.IsActive);
-                    cmd.Parameters.AddWithValue("@UpdatedAt",     (object)phoneNumber.UpdatedAt    ?? DBNull.Value);
-                    cmd.Parameters.AddWithValue("@UpdatedBy_ID",  (object)phoneNumber.UpdatedBy_ID ?? DBNull.Value);
-
-                    await conn.OpenAsync();
-                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
-                }
-                return isUpdated;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> ChangeActiveStatusAsync(int phoneNumberId, bool isActive, int updatedById)
-        {
-            try
-            {
-                bool isUpdated = false;
-                const string query = @"
-                    UPDATE PhoneNumbers
-                    SET IsActive     = @IsActive,
-                        UpdatedAt    = SYSDATETIME(),
-                        UpdatedBy_ID = @UpdatedBy_ID
-                    WHERE PhoneNumberID = @PhoneNumberID";
-
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PhoneNumberID", phoneNumberId);
-                    cmd.Parameters.AddWithValue("@IsActive",      isActive);
-                    cmd.Parameters.AddWithValue("@UpdatedBy_ID",  updatedById);
-
-                    await conn.OpenAsync();
-                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
-                }
-                return isUpdated;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public async Task<bool> SetAllPersonNumbersNonPrimaryAsync(int personId, int updatedById)
-        {
-            try
-            {
-                bool isUpdated = false;
-                const string query = @"
-                    UPDATE PhoneNumbers
-                    SET IsPrimary    = 0,
-                        UpdatedAt    = SYSDATETIME(),
-                        UpdatedBy_ID = @UpdatedBy_ID
-                    WHERE Person_ID = @Person_ID";
-
-                using (var conn = _connectionFactory.CreateConnection())
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Person_ID",    personId);
-                    cmd.Parameters.AddWithValue("@UpdatedBy_ID", updatedById);
-
-                    await conn.OpenAsync();
-                    isUpdated = await cmd.ExecuteNonQueryAsync() > 0;
-                }
-                return isUpdated;
-            }
-            catch (Exception)
-            {
-                throw;
+                await conn.OpenAsync();
+                return await cmd.ExecuteNonQueryAsync() > 0;
             }
         }
 
         private static clsPerson MapPerson(SqlDataReader reader)
         {
-            int secondNameOrd = reader.GetOrdinal("SecondName");
-            int nationalNoOrd = reader.GetOrdinal("NationalNo");
-            int dateofbirthOrd = reader.GetOrdinal("DateOfBirth");
-            int updatedAtOrd  = reader.GetOrdinal("UpdatedAt");
-            int updatedByOrd  = reader.GetOrdinal("UpdatedBy_ID");
-            int deletedAtOrd  = reader.GetOrdinal("DeletedAt");
-            int deletedByOrd  = reader.GetOrdinal("DeletedBy_ID");
+            int secondNameOrd  = reader.GetOrdinal("SecondName");
+            int nationalNoOrd  = reader.GetOrdinal("NationalNo");
+            int dateOfBirthOrd = reader.GetOrdinal("DateOfBirth");
+            int phoneOrd       = reader.GetOrdinal("PhoneNumber");
+            int updatedAtOrd   = reader.GetOrdinal("UpdatedAt");
+            int updatedByOrd   = reader.GetOrdinal("UpdatedBy_ID");
+            int deletedAtOrd   = reader.GetOrdinal("DeletedAt");
+            int deletedByOrd   = reader.GetOrdinal("DeletedBy_ID");
 
             return new clsPerson
             {
                 PersonID     = reader.GetInt32(reader.GetOrdinal("PersonID")),
                 FirstName    = reader.GetString(reader.GetOrdinal("FirstName")),
                 LastName     = reader.GetString(reader.GetOrdinal("LastName")),
-                SecondName   = reader.IsDBNull(secondNameOrd) ? null            : reader.GetString(secondNameOrd),
-                NationalNo   = reader.IsDBNull(nationalNoOrd) ? null            : reader.GetString(nationalNoOrd),
-                DateOfBirth  = reader.IsDBNull(dateofbirthOrd)? (DateTime?)null            : reader.GetDateTime(dateofbirthOrd),
+                SecondName   = reader.IsDBNull(secondNameOrd)  ? null            : reader.GetString(secondNameOrd),
+                NationalNo   = reader.IsDBNull(nationalNoOrd)  ? null            : reader.GetString(nationalNoOrd),
+                DateOfBirth  = reader.IsDBNull(dateOfBirthOrd) ? (DateTime?)null : reader.GetDateTime(dateOfBirthOrd),
                 Gender       = (myEnums.enGenderTypes)Enum.Parse(typeof(myEnums.enGenderTypes), reader.GetString(reader.GetOrdinal("Gender"))),
+                PhoneNumber  = reader.IsDBNull(phoneOrd)       ? null            : reader.GetString(phoneOrd),
                 CreatedAt    = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
-                UpdatedAt    = reader.IsDBNull(updatedAtOrd)  ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
-                UpdatedBy_ID = reader.IsDBNull(updatedByOrd)  ? (int?)null      : reader.GetInt32(updatedByOrd),
+                UpdatedAt    = reader.IsDBNull(updatedAtOrd)   ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
+                UpdatedBy_ID = reader.IsDBNull(updatedByOrd)   ? (int?)null      : reader.GetInt32(updatedByOrd),
                 IsDeleted    = reader.GetBoolean(reader.GetOrdinal("IsDeleted")),
-                DeletedAt    = reader.IsDBNull(deletedAtOrd)  ? (DateTime?)null : reader.GetDateTime(deletedAtOrd),
-                DeletedBy_ID = reader.IsDBNull(deletedByOrd)  ? (int?)null      : reader.GetInt32(deletedByOrd),
-            };
-        }
-
-        private static clsPhoneNumber MapPhoneNumber(SqlDataReader reader)
-        {
-            int updatedAtOrd = reader.GetOrdinal("UpdatedAt");
-            int updatedByOrd = reader.GetOrdinal("UpdatedBy_ID");
-
-            return new clsPhoneNumber
-            {
-                PhoneNumberID = reader.GetInt32(reader.GetOrdinal("PhoneNumberID")),
-                Person_ID     = reader.GetInt32(reader.GetOrdinal("Person_ID")),
-                Number        = reader.GetString(reader.GetOrdinal("Number")),
-                IsPrimary     = reader.GetBoolean(reader.GetOrdinal("IsPrimary")),
-                IsActive      = reader.GetBoolean(reader.GetOrdinal("IsActive")),
-                CreatedAt     = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
-                UpdatedAt     = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
-                UpdatedBy_ID  = reader.IsDBNull(updatedByOrd) ? (int?)null      : reader.GetInt32(updatedByOrd),
+                DeletedAt    = reader.IsDBNull(deletedAtOrd)   ? (DateTime?)null : reader.GetDateTime(deletedAtOrd),
+                DeletedBy_ID = reader.IsDBNull(deletedByOrd)   ? (int?)null      : reader.GetInt32(deletedByOrd),
             };
         }
     }

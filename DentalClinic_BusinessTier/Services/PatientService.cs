@@ -1,7 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
@@ -13,22 +11,21 @@ namespace DentalClinic_BusinessTier.Services
 {
     public class PatientService : IPatientService
     {
-        private IPatientRepository _patientRepository;
-        private IPersonService _personService;
+        private readonly IPatientRepository _patientRepository;
+        private readonly IPersonService _personService;
 
-        public PatientService(IPatientRepository patientRepository,IPersonService personService)
+        public PatientService(IPatientRepository patientRepository, IPersonService personService)
         {
             _patientRepository = patientRepository;
-            _personService = personService;
+            _personService     = personService;
         }
 
         public async Task<clsPatient> GetByIdAsync(int objId)
         {
             clsPatient patient = await _patientRepository.GetPatientByIdAsync(objId);
-            if (patient == null)            
-            {
+            if (patient == null)
                 return null;
-            }
+
             patient.PersonInfo = await _personService.GetByIdAsync(patient.Person_ID);
             return patient;
         }
@@ -41,16 +38,7 @@ namespace DentalClinic_BusinessTier.Services
             if (obj.PersonInfo != null)
             {
                 _validateNewPersonForPatient(obj.PersonInfo);
-
                 obj.PersonInfo.CreatedAt = DateTime.Now;
-                if (obj.PersonInfo.PhoneNumbers != null)
-                {
-                    foreach (var phone in obj.PersonInfo.PhoneNumbers)
-                    {
-                        phone.CreatedAt = DateTime.Now;
-                        phone.IsActive  = true;
-                    }
-                }
                 obj.CreatedAt = DateTime.Now;
                 return await _patientRepository.AddPatientWithPersonAsync(obj);
             }
@@ -63,18 +51,14 @@ namespace DentalClinic_BusinessTier.Services
         }
 
         public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
-        {
-            return await _personService.SoftDeleteAsync(objId, deletedById);;
-        }
+            => await _personService.SoftDeleteAsync(objId, deletedById);
 
-        public async Task<bool> UpdateAsync(clsPatient obj,  int? updatedByID =null)
+        public async Task<bool> UpdateAsync(clsPatient obj, int? updatedByID = null)
         {
             _validatePatientObj(obj);
 
-             if(updatedByID == null)
-            {
+            if (updatedByID == null)
                 throw new ArgumentException("You must pass the staff ID");
-            }
 
             obj.UpdatedBy_ID = updatedByID.Value;
             return await _patientRepository.UpdatePatientAsync(obj);
@@ -92,6 +76,17 @@ namespace DentalClinic_BusinessTier.Services
         public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
             => _patientRepository.GetAllPatientDetailsAsync();
 
+        public async Task<bool> UpdatePatientWithPersonAsync(clsPatient patient, int updatedByID)
+        {
+            _validatePatientObj(patient);
+            _validateNewPersonForPatient(patient.PersonInfo);
+
+            patient.UpdatedBy_ID              = updatedByID;
+            patient.PersonInfo.UpdatedBy_ID   = updatedByID;
+
+            return await _patientRepository.UpdatePatientWithPersonAsync(patient);
+        }
+
         private void _validateNewPersonForPatient(clsPerson person)
         {
             if (string.IsNullOrWhiteSpace(person.FirstName))
@@ -106,14 +101,8 @@ namespace DentalClinic_BusinessTier.Services
             if (person.DateOfBirth != null && person.DateOfBirth >= DateTime.Today)
                 throw new ArgumentException("DateOfBirth must be in the past");
 
-            if (person.PhoneNumbers != null && person.PhoneNumbers.Count > 0)
-            {
-                if (person.PhoneNumbers.Any(p => string.IsNullOrWhiteSpace(p.Number)))
-                    throw new ArgumentException("All phone numbers must have a value.");
-
-                if (person.PhoneNumbers.Count(p => p.IsPrimary) > 1)
-                    throw new ArgumentException("Only one phone number can be marked as primary.");
-            }
+            if (string.IsNullOrWhiteSpace(person.PhoneNumber))
+                throw new ArgumentException("Phone number is required.");
         }
 
         private bool _validatePatientObj(clsPatient patient)

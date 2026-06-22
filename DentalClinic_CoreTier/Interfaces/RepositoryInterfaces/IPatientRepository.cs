@@ -20,5 +20,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
         Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
         Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
+        Task<bool> UpdatePatientWithPersonAsync(clsPatient patient);
     }
 }

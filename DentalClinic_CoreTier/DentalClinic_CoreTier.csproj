@@ -186,7 +186,6 @@
     <Compile Include="Models\clsPaymentDestination.cs" />
     <Compile Include="Models\clsPaymentType.cs" />
     <Compile Include="Models\clsPerson.cs" />
-    <Compile Include="Models\clsPhoneNumber.cs" />
     <Compile Include="Models\clsProblem.cs" />
     <Compile Include="Models\clsRole.cs" />
     <Compile Include="Models\clsStaff.cs" />

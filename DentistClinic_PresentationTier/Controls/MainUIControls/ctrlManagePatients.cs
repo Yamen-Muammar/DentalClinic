@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -35,6 +36,9 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
             _patientService = patientService;
             InitializeComponent();
+            //typeof(DataGridView)
+            //.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
+            //.SetValue(dgvPatient, true, null);
         }
 
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
@@ -59,7 +63,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async void AddPatientForm_OnPatientDone(object sender, frmAddOrEditePatient.MyEventArgs e)
         {
-            await _buildShourtcutsPanel(e.Patient.PatientID, e.Patient.PersonInfo.FullName, e.Patient.PersonInfo.PhoneNumbers.Find(no => no.IsPrimary).Number);
+            await _buildShourtcutsPanel(e.Patient.PatientID, e.Patient.PersonInfo.FullName, e.Patient.PersonInfo.PhoneNumber);
             await _buildDGV();
             foreach (DataGridViewRow row in dgvPatient.Rows)
             {
@@ -69,9 +73,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 }
             }
         }
-        private void btnEditePatient_Click(object sender, EventArgs e)
+        private async void btnEditePatient_Click(object sender, EventArgs e)
         {
-
+            var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatient>();
+            await AddPatientForm.SetPatientID(selectedPatientID);
+            AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
+            AddPatientForm.ShowDialog();
         }
         private void btnAddNewAppointment_Click(object sender, EventArgs e)
         {

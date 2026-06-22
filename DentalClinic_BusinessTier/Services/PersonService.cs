@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
@@ -12,7 +9,8 @@ namespace DentalClinic_BusinessTier.Services
 {
     public class PersonService : IPersonService
     {
-        private IPersonRepository _personRepository;
+        private readonly IPersonRepository _personRepository;
+
         public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
@@ -21,27 +19,18 @@ namespace DentalClinic_BusinessTier.Services
         public async Task<int?> InsertAsync(clsPerson obj)
         {
             _validatePersonObj(obj);
-            _validatePhoneNumbers(obj.PhoneNumbers);
             obj.CreatedAt = DateTime.Now;
-            if (obj.PhoneNumbers != null)
-            {
-                foreach (var phone in obj.PhoneNumbers)
-                {
-                    phone.CreatedAt = DateTime.Now;
-                    phone.IsActive  = true;
-                }
-            }
             return await _personRepository.AddPersonAsync(obj);
         }
 
-        public Task<clsPerson> GetByIdAsync(int objId)
-            => _personRepository.GetPersonByIdAsync(objId);
+        public async Task<clsPerson> GetByIdAsync(int objId)
+            => await _personRepository.GetPersonByIdAsync(objId);
 
         public async Task<bool> UpdateAsync(clsPerson obj, int? updatedByID = null)
         {
             if (updatedByID == null)
                 throw new ArgumentNullException("updatedByID");
-                
+
             _validatePersonObj(obj);
             obj.UpdatedBy_ID = updatedByID;
             obj.UpdatedAt    = DateTime.Now;
@@ -53,38 +42,6 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<clsPerson> GetPersonByNationalNoAsync(string nationalNo)
             => await _personRepository.GetPersonByNationalNoAsync(nationalNo);
-
-        public async Task<int> AddPhoneNumberAsync(clsPhoneNumber phoneNumber)
-        {
-            phoneNumber.CreatedAt = DateTime.Now;
-            return await _personRepository.AddPhoneNumberAsync(phoneNumber);
-        }
-
-        public async Task<clsPhoneNumber> GetPhoneNumberByIdAsync(int phoneNumberId)
-            => await _personRepository.GetPhoneNumberByIdAsync(phoneNumberId);
-
-        public async Task<IEnumerable<clsPhoneNumber>> GetPhoneNumbersByPersonIdAsync(int personId)
-            => await _personRepository.GetPhoneNumbersByPersonIdAsync(personId);
-
-        public async Task<bool> UpdatePhoneNumberAsync(clsPhoneNumber phoneNumber)
-            => await _personRepository.UpdatePhoneNumberAsync(phoneNumber);
-
-        public async Task<bool> ChangeActiveStatusAsync(int phoneNumberId, bool isActive, int updatedById)
-            => await _personRepository.ChangeActiveStatusAsync(phoneNumberId, isActive, updatedById);
-
-        public async Task<bool> SetAllPersonNumbersNonPrimaryAsync(int personId, int updatedById)
-            => await _personRepository.SetAllPersonNumbersNonPrimaryAsync(personId, updatedById);
-
-        private void _validatePhoneNumbers(List<clsPhoneNumber> phones)
-        {
-            if (phones == null || phones.Count == 0) return;
-
-            if (phones.Any(p => string.IsNullOrWhiteSpace(p.Number)))
-                throw new ArgumentException("All phone numbers must have a value.");
-
-            if (phones.Count(p => p.IsPrimary) > 1)
-                throw new ArgumentException("Only one phone number can be marked as primary.");
-        }
 
         private bool _validatePersonObj(clsPerson person)
         {
