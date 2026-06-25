@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
@@ -25,48 +26,68 @@ namespace DentalClinic_DataTier.Repositories
                 INSERT INTO Patients (Person_ID, BloodType_ID, HealthProblems, CreatedAt)
                 VALUES (@Person_ID, @BloodType_ID, @HealthProblems, @CreatedAt);
                 SELECT SCOPE_IDENTITY();";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@Person_ID",      patient.Person_ID);
-                cmd.Parameters.AddWithValue("@BloodType_ID",   (object)patient.BloodType_ID   ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@HealthProblems", (object)patient.HealthProblems ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@CreatedAt",      patient.CreatedAt);
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Person_ID", patient.Person_ID);
+                    cmd.Parameters.AddWithValue("@BloodType_ID", (object)patient.BloodType_ID ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@HealthProblems", (object)patient.HealthProblems ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@CreatedAt", patient.CreatedAt);
 
-                await conn.OpenAsync();
-                var result = await cmd.ExecuteScalarAsync();
-                if (result != null && int.TryParse(result.ToString(), out int insertedID))
-                    returnedPatientID = insertedID;
+                    await conn.OpenAsync();
+                    var result = await cmd.ExecuteScalarAsync();
+                    if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                        returnedPatientID = insertedID;
+                }
+                return returnedPatientID;
             }
-            return returnedPatientID;
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public async Task<int> AddPatientWithPersonAsync(clsPatient patient)
+        public async Task<int> AddPatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile)
         {
             int returnedPatientID = -1;
-
-            using (var conn = _connectionFactory.CreateConnection())
+            try
             {
-                await conn.OpenAsync();
-                using (var transaction = conn.BeginTransaction())
+                using (var conn = _connectionFactory.CreateConnection())
                 {
-                    try
+                    await conn.OpenAsync();
+                    using (var transaction = conn.BeginTransaction())
                     {
-                        int personId = await _insertPersonAsync(conn, transaction, patient.PersonInfo);
-                        patient.Person_ID = personId;
-                        returnedPatientID = await _insertPatientAsync(conn, transaction, patient);
+                        try
+                        {
+                            int personId = await _insertPersonAsync(conn, transaction, patient.PersonInfo);
+                            patient.Person_ID = personId;
 
-                        transaction.Commit();
-                        return returnedPatientID;
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-                        throw;
+                            returnedPatientID = await _insertPatientAsync(conn, transaction, patient);
+                            medicalFile.Patient_ID = returnedPatientID;
+
+                            int returnMedicalFileID = await _insertMedicalFileAsync(conn, transaction, medicalFile);
+                            medicalFile.MedicalFileID = returnMedicalFileID;
+
+                            transaction.Commit();
+                            return returnedPatientID;
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
 
         private async Task<int> _insertPersonAsync(SqlConnection conn, SqlTransaction transaction, clsPerson person)
@@ -119,25 +140,54 @@ namespace DentalClinic_DataTier.Repositories
             return patientId;
         }
 
+        private async Task<int> _insertMedicalFileAsync(SqlConnection conn, SqlTransaction transaction, clsMedicalFile medicalFile)
+        {
+            int insertedMedicalFileId = -1;
+            const string query = @"
+                    INSERT INTO MedicalFiles
+                    (Patient_ID, GeneralAllergies, CreationDate)
+                     VALUES
+                    (@Patient_ID, @GeneralAllergies, @CreationDate);
+                    SELECT SCOPE_IDENTITY();";
+            using (var cmd = new SqlCommand(query, conn,transaction))
+            {
+                cmd.Parameters.AddWithValue("@Patient_ID", medicalFile.Patient_ID);
+                cmd.Parameters.AddWithValue("@GeneralAllergies", (object)medicalFile.GeneralAllergies ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@CreationDate", medicalFile.CreationDate);
+
+                var result = await cmd.ExecuteScalarAsync();
+                if (result != null && int.TryParse(result.ToString(), out int insertedID))
+                    insertedMedicalFileId = insertedID;
+            }
+            return insertedMedicalFileId;
+        }
         public async Task<clsPatient> GetPatientByIdAsync(int patientId)
         {
             const string query = @"
                 SELECT PatientID, Person_ID, BloodType_ID, HealthProblems, CreatedAt, UpdatedAt, UpdatedBy_ID
                 FROM Patients
                 WHERE PatientID = @PatientID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@PatientID", patientId);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    if (await reader.ReadAsync())
-                        return MapPatient(reader);
+                    cmd.Parameters.AddWithValue("@PatientID", patientId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                            return MapPatient(reader);
+                    }
                 }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public async Task<clsPatient> GetPatientByPersonIdAsync(int personId)
@@ -146,19 +196,27 @@ namespace DentalClinic_DataTier.Repositories
                 SELECT PatientID, Person_ID, BloodType_ID, HealthProblems, CreatedAt, UpdatedAt, UpdatedBy_ID
                 FROM Patients
                 WHERE Person_ID = @Person_ID";
-
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@Person_ID", personId);
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    if (await reader.ReadAsync())
-                        return MapPatient(reader);
+                    cmd.Parameters.AddWithValue("@Person_ID", personId);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                            return MapPatient(reader);
+                    }
                 }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
 
         public async Task<IEnumerable<clsPatient>> GetAllPatientsAsync()
@@ -168,15 +226,24 @@ namespace DentalClinic_DataTier.Repositories
                 FROM Patients";
 
             var list = new List<clsPatient>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                    while (await reader.ReadAsync())
-                        list.Add(MapPatient(reader));
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+
+                throw;
+            }
+         
         }
 
         public async Task<bool> UpdatePatientAsync(clsPatient patient)
@@ -190,43 +257,60 @@ namespace DentalClinic_DataTier.Repositories
                     UpdatedBy_ID   = @UpdatedBy_ID
                 WHERE PatientID = @PatientID";
 
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@PatientID",      patient.PatientID);
-                cmd.Parameters.AddWithValue("@Person_ID",      patient.Person_ID);
-                cmd.Parameters.AddWithValue("@BloodType_ID",   (object)patient.BloodType_ID   ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@HealthProblems", (object)patient.HealthProblems ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@UpdatedAt",      (object)patient.UpdatedAt      ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@UpdatedBy_ID",   (object)patient.UpdatedBy_ID   ?? DBNull.Value);
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PatientID", patient.PatientID);
+                    cmd.Parameters.AddWithValue("@Person_ID", patient.Person_ID);
+                    cmd.Parameters.AddWithValue("@BloodType_ID", (object)patient.BloodType_ID ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@HealthProblems", (object)patient.HealthProblems ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UpdatedAt", (object)patient.UpdatedAt ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UpdatedBy_ID", (object)patient.UpdatedBy_ID ?? DBNull.Value);
 
-                await conn.OpenAsync();
-                return await cmd.ExecuteNonQueryAsync() > 0;
+                    await conn.OpenAsync();
+                    return await cmd.ExecuteNonQueryAsync() > 0;
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+          
         }
 
-        public async Task<bool> UpdatePatientWithPersonAsync(clsPatient patient)
+        public async Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile)
         {
-            using (var conn = _connectionFactory.CreateConnection())
+            try
             {
-                await conn.OpenAsync();
-                using (var transaction = conn.BeginTransaction())
+                using (var conn = _connectionFactory.CreateConnection())
                 {
-                    try
+                    await conn.OpenAsync();
+                    using (var transaction = conn.BeginTransaction())
                     {
-                        await _updatePersonAsync(conn, transaction, patient.PersonInfo);
-                        await _updatePatientAsync(conn, transaction, patient);
-
-                        transaction.Commit();
-                        return true;
-                    }
-                    catch
-                    {
-                        transaction.Rollback();
-                        throw;
+                        try
+                        {
+                            await _updatePersonAsync(conn, transaction, patient.PersonInfo);
+                            await _updatePatientAsync(conn, transaction, patient);
+                            await _updateMedicalFileAsync(conn, transaction, medicalFile);
+                            transaction.Commit();
+                            return true;
+                        }
+                        catch
+                        {
+                            transaction.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }  
         }
 
         private async Task _updatePersonAsync(SqlConnection conn, SqlTransaction transaction, clsPerson person)
@@ -258,7 +342,6 @@ namespace DentalClinic_DataTier.Repositories
                 await cmd.ExecuteNonQueryAsync();
             }
         }
-
         private async Task _updatePatientAsync(SqlConnection conn, SqlTransaction transaction, clsPatient patient)
         {
             const string query = @"
@@ -278,7 +361,21 @@ namespace DentalClinic_DataTier.Repositories
                 await cmd.ExecuteNonQueryAsync();
             }
         }
+        private async Task _updateMedicalFileAsync(SqlConnection conn, SqlTransaction transaction,clsMedicalFile medicalFile)
+        {
+            const string query = @"
+                UPDATE MedicalFiles SET
+                     GeneralAllergies =  @GeneralAllergies
+                WHERE Patient_ID = @patient_ID";
 
+            using (var cmd = new SqlCommand(query, conn,transaction))
+            {         
+                cmd.Parameters.AddWithValue("@GeneralAllergies", (object)medicalFile.GeneralAllergies ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@patient_ID", medicalFile.Patient_ID);
+                await cmd.ExecuteNonQueryAsync();
+
+            }
+        }
         public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
         {
             const string query = @"
@@ -286,22 +383,29 @@ namespace DentalClinic_DataTier.Repositories
                        p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
                 FROM Patients p
                 INNER JOIN People pe ON p.Person_ID = pe.PersonID
-                WHERE (pe.FirstName + ' ' + pe.LastName) LIKE @FullName
-                  AND pe.IsDeleted = 0";
+                WHERE (pe.FirstName + ' ' + pe.LastName) LIKE @FullName;";
 
             var list = new List<clsPatient>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@FullName", "%" + fullName + "%");
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                    while (await reader.ReadAsync())
-                        list.Add(MapPatient(reader));
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@FullName", "%" + fullName + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
             }
-            return list;
-        }
+            catch (Exception)
+            {
 
+                throw;
+            }
+            
+        }
         public async Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
         {
             const string query = @"
@@ -313,18 +417,26 @@ namespace DentalClinic_DataTier.Repositories
                   AND pe.IsDeleted = 0";
 
             var list = new List<clsPatient>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@NationalNo", "%" + nationalNo + "%");
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                    while (await reader.ReadAsync())
-                        list.Add(MapPatient(reader));
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@NationalNo", "%" + nationalNo + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
             }
-            return list;
-        }
+            catch (Exception)
+            {
 
+                throw;
+            }
+         
+        }
         public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
         {
             const string query = @"
@@ -336,35 +448,98 @@ namespace DentalClinic_DataTier.Repositories
                   AND pe.IsDeleted = 0";
 
             var list = new List<clsPatient>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                cmd.Parameters.AddWithValue("@PhoneNumber", "%" + phoneNumber + "%");
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                    while (await reader.ReadAsync())
-                        list.Add(MapPatient(reader));
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PhoneNumber", "%" + phoneNumber + "%");
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatient(reader));
+                }
+                return list;
             }
-            return list;
+            catch (Exception)
+            {
+                throw;
+            }
         }
+        public async Task<int> GetPatientCountAsync()
+        {
+            const string query = "SELECT COUNT(PatientID) From vw_PatientDetails";
+            int count = -1;
 
+            try
+            {
+                using(SqlConnection conn = _connectionFactory.CreateConnection())
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    object result = await cmd.ExecuteScalarAsync();
+                    if (result != null && result is int)
+                    {
+                        return (int)result;
+                    }
+                }
+                   
+            }
+            catch (Exception)
+            { 
+                throw;
+            }
+            return count;
+        }
+        public async Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID)
+        {
+            const string query =
+                "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType FROM vw_PatientDetails WHERE PatientID = @PatientID";
+
+            clsPatientView patientView = null;
+            try
+            {
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@PatientID", patientID);
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        if (await reader.ReadAsync())
+                            patientView = MapPatientView(reader);
+                }
+                return patientView;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
         public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
         {
             const string query =
                 "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType FROM vw_PatientDetails";
 
             var list = new List<clsPatientView>();
-            using (var conn = _connectionFactory.CreateConnection())
-            using (var cmd = new SqlCommand(query, conn))
+            try
             {
-                await conn.OpenAsync();
-                using (var reader = await cmd.ExecuteReaderAsync())
-                    while (await reader.ReadAsync())
-                        list.Add(MapPatientView(reader));
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatientView(reader));
+                }
+                return list;
             }
-            return list;
-        }
+            catch (Exception)
+            {
 
+                throw;
+            }
+           
+        }
         private static clsPatient MapPatient(SqlDataReader reader)
         {
             int bloodTypeOrd = reader.GetOrdinal("BloodType_ID");
@@ -383,7 +558,6 @@ namespace DentalClinic_DataTier.Repositories
                 UpdatedBy_ID   = reader.IsDBNull(updatedByOrd) ? (int?)null       : reader.GetInt32(updatedByOrd),
             };
         }
-
         private static clsPatientView MapPatientView(SqlDataReader reader)
         {
             int phoneOrd     = reader.GetOrdinal("PhoneNumber");
@@ -399,5 +573,7 @@ namespace DentalClinic_DataTier.Repositories
                 BloodTypeName = reader.IsDBNull(bloodTypeOrd) ? string.Empty : reader.GetString(bloodTypeOrd),
             };
         }
+
+      
     }
 }

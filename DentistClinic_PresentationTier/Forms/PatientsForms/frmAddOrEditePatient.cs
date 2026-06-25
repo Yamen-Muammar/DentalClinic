@@ -14,7 +14,6 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         public class MyEventArgs : EventArgs
         {
             public clsPatient Patient { get; private set; }
-
             public MyEventArgs(clsPatient addedPatient)
             {
                 Patient = addedPatient;
@@ -23,12 +22,18 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
 
         public event EventHandler<MyEventArgs> OnPatientDone;
 
+        public event EventHandler<MyEventArgs> OnPatientReActived;
         protected void TriggerPatientDoneEvent(clsPatient patient)
         {
             OnPatientDone?.Invoke(this, new MyEventArgs(patient));
         }
-
+        protected void TriggerPatientReActivedEvent(clsPatient patient)
+        {
+            OnPatientReActived?.Invoke(this, new MyEventArgs(patient));
+        }
+        private bool _doesRegetInformationAfterSearchAnswered = false;
         private clsPatient PatientInfo { get; set; }
+        public clsMedicalFile MedicalFile { get; set; }
 
         private List<clsBloodType> BloodTypesList { get; set; }
 
@@ -37,7 +42,8 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         private readonly IBloodTypeService _bloodTypeService;
         private readonly IPatientService _patientService;
         private readonly ISessionContext _sessionContext;
-
+        private readonly IMedicalFileService _medicalFileService;
+        private readonly IPersonService _personService;
         public enum enMode
         {
             add   = 1,
@@ -45,11 +51,13 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         }
         private enMode _formMode;
 
-        public frmAddOrEditePatient(ISessionContext sessionContext, IBloodTypeService bloodTypeService, IPatientService patientService)
+        public frmAddOrEditePatient(ISessionContext sessionContext, IBloodTypeService bloodTypeService, IPatientService patientService,IMedicalFileService medicalFileService,IPersonService personService)
         {
+            _sessionContext = sessionContext;
             _bloodTypeService = bloodTypeService;
-            _patientService   = patientService;
-            _sessionContext   = sessionContext;
+            _patientService   = patientService;            
+            _medicalFileService = medicalFileService;
+            _personService = personService;
             InitializeComponent();
             _FirstDateOnPicker = Convert.ToDateTime(dtpDateOfBirth.Text);
             _formMode = enMode.add;
@@ -57,6 +65,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
 
         public async Task SetPatientID(int patientID)
         {
+
             if (patientID <= 0)
             {
                 this.Close();
@@ -66,12 +75,34 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             try
             {
                 PatientInfo = await _patientService.GetByIdAsync(patientID);
+
                 if (PatientInfo == null)
                 {
                     this.Close();
                     MessageBox.Show("لايوجد مريض مخزن في قاعدة البيانات", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return;
                 }
+
+                    MedicalFile = await _medicalFileService.GetMedicalFilesByPatientIDAsync(patientID);
+                    if (MedicalFile == null)
+                    {
+                        this.Close();
+                        MessageBox.Show("لايوجد ملف صحي مخزن في قاعدة البيانات", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+
+                    if (PatientInfo.PersonInfo != null && PatientInfo.PersonInfo.IsDeleted)
+                    {
+                        if (MessageBox.Show("ملف المريض غير نشـط ,هل تريد إعادة تنشيطه؟", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                         == DialogResult.Yes)
+                        {
+                            PatientInfo.PersonInfo.IsDeleted = false;
+                            _personService.UpdateAsync(PatientInfo.PersonInfo,_sessionContext.StaffID);
+                            _fillUIWithPatientInformation(PatientInfo);
+                            TriggerPatientReActivedEvent(PatientInfo);
+                        }
+                    }
+                _doesRegetInformationAfterSearchAnswered = true;
             }
             catch (Exception ex)
             {
@@ -98,6 +129,14 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
 
         private async void btnSave_Click(object sender, EventArgs e)
         {
+            if (tbGeneralAllergies.Text == string.Empty || tbHealthProblems.Text == string.Empty)
+            {
+                if (MessageBox.Show("هل انت متاكد ان جميع البيانات مدخلة خصوصا المشاكل الصحية و الحساسية؟","تحذير",MessageBoxButtons.YesNo,MessageBoxIcon.Warning) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
             if (_formMode == enMode.add)
             {
                 clsPatient newPatient = _preparePatientObj();
@@ -107,7 +146,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
 
                 try
                 {
-                    newPatient.PatientID = (int)await _patientService.InsertAsync(newPatient);
+                    newPatient.PatientID = (int)await _patientService.InsertAsync(newPatient,tbGeneralAllergies.Text);
                     if (newPatient.PatientID == 0)
                     {
                         MessageBox.Show("لم يتم حفـظ المريض", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -131,13 +170,14 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             if (_formMode == enMode.Edite)
             {
                 PatientInfo = _preparePatientObj(PatientInfo);
-
+                
                 if (!_isPatientInfoValid(PatientInfo.PersonInfo))
                     return;
 
+
                 try
                 {
-                    if (await _patientService.UpdatePatientWithPersonAsync(PatientInfo, _sessionContext.StaffID))
+                    if (await _patientService.UpdatePatientWithPersonAndMedicalFileAsync(PatientInfo,MedicalFile, _sessionContext.StaffID))
                     {
                         TriggerPatientDoneEvent(PatientInfo);
                         MessageBox.Show(" تم حفـظ المريض بنجاح", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -168,19 +208,19 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         private clsPatient _preparePatientObj()
         {
             clsPatient patient = new clsPatient();
-            patient.HealthProblems = tbHealthProblems.Text;
+            patient.HealthProblems = tbHealthProblems.Text.Trim();
             patient.BloodType_ID   = (cbBloodType.SelectedIndex != 0) ? cbBloodType.SelectedIndex : (int?)null;
 
             clsPerson newPerson = new clsPerson
             {
-                FirstName   = tbFirstName.Text,
-                LastName    = tbLastName.Text,
+                FirstName   = tbFirstName.Text.Trim(),
+                LastName    = tbLastName.Text.Trim(),
                 DateOfBirth = Convert.ToDateTime(dtpDateOfBirth.Text),
-                PhoneNumber = tbPhoneNumber.Text,
+                PhoneNumber = tbPhoneNumber.Text.Trim(),
             };
 
-            newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text;
-            newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text;
+            newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text.Trim();
+            newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text.Trim();
 
             if (newPerson.DateOfBirth == _FirstDateOnPicker)
                 newPerson.DateOfBirth = null;
@@ -199,20 +239,20 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             clsPatient patient  = new clsPatient();
             patient.PatientID   = oldPatientInfo.PatientID;
             patient.Person_ID   = oldPatientInfo.Person_ID;
-            patient.HealthProblems = tbHealthProblems.Text;
+            patient.HealthProblems = tbHealthProblems.Text.Trim();
             patient.BloodType_ID   = (cbBloodType.SelectedIndex != 0) ? cbBloodType.SelectedIndex : (int?)null;
 
             clsPerson newPerson = new clsPerson
             {
                 PersonID    = oldPatientInfo.PersonInfo.PersonID,
-                FirstName   = tbFirstName.Text,
-                LastName    = tbLastName.Text,
+                FirstName   = tbFirstName.Text.Trim(),
+                LastName    = tbLastName.Text.Trim(),
                 DateOfBirth = Convert.ToDateTime(dtpDateOfBirth.Text),
-                PhoneNumber = tbPhoneNumber.Text,
+                PhoneNumber = tbPhoneNumber.Text.Trim(),
             };
 
-            newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text;
-            newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text;
+            newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text.Trim();
+            newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text.Trim();
 
             if (newPerson.DateOfBirth == _FirstDateOnPicker)
                 newPerson.DateOfBirth = null;
@@ -223,9 +263,11 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 newPerson.Gender = myEnums.enGenderTypes.F;
 
             patient.PersonInfo = newPerson;
+
+            MedicalFile.GeneralAllergies = tbGeneralAllergies.Text.Trim();
+           
             return patient;
         }
-
         private async Task _getBloodTypes()
         {
             try
@@ -319,11 +361,42 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 cbBloodType.SelectedIndex = (int)patient.BloodType_ID;
 
             tbHealthProblems.Text = patient.HealthProblems;
+            tbGeneralAllergies.Text = MedicalFile.GeneralAllergies;
+            
+           
         }
 
         private void tbHealthProblems_TextChanged(object sender, EventArgs e)
         {
             lblCharactersCount.Text = tbHealthProblems.Text.Length.ToString() + "/" + tbHealthProblems.MaxLength;
+        }
+
+        private async void FullNameCheck(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbFirstName.Text) || string.IsNullOrEmpty(tbLastName.Text))
+            {
+                return;
+            }
+
+            if (_doesRegetInformationAfterSearchAnswered)
+            {
+                return;
+            }
+
+            string fullName = string.Join(" ", tbFirstName.Text.Trim(),tbLastName.Text.Trim());
+
+            List<clsPatient> checkedPatientList = (List<clsPatient>)await _patientService.SearchByFullNameAsync(fullName);
+
+            if (checkedPatientList.Count > 0)
+            {
+                if(MessageBox.Show("المريض مسجل مسبقاً ,هل تريد جلب البيانات", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                    == DialogResult.Yes)
+                {
+                    await SetPatientID(checkedPatientList[0].PatientID);
+                    _fillUIWithPatientInformation(PatientInfo);
+                }
+                _doesRegetInformationAfterSearchAnswered = true;
+            }
         }
     }
 }

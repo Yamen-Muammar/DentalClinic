@@ -28,14 +28,17 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
         private List<clsAppointmentsDetails> _todayAppointment;
         private int? _notConfirmedPayments;
+        private int _patientsCount;
 
         private IAppointmentService _appointmentService;
         private IPaymentService _paymentService;
-        public ctrlDashBoard(IAppointmentService appointmentService, IPaymentService paymentService)
+        private IPatientService _patientService; 
+        public ctrlDashBoard(IPatientService patientService,IAppointmentService appointmentService, IPaymentService paymentService)
         {
-            InitializeComponent();
             _appointmentService = appointmentService;
             _paymentService = paymentService;
+            _patientService = patientService;
+            InitializeComponent();
         }
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
@@ -130,11 +133,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
             await _loadTodaysAppointments();
             await _getNotConfirmedPayments();
-
+            await _getPatientsCount();
               
             lblTodayAppoinmentsCount.Text = _todayAppointment?.Count.ToString() ?? "??";
-
             lblunConfirmedPayments.Text = _notConfirmedPayments?.ToString() ?? "??";
+            lblPatientsCount.Text = _patientsCount==-1? "??":_patientsCount.ToString();
 
             _handleProgressIndicator(false);
         }
@@ -148,6 +151,18 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             catch (Exception)
             {
                 MessageBox.Show("خطأ في جلب بيانات عدد الحوالات المالية غير الؤكـدة", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        private async Task _getPatientsCount()
+        {
+            try
+            {
+                _patientsCount = await _patientService.GetPatientCountAsync();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("خطأ في جلب بيانات عدد المرضـى", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private async Task _getTodaysAppointments()
@@ -164,8 +179,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private async Task _loadTodaysAppointments()
         {
             await _getTodaysAppointments();
-            //_loadMockAppointments();
-
             try
             {
                 if (_todayAppointment.Count == 0)

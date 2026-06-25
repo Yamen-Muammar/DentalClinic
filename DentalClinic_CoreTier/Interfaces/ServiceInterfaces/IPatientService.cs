@@ -8,12 +8,16 @@ using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
-    public interface IPatientService : IGRUDService<clsPatient>
+    public interface IPatientService
     {
+        Task<clsPatient>GetByIdAsync(int  id);
+        Task<int?> InsertAsync(clsPatient obj, string generalAllergies);
         Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
         Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
         Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
         Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
-        Task<bool> UpdatePatientWithPersonAsync(clsPatient patient,int updatedByID);
+        Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile,int updatedByID);
+        Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID);
+        Task<int> GetPatientCountAsync();
     }
 }

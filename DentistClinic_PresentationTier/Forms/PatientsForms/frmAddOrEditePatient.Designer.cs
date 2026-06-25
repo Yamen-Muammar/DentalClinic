@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.gbMainBox = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
@@ -37,6 +38,7 @@
             this.dtpDateOfBirth = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cbBloodType = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cbGender = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.tbGeneralAllergies = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbPhoneNumber = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbNationalNo = new Guna.UI2.WinForms.Guna2TextBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -45,6 +47,7 @@
             this.tbLastName = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbSecondName = new Guna.UI2.WinForms.Guna2TextBox();
             this.label9 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.tbFirstName = new Guna.UI2.WinForms.Guna2TextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -53,7 +56,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.gbMainBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +74,7 @@
             this.gbMainBox.Controls.Add(this.dtpDateOfBirth);
             this.gbMainBox.Controls.Add(this.cbBloodType);
             this.gbMainBox.Controls.Add(this.cbGender);
+            this.gbMainBox.Controls.Add(this.tbGeneralAllergies);
             this.gbMainBox.Controls.Add(this.tbPhoneNumber);
             this.gbMainBox.Controls.Add(this.tbNationalNo);
             this.gbMainBox.Controls.Add(this.label6);
@@ -80,6 +83,7 @@
             this.gbMainBox.Controls.Add(this.tbLastName);
             this.gbMainBox.Controls.Add(this.tbSecondName);
             this.gbMainBox.Controls.Add(this.label9);
+            this.gbMainBox.Controls.Add(this.label14);
             this.gbMainBox.Controls.Add(this.label7);
             this.gbMainBox.Controls.Add(this.tbFirstName);
             this.gbMainBox.Controls.Add(this.label5);
@@ -100,6 +104,19 @@
             this.gbMainBox.TabIndex = 0;
             this.gbMainBox.Text = "اضافة مريض";
             this.gbMainBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.BackColor = System.Drawing.Color.Transparent;
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(749, 463);
+            this.label10.Margin = new System.Windows.Forms.Padding(0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(29, 38);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "*";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
             // 
@@ -245,6 +262,29 @@
             this.cbGender.TabIndex = 7;
             this.cbGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // tbGeneralAllergies
+            // 
+            this.tbGeneralAllergies.BorderColor = System.Drawing.Color.Red;
+            this.tbGeneralAllergies.BorderRadius = 16;
+            this.tbGeneralAllergies.BorderThickness = 2;
+            this.tbGeneralAllergies.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.tbGeneralAllergies.DefaultText = "";
+            this.tbGeneralAllergies.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.tbGeneralAllergies.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.tbGeneralAllergies.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbGeneralAllergies.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.tbGeneralAllergies.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbGeneralAllergies.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.tbGeneralAllergies.ForeColor = System.Drawing.Color.Black;
+            this.tbGeneralAllergies.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.tbGeneralAllergies.Location = new System.Drawing.Point(13, 623);
+            this.tbGeneralAllergies.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.tbGeneralAllergies.Name = "tbGeneralAllergies";
+            this.tbGeneralAllergies.PlaceholderText = "هل المريض يعاني من حساسية ؟";
+            this.tbGeneralAllergies.SelectedText = "";
+            this.tbGeneralAllergies.Size = new System.Drawing.Size(1071, 84);
+            this.tbGeneralAllergies.TabIndex = 9;
+            // 
             // tbPhoneNumber
             // 
             this.tbPhoneNumber.BorderColor = System.Drawing.Color.SteelBlue;
@@ -362,6 +402,7 @@
             this.tbLastName.SelectedText = "";
             this.tbLastName.Size = new System.Drawing.Size(378, 84);
             this.tbLastName.TabIndex = 3;
+            this.tbLastName.Leave += new System.EventHandler(this.FullNameCheck);
             // 
             // tbSecondName
             // 
@@ -397,6 +438,17 @@
             this.label9.TabIndex = 0;
             this.label9.Text = "رقم الهاتف";
             // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.BackColor = System.Drawing.Color.Transparent;
+            this.label14.ForeColor = System.Drawing.Color.DimGray;
+            this.label14.Location = new System.Drawing.Point(1091, 645);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(229, 38);
+            this.label14.TabIndex = 0;
+            this.label14.Text = "حساسية المريـض يعاني منها:";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
@@ -430,6 +482,7 @@
             this.tbFirstName.SelectedText = "";
             this.tbFirstName.Size = new System.Drawing.Size(378, 84);
             this.tbFirstName.TabIndex = 1;
+            this.tbFirstName.Leave += new System.EventHandler(this.FullNameCheck);
             // 
             // label5
             // 
@@ -499,19 +552,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "اسم الأول";
             // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.BackColor = System.Drawing.Color.Transparent;
-            this.label10.ForeColor = System.Drawing.Color.Red;
-            this.label10.Location = new System.Drawing.Point(749, 463);
-            this.label10.Margin = new System.Windows.Forms.Padding(0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(29, 38);
-            this.label10.TabIndex = 16;
-            this.label10.Text = "*";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // frmAddOrEditePatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -557,5 +597,7 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lblCharactersCount;
         private System.Windows.Forms.Label label10;
+        private Guna.UI2.WinForms.Guna2TextBox tbGeneralAllergies;
+        private System.Windows.Forms.Label label14;
     }
 }

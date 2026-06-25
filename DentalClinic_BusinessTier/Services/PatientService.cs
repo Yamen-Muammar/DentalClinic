@@ -27,20 +27,28 @@ namespace DentalClinic_BusinessTier.Services
                 return null;
 
             patient.PersonInfo = await _personService.GetByIdAsync(patient.Person_ID);
+
             return patient;
         }
 
-        public async Task<int?> InsertAsync(clsPatient obj)
+        public async Task<int?> InsertAsync(clsPatient obj, string generalAllergies)
         {
             if (obj == null)
                 throw new ArgumentNullException("obj");
-
+            
+            DateTime currentTimeStamp = DateTime.Now;    
             if (obj.PersonInfo != null)
             {
                 _validateNewPersonForPatient(obj.PersonInfo);
-                obj.PersonInfo.CreatedAt = DateTime.Now;
-                obj.CreatedAt = DateTime.Now;
-                return await _patientRepository.AddPatientWithPersonAsync(obj);
+                obj.PersonInfo.CreatedAt = currentTimeStamp;
+                obj.CreatedAt = currentTimeStamp;
+
+                clsMedicalFile medicalFile = new clsMedicalFile
+                {
+                    CreationDate = currentTimeStamp,
+                    GeneralAllergies = generalAllergies == string.Empty ?"لا يوجد":generalAllergies
+                };
+                return await _patientRepository.AddPatientWithPersonAndMedicalFileAsync(obj,medicalFile);
             }
             else
             {
@@ -53,17 +61,7 @@ namespace DentalClinic_BusinessTier.Services
         public async Task<bool> SoftDeleteAsync(int objId, int deletedById)
             => await _personService.SoftDeleteAsync(objId, deletedById);
 
-        public async Task<bool> UpdateAsync(clsPatient obj, int? updatedByID = null)
-        {
-            _validatePatientObj(obj);
-
-            if (updatedByID == null)
-                throw new ArgumentException("You must pass the staff ID");
-
-            obj.UpdatedBy_ID = updatedByID.Value;
-            return await _patientRepository.UpdatePatientAsync(obj);
-        }
-
+      
         public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
             => await _patientRepository.SearchByFullNameAsync(fullName);
 
@@ -76,17 +74,25 @@ namespace DentalClinic_BusinessTier.Services
         public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
             => _patientRepository.GetAllPatientDetailsAsync();
 
-        public async Task<bool> UpdatePatientWithPersonAsync(clsPatient patient, int updatedByID)
+        public async Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile, int updatedByID)
         {
             _validatePatientObj(patient);
             _validateNewPersonForPatient(patient.PersonInfo);
+            
+            patient.UpdatedBy_ID = updatedByID;
+            patient.PersonInfo.UpdatedBy_ID = updatedByID;
+            medicalFile.UpdatedBy_ID = updatedByID;
 
-            patient.UpdatedBy_ID              = updatedByID;
-            patient.PersonInfo.UpdatedBy_ID   = updatedByID;
-
-            return await _patientRepository.UpdatePatientWithPersonAsync(patient);
+            if (medicalFile.GeneralAllergies == string.Empty)
+            {
+                medicalFile.GeneralAllergies = "لايوجد";
+            }
+            
+            return await _patientRepository.UpdatePatientWithPersonAndMedicalFileAsync(patient,medicalFile);
         }
 
+        public async Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID) 
+            => await _patientRepository.GetPatientDetailsViewByIDAsync(patientID);
         private void _validateNewPersonForPatient(clsPerson person)
         {
             if (string.IsNullOrWhiteSpace(person.FirstName))
@@ -115,5 +121,8 @@ namespace DentalClinic_BusinessTier.Services
 
             return true;
         }
+
+        public async Task<int> GetPatientCountAsync()
+        => await _patientRepository.GetPatientCountAsync();
     }
 }

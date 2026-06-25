@@ -278,7 +278,6 @@ namespace DentalClinic_DataTier.Repositories
                 UpdatedBy_ID = reader.IsDBNull(updatedByOrd) ? (int?)null : reader.GetInt32(updatedByOrd),
             };
         }
-
         private static clsAppointmentsDetails MapAppointmentDetails(SqlDataReader reader)
         {
             int phoneOrd = reader.GetOrdinal("PhoneNumber");

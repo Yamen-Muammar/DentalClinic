@@ -27,13 +27,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             FullName,
             PhoneNumber,
         }
-        private clsPatient SelectedPatientInfo { get; set; }
         private enSearchType _searchType = enSearchType.FullName;
+
+        private List<clsPatientView> _allPatients { get; set; }
+        private clsPatient SelectedPatientInfo { get; set; }
+        private int selectedPatientID { get; set; }
+
         private readonly IPatientService _patientService;
         private readonly IPersonService _personService;
-        private IEnumerable<clsPatientView> _allPatients;
         private ISessionContext _sessionContext;
-        private int selectedPatientID  { get; set;  }
+
         public ctrlManagePatients(IPersonService personService,IPatientService patientService,ISessionContext sessionContext)
         {
             _patientService = patientService;
@@ -53,10 +56,75 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
             _handelDGVIndecator(true);
             await _getAllPatientsData();
-            //clsGenrateMockData._getMockPatients(ref _allPatients);
             _bindPatientsToGrid(_allPatients);
             await Task.Delay(200);
             _handelDGVIndecator(false);
+        }
+       private async Task _refreshDGV()
+        {
+            _handelDGVIndecator(true);
+            _bindPatientsToGrid(_allPatients);
+            await Task.Delay(200);
+            _handelDGVIndecator(false);
+        }
+
+        //Outer Events 
+        private async void AddPatientForm_OnPatientReActived(object sender, frmAddOrEditePatient.MyEventArgs e)
+        {
+            try
+            {
+                clsPatientView patientView = await _patientService.GetPatientDetailsViewByIDAsync(e.Patient.PatientID);
+                if (patientView != null)
+                {
+                    if (!_allPatients.Contains(patientView))
+                    {
+                        _allPatients.Add(patientView);
+                    }
+                    await _refreshDGV();
+                    foreach (DataGridViewRow row in dgvPatient.Rows)
+                    {
+                        if ((int)row.Cells["ID"].Value == e.Patient.PatientID)
+                        {
+                            row.Selected = true;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+        private async void AddPatientForm_OnPatientDone(object sender, frmAddOrEditePatient.MyEventArgs e)
+        {
+            try
+            {
+                await _buildPatientShortcutsPanel(e.Patient.PatientID, e.Patient.PersonInfo.FullName, e.Patient.PersonInfo.PhoneNumber);
+
+                clsPatientView patientView = await _patientService.GetPatientDetailsViewByIDAsync(e.Patient.PatientID);
+                if (patientView != null && (_allPatients.Find(p => p.ID == patientView.ID) == null))
+                {
+                    _allPatients.Add(patientView);
+                }
+
+                await _refreshDGV();
+                foreach (DataGridViewRow row in dgvPatient.Rows)
+                {
+                    if ((int)row.Cells["ID"].Value == e.Patient.PatientID)
+                    {
+                        row.Selected = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
         }
 
         //UI Events 
@@ -64,24 +132,17 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
             var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatient>();
             AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
+            AddPatientForm.OnPatientReActived += AddPatientForm_OnPatientReActived;
             AddPatientForm.ShowDialog();
-        }
-        private async void AddPatientForm_OnPatientDone(object sender, frmAddOrEditePatient.MyEventArgs e)
-        {
-            await _buildShourtcutsPanel(e.Patient.PatientID, e.Patient.PersonInfo.FullName, e.Patient.PersonInfo.PhoneNumber);
-            await _buildDGV();
-            foreach (DataGridViewRow row in dgvPatient.Rows)
-            {
-                if ((int)row.Cells["ID"].Value == e.Patient.PatientID)
-                {
-                    row.Selected = true;
-                }
-            }
-        }
+        }   
         private async void btnEditePatient_Click(object sender, EventArgs e)
         {
             var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatient>();
             await AddPatientForm.SetPatientID(selectedPatientID);
+            if (AddPatientForm.IsDisposed)
+            {
+                return;
+            }
             AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
             AddPatientForm.ShowDialog();
         }
@@ -99,8 +160,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             {
                 if (await _personService.SoftDeleteAsync(SelectedPatientInfo.Person_ID, _sessionContext.StaffID))
                 {
-                    MessageBox.Show("تم حذف المريض بنجاح", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    await _buildDGV();
+                    clsPatientView selectedPatient =  _allPatients.FirstOrDefault(p => p.ID == selectedPatientID);
+                    _allPatients.Remove(selectedPatient);
+                    _clearPatientShortcutsPanel();
+                    await _refreshDGV();
+                    MessageBox.Show("تم حذف المريض بنجاح", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);                                       
                 }
                 else
                 {
@@ -125,7 +189,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             int patientId = (int)dgvPatient?.Rows[e.RowIndex].Cells["ID"].Value;
             string pateintFullName = (string)dgvPatient?.Rows[e.RowIndex].Cells["FullName"].Value;
             string pateintPhoneNumber = (string)dgvPatient?.Rows[e.RowIndex].Cells["PhoneNumber"].Value;
-            await _buildShourtcutsPanel(patientId, pateintFullName, pateintPhoneNumber);
+            await _buildPatientShortcutsPanel(patientId, pateintFullName, pateintPhoneNumber);
         }
         private void tbSearchBox_TextChanged(object sender, EventArgs e)
         {
@@ -150,12 +214,13 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }
         }
         
+
         //  Helper Methods
         private async Task _getAllPatientsData()
         {
             try
             {
-                _allPatients = await _patientService.GetAllPatientDetailsAsync();
+                _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsAsync();
             }
             catch (Exception ex)
             {
@@ -217,18 +282,22 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }
             return patient;
         }
-
         private void _handelDGVIndecator(bool enable)
         {
             dgvIndecatorPanel.Visible = enable;
         }
-
-        private async Task _buildShourtcutsPanel(int patientId, string fullName, string phoneNumber)
+        private async Task _buildPatientShortcutsPanel(int patientId, string fullName, string phoneNumber)
         {
             selectedPatientID = patientId;
             SelectedPatientInfo = await _getPatientInfo(selectedPatientID);
             _fillPatientInfoAtUI(SelectedPatientInfo, fullName, phoneNumber);
             shourcutsPatientPanel.Visible = true;
-        }      
+        }
+        private void _clearPatientShortcutsPanel()
+        {
+            selectedPatientID = 0;
+            SelectedPatientInfo = null;
+            shourcutsPatientPanel.Visible = false;
+        }
     }
 }

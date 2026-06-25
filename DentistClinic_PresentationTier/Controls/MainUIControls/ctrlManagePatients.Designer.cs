@@ -49,8 +49,13 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.actionPanel = new System.Windows.Forms.Panel();
             this.cbSearchFilters = new Guna.UI2.WinForms.Guna2ComboBox();
             this.tbSearchBox = new Guna.UI2.WinForms.Guna2TextBox();
+            this.btnAddPatient = new Guna.UI2.WinForms.Guna2Button();
             this.shourcutsPatientPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.flpBtns = new System.Windows.Forms.FlowLayoutPanel();
+            this.btnAddNewAppointment = new Guna.UI2.WinForms.Guna2Button();
+            this.btnEditePatient = new Guna.UI2.WinForms.Guna2Button();
+            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.btnDeletePatient = new Guna.UI2.WinForms.Guna2Button();
             this.MedicalAlertPanel = new System.Windows.Forms.Panel();
             this.shpMedicalAlert = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.lblHealthProblem = new System.Windows.Forms.Label();
@@ -65,11 +70,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.label1 = new System.Windows.Forms.Label();
             this.PatientShortcutsInformation = new System.Windows.Forms.Panel();
             this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
-            this.btnAddPatient = new Guna.UI2.WinForms.Guna2Button();
-            this.btnAddNewAppointment = new Guna.UI2.WinForms.Guna2Button();
-            this.btnEditePatient = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            this.btnDeletePatient = new Guna.UI2.WinForms.Guna2Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.guna2spnlHedder.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -347,6 +347,25 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.tbSearchBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.tbSearchBox.TextChanged += new System.EventHandler(this.tbSearchBox_TextChanged);
             // 
+            // btnAddPatient
+            // 
+            this.btnAddPatient.BorderRadius = 10;
+            this.btnAddPatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddPatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddPatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnAddPatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnAddPatient.FillColor = System.Drawing.Color.SteelBlue;
+            this.btnAddPatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddPatient.ForeColor = System.Drawing.Color.White;
+            this.btnAddPatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.btnAddPatient.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnAddPatient.Location = new System.Drawing.Point(8, 6);
+            this.btnAddPatient.Name = "btnAddPatient";
+            this.btnAddPatient.Size = new System.Drawing.Size(451, 67);
+            this.btnAddPatient.TabIndex = 0;
+            this.btnAddPatient.Text = "اضافة مريـض جديد";
+            this.btnAddPatient.Click += new System.EventHandler(this.btnAddPatient_Click);
+            // 
             // shourcutsPatientPanel
             // 
             this.shourcutsPatientPanel.BorderColor = System.Drawing.Color.SteelBlue;
@@ -382,6 +401,86 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.flpBtns.Size = new System.Drawing.Size(450, 323);
             this.flpBtns.TabIndex = 4;
             this.flpBtns.WrapContents = false;
+            // 
+            // btnAddNewAppointment
+            // 
+            this.btnAddNewAppointment.BorderRadius = 10;
+            this.btnAddNewAppointment.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddNewAppointment.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAddNewAppointment.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnAddNewAppointment.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnAddNewAppointment.FillColor = System.Drawing.Color.SteelBlue;
+            this.btnAddNewAppointment.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddNewAppointment.ForeColor = System.Drawing.Color.White;
+            this.btnAddNewAppointment.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.btnAddNewAppointment.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnAddNewAppointment.Location = new System.Drawing.Point(11, 10);
+            this.btnAddNewAppointment.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.btnAddNewAppointment.Name = "btnAddNewAppointment";
+            this.btnAddNewAppointment.Size = new System.Drawing.Size(429, 67);
+            this.btnAddNewAppointment.TabIndex = 0;
+            this.btnAddNewAppointment.Text = "إضـافة موعد جديد للمريض";
+            this.btnAddNewAppointment.Click += new System.EventHandler(this.btnAddNewAppointment_Click);
+            // 
+            // btnEditePatient
+            // 
+            this.btnEditePatient.BorderRadius = 10;
+            this.btnEditePatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnEditePatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnEditePatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnEditePatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnEditePatient.FillColor = System.Drawing.Color.SteelBlue;
+            this.btnEditePatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnEditePatient.ForeColor = System.Drawing.Color.White;
+            this.btnEditePatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Edite;
+            this.btnEditePatient.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnEditePatient.Location = new System.Drawing.Point(11, 90);
+            this.btnEditePatient.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.btnEditePatient.Name = "btnEditePatient";
+            this.btnEditePatient.Size = new System.Drawing.Size(429, 67);
+            this.btnEditePatient.TabIndex = 0;
+            this.btnEditePatient.Text = "تعديل بيانات المريض";
+            this.btnEditePatient.Click += new System.EventHandler(this.btnEditePatient_Click);
+            // 
+            // guna2Button1
+            // 
+            this.guna2Button1.BorderRadius = 10;
+            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.guna2Button1.FillColor = System.Drawing.Color.SteelBlue;
+            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.guna2Button1.ForeColor = System.Drawing.Color.White;
+            this.guna2Button1.Image = global::DentistClinic_PresentationTier.Properties.Resources.view;
+            this.guna2Button1.ImageSize = new System.Drawing.Size(30, 30);
+            this.guna2Button1.Location = new System.Drawing.Point(11, 170);
+            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.guna2Button1.Name = "guna2Button1";
+            this.guna2Button1.Size = new System.Drawing.Size(429, 67);
+            this.guna2Button1.TabIndex = 0;
+            this.guna2Button1.Text = "عرض ملف المريض الصحـي";
+            this.guna2Button1.Click += new System.EventHandler(this.btnViewMedicalFile_Click);
+            // 
+            // btnDeletePatient
+            // 
+            this.btnDeletePatient.BorderRadius = 10;
+            this.btnDeletePatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnDeletePatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnDeletePatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnDeletePatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnDeletePatient.FillColor = System.Drawing.Color.Red;
+            this.btnDeletePatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnDeletePatient.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Delete;
+            this.btnDeletePatient.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnDeletePatient.Location = new System.Drawing.Point(11, 245);
+            this.btnDeletePatient.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
+            this.btnDeletePatient.Name = "btnDeletePatient";
+            this.btnDeletePatient.Size = new System.Drawing.Size(429, 67);
+            this.btnDeletePatient.TabIndex = 0;
+            this.btnDeletePatient.Text = "حذف المريض";
+            this.btnDeletePatient.Click += new System.EventHandler(this.btnDeletePatient_Click);
             // 
             // MedicalAlertPanel
             // 
@@ -450,7 +549,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             this.lblNationalNo.AutoSize = true;
             this.lblNationalNo.Font = new System.Drawing.Font("Simplified Arabic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblNationalNo.Location = new System.Drawing.Point(183, 155);
+            this.lblNationalNo.Location = new System.Drawing.Point(170, 155);
             this.lblNationalNo.Name = "lblNationalNo";
             this.lblNationalNo.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblNationalNo.Size = new System.Drawing.Size(57, 41);
@@ -461,7 +560,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             this.lblPatientPhoneNumber.AutoSize = true;
             this.lblPatientPhoneNumber.Font = new System.Drawing.Font("Simplified Arabic", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblPatientPhoneNumber.Location = new System.Drawing.Point(195, 101);
+            this.lblPatientPhoneNumber.Location = new System.Drawing.Point(170, 101);
             this.lblPatientPhoneNumber.Name = "lblPatientPhoneNumber";
             this.lblPatientPhoneNumber.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.lblPatientPhoneNumber.Size = new System.Drawing.Size(57, 41);
@@ -546,105 +645,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.guna2WinProgressIndicator1.NumberOfCircles = 13;
             this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(185, 180);
             this.guna2WinProgressIndicator1.TabIndex = 0;
-            // 
-            // btnAddPatient
-            // 
-            this.btnAddPatient.BorderRadius = 10;
-            this.btnAddPatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddPatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddPatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnAddPatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnAddPatient.FillColor = System.Drawing.Color.SteelBlue;
-            this.btnAddPatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddPatient.ForeColor = System.Drawing.Color.White;
-            this.btnAddPatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
-            this.btnAddPatient.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnAddPatient.Location = new System.Drawing.Point(8, 6);
-            this.btnAddPatient.Name = "btnAddPatient";
-            this.btnAddPatient.Size = new System.Drawing.Size(451, 67);
-            this.btnAddPatient.TabIndex = 0;
-            this.btnAddPatient.Text = "اضافة مريـض جديد";
-            this.btnAddPatient.Click += new System.EventHandler(this.btnAddPatient_Click);
-            // 
-            // btnAddNewAppointment
-            // 
-            this.btnAddNewAppointment.BorderRadius = 10;
-            this.btnAddNewAppointment.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddNewAppointment.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddNewAppointment.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnAddNewAppointment.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnAddNewAppointment.FillColor = System.Drawing.Color.SteelBlue;
-            this.btnAddNewAppointment.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddNewAppointment.ForeColor = System.Drawing.Color.White;
-            this.btnAddNewAppointment.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
-            this.btnAddNewAppointment.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnAddNewAppointment.Location = new System.Drawing.Point(11, 10);
-            this.btnAddNewAppointment.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.btnAddNewAppointment.Name = "btnAddNewAppointment";
-            this.btnAddNewAppointment.Size = new System.Drawing.Size(429, 67);
-            this.btnAddNewAppointment.TabIndex = 0;
-            this.btnAddNewAppointment.Text = "إضـافة موعد جديد للمريض";
-            this.btnAddNewAppointment.Click += new System.EventHandler(this.btnAddNewAppointment_Click);
-            // 
-            // btnEditePatient
-            // 
-            this.btnEditePatient.BorderRadius = 10;
-            this.btnEditePatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditePatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnEditePatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnEditePatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnEditePatient.FillColor = System.Drawing.Color.SteelBlue;
-            this.btnEditePatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnEditePatient.ForeColor = System.Drawing.Color.White;
-            this.btnEditePatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Edite;
-            this.btnEditePatient.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnEditePatient.Location = new System.Drawing.Point(11, 90);
-            this.btnEditePatient.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.btnEditePatient.Name = "btnEditePatient";
-            this.btnEditePatient.Size = new System.Drawing.Size(429, 67);
-            this.btnEditePatient.TabIndex = 0;
-            this.btnEditePatient.Text = "تعديل بيانات المريض";
-            this.btnEditePatient.Click += new System.EventHandler(this.btnEditePatient_Click);
-            // 
-            // guna2Button1
-            // 
-            this.guna2Button1.BorderRadius = 10;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.SteelBlue;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Image = global::DentistClinic_PresentationTier.Properties.Resources.view;
-            this.guna2Button1.ImageSize = new System.Drawing.Size(30, 30);
-            this.guna2Button1.Location = new System.Drawing.Point(11, 170);
-            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(429, 67);
-            this.guna2Button1.TabIndex = 0;
-            this.guna2Button1.Text = "عرض ملف المريض الصحـي";
-            this.guna2Button1.Click += new System.EventHandler(this.btnViewMedicalFile_Click);
-            // 
-            // btnDeletePatient
-            // 
-            this.btnDeletePatient.BorderRadius = 10;
-            this.btnDeletePatient.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnDeletePatient.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnDeletePatient.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnDeletePatient.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDeletePatient.FillColor = System.Drawing.Color.Red;
-            this.btnDeletePatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.btnDeletePatient.ForeColor = System.Drawing.Color.White;
-            this.btnDeletePatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Delete;
-            this.btnDeletePatient.ImageSize = new System.Drawing.Size(30, 30);
-            this.btnDeletePatient.Location = new System.Drawing.Point(11, 245);
-            this.btnDeletePatient.Margin = new System.Windows.Forms.Padding(3, 5, 3, 3);
-            this.btnDeletePatient.Name = "btnDeletePatient";
-            this.btnDeletePatient.Size = new System.Drawing.Size(429, 67);
-            this.btnDeletePatient.TabIndex = 0;
-            this.btnDeletePatient.Text = "حذف المريض";
-            this.btnDeletePatient.Click += new System.EventHandler(this.btnDeletePatient_Click);
             // 
             // ctrlManagePatients
             // 

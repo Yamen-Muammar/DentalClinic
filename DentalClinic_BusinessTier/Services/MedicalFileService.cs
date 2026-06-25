@@ -22,6 +22,11 @@ namespace DentalClinic_BusinessTier.Services
             return await _medicalFileRepository.GetMedicalFileByIdAsync(objId);
         }
 
+        public async Task<clsMedicalFile> GetMedicalFilesByPatientIDAsync(int patientID)
+        {
+            return await _medicalFileRepository.GetMedicalFileByPatientIdAsync(patientID);
+        }
+
         public async Task<int?> InsertAsync(clsMedicalFile obj)
         {
             _validateMedicalFileObj(obj);

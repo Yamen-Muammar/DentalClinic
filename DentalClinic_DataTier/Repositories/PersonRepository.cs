@@ -54,7 +54,7 @@ namespace DentalClinic_DataTier.Repositories
                        DateOfBirth, Gender, PhoneNumber, CreatedAt, UpdatedAt, UpdatedBy_ID,
                        IsDeleted, DeletedAt, DeletedBy_ID
                 FROM People
-                WHERE PersonID = @PersonID AND IsDeleted = 0";
+                WHERE PersonID = @PersonID";
 
             using (var conn = _connectionFactory.CreateConnection())
             using (var cmd = new SqlCommand(query, conn))
@@ -77,7 +77,7 @@ namespace DentalClinic_DataTier.Repositories
                        DateOfBirth, Gender, PhoneNumber, CreatedAt, UpdatedAt, UpdatedBy_ID,
                        IsDeleted, DeletedAt, DeletedBy_ID
                 FROM People
-                WHERE NationalNo = @NationalNo AND IsDeleted = 0";
+                WHERE NationalNo = @NationalNo";
 
             using (var conn = _connectionFactory.CreateConnection())
             using (var cmd = new SqlCommand(query, conn))
@@ -105,7 +105,8 @@ namespace DentalClinic_DataTier.Repositories
                     Gender       = @Gender,
                     PhoneNumber  = @PhoneNumber,
                     UpdatedAt    = @UpdatedAt,
-                    UpdatedBy_ID = @UpdatedBy_ID
+                    UpdatedBy_ID = @UpdatedBy_ID,
+                    IsDeleted = @isDeleted
                 WHERE PersonID = @PersonID";
 
             using (var conn = _connectionFactory.CreateConnection())
@@ -121,6 +122,7 @@ namespace DentalClinic_DataTier.Repositories
                 cmd.Parameters.AddWithValue("@PhoneNumber",  (object)person.PhoneNumber ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@UpdatedAt",    (object)person.UpdatedAt    ?? DBNull.Value);
                 cmd.Parameters.AddWithValue("@UpdatedBy_ID", (object)person.UpdatedBy_ID ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@isDeleted", person.IsDeleted);
 
                 await conn.OpenAsync();
                 return await cmd.ExecuteNonQueryAsync() > 0;

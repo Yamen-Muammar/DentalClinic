@@ -9,5 +9,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IMedicalFileService : IGRUDService<clsMedicalFile>
     {
+        Task<clsMedicalFile> GetMedicalFilesByPatientIDAsync(int patientID);
     }
 }

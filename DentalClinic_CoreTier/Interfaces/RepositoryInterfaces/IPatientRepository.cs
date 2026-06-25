@@ -11,7 +11,7 @@ namespace DentalClinic_CoreTier.Interfaces
     public interface IPatientRepository
     {
         Task<int> AddPatientAsync(clsPatient patient);
-        Task<int> AddPatientWithPersonAsync(clsPatient patient);
+        Task<int> AddPatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile);
         Task<clsPatient> GetPatientByIdAsync(int patientId);
         Task<clsPatient> GetPatientByPersonIdAsync(int personId);
         Task<IEnumerable<clsPatient>> GetAllPatientsAsync();
@@ -20,6 +20,9 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
         Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
         Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
-        Task<bool> UpdatePatientWithPersonAsync(clsPatient patient);
+        Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient, clsMedicalFile medicalFile);
+        Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID);
+
+        Task<int>   GetPatientCountAsync();
     }
 }
