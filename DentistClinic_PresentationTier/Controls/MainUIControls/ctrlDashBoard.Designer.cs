@@ -132,7 +132,7 @@
             // 
             // guna2ShadowPanelTodayApp
             // 
-            this.guna2ShadowPanelTodayApp.BackColor = System.Drawing.Color.Transparent;
+            this.guna2ShadowPanelTodayApp.BackColor = System.Drawing.Color.SlateGray;
             this.guna2ShadowPanelTodayApp.Controls.Add(this.flpTodayAppointmentList);
             this.guna2ShadowPanelTodayApp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2ShadowPanelTodayApp.FillColor = System.Drawing.Color.LightSlateGray;
@@ -148,7 +148,7 @@
             // 
             this.flpTodayAppointmentList.AutoScroll = true;
             this.flpTodayAppointmentList.AutoScrollMargin = new System.Drawing.Size(1, 1);
-            this.flpTodayAppointmentList.BackColor = System.Drawing.Color.Transparent;
+            this.flpTodayAppointmentList.BackColor = System.Drawing.Color.SlateGray;
             this.flpTodayAppointmentList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpTodayAppointmentList.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpTodayAppointmentList.Location = new System.Drawing.Point(0, 0);
@@ -191,6 +191,7 @@
             // 
             // flowLayoutPanel2
             // 
+            this.flowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel2.Controls.Add(this.lblPageTitle);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
@@ -213,7 +214,7 @@
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.flowLayoutPanel1.BackColor = System.Drawing.Color.AliceBlue;
             this.flowLayoutPanel1.Controls.Add(this.pnlPatientCount);
             this.flowLayoutPanel1.Controls.Add(this.pnlNotConfirmedPayments);
             this.flowLayoutPanel1.Controls.Add(this.pnlTodayAppointments);

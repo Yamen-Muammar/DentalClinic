@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             this.MainContainerControl = new Guna.UI2.WinForms.Guna2ContainerControl();
+            this.indecatorPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
+            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
+            this.noPersonInfoPanel = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            this.label8 = new System.Windows.Forms.Label();
             this.btnEditePatientInfo = new Guna.UI2.WinForms.Guna2CircleButton();
             this.spPhoneNums = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.flpPhoneNumbers = new System.Windows.Forms.FlowLayoutPanel();
@@ -46,15 +50,11 @@
             this.lblGender = new System.Windows.Forms.Label();
             this.lblFullName = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.indecatorPanel = new Guna.UI2.WinForms.Guna2GradientPanel();
-            this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
-            this.noPersonInfoPanel = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            this.label8 = new System.Windows.Forms.Label();
             this.MainContainerControl.SuspendLayout();
-            this.spPhoneNums.SuspendLayout();
-            this.TilePhonesPanel.SuspendLayout();
             this.indecatorPanel.SuspendLayout();
             this.noPersonInfoPanel.SuspendLayout();
+            this.spPhoneNums.SuspendLayout();
+            this.TilePhonesPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // MainContainerControl
@@ -89,6 +89,54 @@
             this.MainContainerControl.TabIndex = 0;
             this.MainContainerControl.Text = "PersonInformation";
             // 
+            // indecatorPanel
+            // 
+            this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator1);
+            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.indecatorPanel.FillColor = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.FillColor2 = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
+            this.indecatorPanel.Name = "indecatorPanel";
+            this.indecatorPanel.Size = new System.Drawing.Size(1085, 540);
+            this.indecatorPanel.TabIndex = 3;
+            // 
+            // guna2WinProgressIndicator1
+            // 
+            this.guna2WinProgressIndicator1.AnimationSpeed = 90;
+            this.guna2WinProgressIndicator1.AutoStart = true;
+            this.guna2WinProgressIndicator1.CircleSize = 3F;
+            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(455, 165);
+            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
+            this.guna2WinProgressIndicator1.NumberOfCircles = 12;
+            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.SteelBlue;
+            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(145, 136);
+            this.guna2WinProgressIndicator1.TabIndex = 0;
+            // 
+            // noPersonInfoPanel
+            // 
+            this.noPersonInfoPanel.Controls.Add(this.label8);
+            this.noPersonInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.noPersonInfoPanel.FillColor = System.Drawing.Color.LightSteelBlue;
+            this.noPersonInfoPanel.FillColor2 = System.Drawing.Color.Gainsboro;
+            this.noPersonInfoPanel.FillColor3 = System.Drawing.Color.SteelBlue;
+            this.noPersonInfoPanel.FillColor4 = System.Drawing.Color.LightGoldenrodYellow;
+            this.noPersonInfoPanel.Location = new System.Drawing.Point(0, 0);
+            this.noPersonInfoPanel.Name = "noPersonInfoPanel";
+            this.noPersonInfoPanel.Size = new System.Drawing.Size(1085, 540);
+            this.noPersonInfoPanel.TabIndex = 3;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Mudir MT", 26F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label8.ForeColor = System.Drawing.Color.AliceBlue;
+            this.label8.Location = new System.Drawing.Point(276, 187);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(461, 95);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "لايوجد بيانات للشخص ";
+            // 
             // btnEditePatientInfo
             // 
             this.btnEditePatientInfo.BorderColor = System.Drawing.Color.Transparent;
@@ -114,7 +162,7 @@
             // 
             // spPhoneNums
             // 
-            this.spPhoneNums.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.spPhoneNums.BackColor = System.Drawing.Color.Transparent;
             this.spPhoneNums.Controls.Add(this.flpPhoneNumbers);
             this.spPhoneNums.Controls.Add(this.TilePhonesPanel);
             this.spPhoneNums.FillColor = System.Drawing.Color.LightSteelBlue;
@@ -165,7 +213,7 @@
             this.label7.Font = new System.Drawing.Font("Mudir MT", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label7.Location = new System.Drawing.Point(171, 7);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(105, 36);
+            this.label7.Size = new System.Drawing.Size(92, 36);
             this.label7.TabIndex = 0;
             this.label7.Text = "رقم الهاتف";
             // 
@@ -313,70 +361,23 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "اسم المريض :";
             // 
-            // indecatorPanel
-            // 
-            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator1);
-            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.indecatorPanel.FillColor = System.Drawing.Color.WhiteSmoke;
-            this.indecatorPanel.FillColor2 = System.Drawing.Color.WhiteSmoke;
-            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
-            this.indecatorPanel.Name = "indecatorPanel";
-            this.indecatorPanel.Size = new System.Drawing.Size(1085, 540);
-            this.indecatorPanel.TabIndex = 3;
-            // 
-            // guna2WinProgressIndicator1
-            // 
-            this.guna2WinProgressIndicator1.AnimationSpeed = 90;
-            this.guna2WinProgressIndicator1.AutoStart = true;
-            this.guna2WinProgressIndicator1.CircleSize = 3F;
-            this.guna2WinProgressIndicator1.Location = new System.Drawing.Point(455, 165);
-            this.guna2WinProgressIndicator1.Name = "guna2WinProgressIndicator1";
-            this.guna2WinProgressIndicator1.NumberOfCircles = 12;
-            this.guna2WinProgressIndicator1.ProgressColor = System.Drawing.Color.SteelBlue;
-            this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(145, 136);
-            this.guna2WinProgressIndicator1.TabIndex = 0;
-            // 
-            // noPersonInfoPanel
-            // 
-            this.noPersonInfoPanel.Controls.Add(this.label8);
-            this.noPersonInfoPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.noPersonInfoPanel.FillColor = System.Drawing.Color.LightSteelBlue;
-            this.noPersonInfoPanel.FillColor2 = System.Drawing.Color.Gainsboro;
-            this.noPersonInfoPanel.FillColor3 = System.Drawing.Color.SteelBlue;
-            this.noPersonInfoPanel.FillColor4 = System.Drawing.Color.LightGoldenrodYellow;
-            this.noPersonInfoPanel.Location = new System.Drawing.Point(0, 0);
-            this.noPersonInfoPanel.Name = "noPersonInfoPanel";
-            this.noPersonInfoPanel.Size = new System.Drawing.Size(1085, 540);
-            this.noPersonInfoPanel.TabIndex = 3;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Mudir MT", 26F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label8.ForeColor = System.Drawing.Color.AliceBlue;
-            this.label8.Location = new System.Drawing.Point(276, 187);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(461, 95);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "لايوجد بيانات للشخص ";
-            // 
             // ctrlPersonInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
+            this.BackColor = System.Drawing.Color.SlateGray;
             this.Controls.Add(this.MainContainerControl);
             this.Name = "ctrlPersonInformation";
             this.Size = new System.Drawing.Size(1085, 540);
             this.Load += new System.EventHandler(this.ctrlPersonInformation_Load);
             this.MainContainerControl.ResumeLayout(false);
             this.MainContainerControl.PerformLayout();
-            this.spPhoneNums.ResumeLayout(false);
-            this.TilePhonesPanel.ResumeLayout(false);
-            this.TilePhonesPanel.PerformLayout();
             this.indecatorPanel.ResumeLayout(false);
             this.noPersonInfoPanel.ResumeLayout(false);
             this.noPersonInfoPanel.PerformLayout();
+            this.spPhoneNums.ResumeLayout(false);
+            this.TilePhonesPanel.ResumeLayout(false);
+            this.TilePhonesPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }

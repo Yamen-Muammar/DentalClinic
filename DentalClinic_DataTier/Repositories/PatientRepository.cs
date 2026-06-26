@@ -476,7 +476,7 @@ namespace DentalClinic_DataTier.Repositories
                 using(SqlConnection conn = _connectionFactory.CreateConnection())
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
-                    await conn.OpenAsync();
+                    await conn.OpenAsync();                    
                     object result = await cmd.ExecuteScalarAsync();
                     if (result != null && result is int)
                     {

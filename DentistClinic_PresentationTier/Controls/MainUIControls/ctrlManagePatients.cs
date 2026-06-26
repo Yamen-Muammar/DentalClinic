@@ -43,11 +43,17 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             _personService = personService;
             _sessionContext = sessionContext;
             InitializeComponent();
-            //typeof(DataGridView)
-            //.GetProperty("DoubleBuffered", BindingFlags.Instance | BindingFlags.NonPublic)
-            //.SetValue(dgvPatient, true, null);
+            this.DoubleBuffered = true;
         }
-
+        protected override CreateParams CreateParams 
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0 * 02000000;
+                return cp;
+            }   
+        }
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
         {
             await _buildDGV();
@@ -186,6 +192,10 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async void dgvPatient_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0)
+            {
+                return;
+            }
             int patientId = (int)dgvPatient?.Rows[e.RowIndex].Cells["ID"].Value;
             string pateintFullName = (string)dgvPatient?.Rows[e.RowIndex].Cells["FullName"].Value;
             string pateintPhoneNumber = (string)dgvPatient?.Rows[e.RowIndex].Cells["PhoneNumber"].Value;
@@ -267,7 +277,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 return;
             }
             lblNationalNo.Text = patient.PersonInfo.NationalNo??"N/A";
-            lblHealthProblem.Text = patient.HealthProblems??"N/A";
+            lblHealthProblem.Text = patient.HealthProblems != string.Empty ? patient.HealthProblems : "N/A";
        }
         private async Task<clsPatient> _getPatientInfo(int patientID)
         {

@@ -28,6 +28,7 @@ namespace DentistClinic_PresentationTier
             _roleService = roleService;
             _sessionContext = sessionContext;
             InitializeComponent();
+            this.DoubleBuffered = true;
             
         }
 

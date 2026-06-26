@@ -31,7 +31,9 @@ namespace DentistClinic_PresentationTier
         private ISessionContext _sessionContext;
         public frmLogin(ISessionContext sessionContext,IStaffService staffService)
         {
+            
             InitializeComponent();
+            this.DoubleBuffered = true;
             _staffService = staffService;
             _sessionContext = sessionContext;
         }
@@ -41,15 +43,9 @@ namespace DentistClinic_PresentationTier
         }
         private async void btnLogin_Click(object sender, EventArgs e)
         {
-            Task.Run(() =>
-            {
-                this.Invoke((Action) (() =>
-                {
-                    _startLoading(true);
-                }));        
-            });
-          
-           
+
+            _startLoading(true);
+                     
             try
             {
                 if (string.IsNullOrEmpty(tbUsername.Text))

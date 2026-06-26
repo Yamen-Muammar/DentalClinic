@@ -32,8 +32,8 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.guna2GradientPanel2 = new Guna.UI2.WinForms.Guna2GradientPanel();
             this.label2 = new System.Windows.Forms.Label();
-            this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
+            this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
             this.mainLayoutPanel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2GradientPanel2.SuspendLayout();
@@ -104,18 +104,6 @@
             this.label2.TabIndex = 1;
             this.label2.Text = "اهلا بعودتك؛";
             // 
-            // flowLayoutPanelButtons
-            // 
-            this.flowLayoutPanelButtons.BackColor = System.Drawing.Color.SteelBlue;
-            this.flowLayoutPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(0, 147);
-            this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(0, 15, 0, 3);
-            this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
-            this.flowLayoutPanelButtons.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
-            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(380, 870);
-            this.flowLayoutPanelButtons.TabIndex = 3;
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -129,6 +117,18 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "عيادة النصر";
             // 
+            // flowLayoutPanelButtons
+            // 
+            this.flowLayoutPanelButtons.BackColor = System.Drawing.Color.SteelBlue;
+            this.flowLayoutPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flowLayoutPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanelButtons.Location = new System.Drawing.Point(0, 147);
+            this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(0, 15, 0, 3);
+            this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
+            this.flowLayoutPanelButtons.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(380, 870);
+            this.flowLayoutPanelButtons.TabIndex = 3;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -137,6 +137,8 @@
             this.ClientSize = new System.Drawing.Size(1898, 1020);
             this.Controls.Add(this.mainLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.IsMdiContainer = true;
+            this.MinimizeBox = false;
             this.Name = "frmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Main";

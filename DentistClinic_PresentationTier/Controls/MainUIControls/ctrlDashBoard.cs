@@ -141,7 +141,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
             _handleProgressIndicator(false);
         }
-
         private async Task _getNotConfirmedPayments()
         {
             try
@@ -178,7 +177,8 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async Task _loadTodaysAppointments()
         {
-            await _getTodaysAppointments();
+            _loadMockAppointments();
+            //await _getTodaysAppointments();
             try
             {
                 if (_todayAppointment.Count == 0)
