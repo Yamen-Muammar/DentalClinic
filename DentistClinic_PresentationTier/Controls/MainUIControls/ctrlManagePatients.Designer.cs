@@ -32,10 +32,10 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.guna2spnlHedder = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -54,10 +54,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.flpBtns = new System.Windows.Forms.FlowLayoutPanel();
             this.btnAddNewAppointment = new Guna.UI2.WinForms.Guna2Button();
             this.btnEditePatient = new Guna.UI2.WinForms.Guna2Button();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.btnShowMedicalFile = new Guna.UI2.WinForms.Guna2Button();
             this.btnDeletePatient = new Guna.UI2.WinForms.Guna2Button();
             this.MedicalAlertPanel = new System.Windows.Forms.Panel();
             this.shpMedicalAlert = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            this.lblHealthProblem = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ShortInfoPanel = new System.Windows.Forms.Panel();
             this.lblNationalNo = new System.Windows.Forms.Label();
@@ -69,7 +70,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.label1 = new System.Windows.Forms.Label();
             this.PatientShortcutsInformation = new System.Windows.Forms.Panel();
             this.guna2WinProgressIndicator1 = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
-            this.lblHealthProblem = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.guna2spnlHedder.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
@@ -159,7 +159,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             // tlpContent
             // 
-            this.tlpContent.BackColor = System.Drawing.Color.Transparent;
+            this.tlpContent.BackColor = System.Drawing.Color.AliceBlue;
             this.tlpContent.ColumnCount = 2;
             this.tableLayoutPanel1.SetColumnSpan(this.tlpContent, 2);
             this.tlpContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.32051F));
@@ -221,29 +221,29 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.dgvPatient.AllowUserToDeleteRows = false;
             this.dgvPatient.AllowUserToResizeColumns = false;
             this.dgvPatient.AllowUserToResizeRows = false;
-            dataGridViewCellStyle9.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle9.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle9.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle9.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            this.dgvPatient.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle9;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle10.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(192)))));
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPatient.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            this.dgvPatient.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(128)))), ((int)(((byte)(192)))));
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPatient.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvPatient.ColumnHeadersHeight = 77;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvPatient.DefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvPatient.DefaultCellStyle = dataGridViewCellStyle3;
             this.dgvPatient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvPatient.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.dgvPatient.Location = new System.Drawing.Point(18, 18);
@@ -252,14 +252,14 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.dgvPatient.ReadOnly = true;
             this.dgvPatient.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.dgvPatient.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle12.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle12.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle12.SelectionBackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle12.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle12.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvPatient.RowHeadersDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.BackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.White;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvPatient.RowHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.dgvPatient.RowHeadersVisible = false;
             this.dgvPatient.RowHeadersWidth = 62;
             this.dgvPatient.RowTemplate.Height = 61;
@@ -371,6 +371,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             // shourcutsPatientPanel
             // 
+            this.shourcutsPatientPanel.BackColor = System.Drawing.Color.AliceBlue;
             this.shourcutsPatientPanel.BorderColor = System.Drawing.Color.SteelBlue;
             this.shourcutsPatientPanel.BorderRadius = 20;
             this.shourcutsPatientPanel.BorderThickness = 3;
@@ -384,7 +385,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.shourcutsPatientPanel.Location = new System.Drawing.Point(10, 131);
             this.shourcutsPatientPanel.Margin = new System.Windows.Forms.Padding(10);
             this.shourcutsPatientPanel.Name = "shourcutsPatientPanel";
-            this.shourcutsPatientPanel.Padding = new System.Windows.Forms.Padding(1);
+            this.shourcutsPatientPanel.Padding = new System.Windows.Forms.Padding(2, 1, 2, 1);
             this.shourcutsPatientPanel.Size = new System.Drawing.Size(452, 793);
             this.shourcutsPatientPanel.TabIndex = 3;
             this.shourcutsPatientPanel.Visible = false;
@@ -395,14 +396,14 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.flpBtns.BackColor = System.Drawing.Color.White;
             this.flpBtns.Controls.Add(this.btnAddNewAppointment);
             this.flpBtns.Controls.Add(this.btnEditePatient);
-            this.flpBtns.Controls.Add(this.guna2Button1);
+            this.flpBtns.Controls.Add(this.btnShowMedicalFile);
             this.flpBtns.Controls.Add(this.btnDeletePatient);
             this.flpBtns.Dock = System.Windows.Forms.DockStyle.Top;
             this.flpBtns.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpBtns.Location = new System.Drawing.Point(1, 470);
+            this.flpBtns.Location = new System.Drawing.Point(2, 470);
             this.flpBtns.Name = "flpBtns";
-            this.flpBtns.Padding = new System.Windows.Forms.Padding(8, 0, 0, 0);
-            this.flpBtns.Size = new System.Drawing.Size(450, 323);
+            this.flpBtns.Padding = new System.Windows.Forms.Padding(8, 0, 10, 0);
+            this.flpBtns.Size = new System.Drawing.Size(448, 323);
             this.flpBtns.TabIndex = 4;
             this.flpBtns.WrapContents = false;
             // 
@@ -446,25 +447,25 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.btnEditePatient.Text = "تعديل بيانات المريض";
             this.btnEditePatient.Click += new System.EventHandler(this.btnEditePatient_Click);
             // 
-            // guna2Button1
+            // btnShowMedicalFile
             // 
-            this.guna2Button1.BorderRadius = 10;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.SteelBlue;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.guna2Button1.ForeColor = System.Drawing.Color.White;
-            this.guna2Button1.Image = global::DentistClinic_PresentationTier.Properties.Resources.view;
-            this.guna2Button1.ImageSize = new System.Drawing.Size(30, 30);
-            this.guna2Button1.Location = new System.Drawing.Point(11, 170);
-            this.guna2Button1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(429, 67);
-            this.guna2Button1.TabIndex = 0;
-            this.guna2Button1.Text = "عرض ملف المريض الصحـي";
-            this.guna2Button1.Click += new System.EventHandler(this.btnViewMedicalFile_Click);
+            this.btnShowMedicalFile.BorderRadius = 10;
+            this.btnShowMedicalFile.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnShowMedicalFile.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnShowMedicalFile.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnShowMedicalFile.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnShowMedicalFile.FillColor = System.Drawing.Color.SteelBlue;
+            this.btnShowMedicalFile.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.btnShowMedicalFile.ForeColor = System.Drawing.Color.White;
+            this.btnShowMedicalFile.Image = global::DentistClinic_PresentationTier.Properties.Resources.view;
+            this.btnShowMedicalFile.ImageSize = new System.Drawing.Size(30, 30);
+            this.btnShowMedicalFile.Location = new System.Drawing.Point(11, 170);
+            this.btnShowMedicalFile.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.btnShowMedicalFile.Name = "btnShowMedicalFile";
+            this.btnShowMedicalFile.Size = new System.Drawing.Size(429, 67);
+            this.btnShowMedicalFile.TabIndex = 0;
+            this.btnShowMedicalFile.Text = "عرض ملف المريض الصحـي";
+            this.btnShowMedicalFile.Click += new System.EventHandler(this.btnViewMedicalFile_Click);
             // 
             // btnDeletePatient
             // 
@@ -488,13 +489,13 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             // MedicalAlertPanel
             // 
-            this.MedicalAlertPanel.BackColor = System.Drawing.Color.Transparent;
+            this.MedicalAlertPanel.BackColor = System.Drawing.Color.White;
             this.MedicalAlertPanel.Controls.Add(this.shpMedicalAlert);
             this.MedicalAlertPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.MedicalAlertPanel.Location = new System.Drawing.Point(1, 309);
+            this.MedicalAlertPanel.Location = new System.Drawing.Point(2, 309);
             this.MedicalAlertPanel.Name = "MedicalAlertPanel";
             this.MedicalAlertPanel.Padding = new System.Windows.Forms.Padding(10);
-            this.MedicalAlertPanel.Size = new System.Drawing.Size(450, 161);
+            this.MedicalAlertPanel.Size = new System.Drawing.Size(448, 161);
             this.MedicalAlertPanel.TabIndex = 3;
             // 
             // shpMedicalAlert
@@ -508,10 +509,26 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.shpMedicalAlert.Location = new System.Drawing.Point(10, 10);
             this.shpMedicalAlert.Name = "shpMedicalAlert";
             this.shpMedicalAlert.Radius = 10;
-            this.shpMedicalAlert.ShadowColor = System.Drawing.Color.Black;
+            this.shpMedicalAlert.ShadowColor = System.Drawing.Color.SteelBlue;
             this.shpMedicalAlert.ShadowShift = 10;
-            this.shpMedicalAlert.Size = new System.Drawing.Size(430, 141);
+            this.shpMedicalAlert.Size = new System.Drawing.Size(428, 141);
             this.shpMedicalAlert.TabIndex = 0;
+            // 
+            // lblHealthProblem
+            // 
+            this.lblHealthProblem.AcceptsReturn = true;
+            this.lblHealthProblem.BackColor = System.Drawing.Color.LightCoral;
+            this.lblHealthProblem.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lblHealthProblem.Font = new System.Drawing.Font("Simplified Arabic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.lblHealthProblem.ForeColor = System.Drawing.Color.Black;
+            this.lblHealthProblem.Location = new System.Drawing.Point(21, 50);
+            this.lblHealthProblem.Multiline = true;
+            this.lblHealthProblem.Name = "lblHealthProblem";
+            this.lblHealthProblem.ReadOnly = true;
+            this.lblHealthProblem.Size = new System.Drawing.Size(384, 75);
+            this.lblHealthProblem.TabIndex = 2;
+            this.lblHealthProblem.Text = "؟؟؟";
+            this.lblHealthProblem.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // label2
             // 
@@ -534,9 +551,9 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.ShortInfoPanel.Controls.Add(this.label4);
             this.ShortInfoPanel.Controls.Add(this.lblPatientName);
             this.ShortInfoPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.ShortInfoPanel.Location = new System.Drawing.Point(1, 71);
+            this.ShortInfoPanel.Location = new System.Drawing.Point(2, 71);
             this.ShortInfoPanel.Name = "ShortInfoPanel";
-            this.ShortInfoPanel.Size = new System.Drawing.Size(450, 238);
+            this.ShortInfoPanel.Size = new System.Drawing.Size(448, 238);
             this.ShortInfoPanel.TabIndex = 2;
             // 
             // lblNationalNo
@@ -603,15 +620,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.headerQuickPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.headerQuickPanel.FillColor = System.Drawing.Color.SteelBlue;
             this.headerQuickPanel.FillColor2 = System.Drawing.Color.SteelBlue;
-            this.headerQuickPanel.Location = new System.Drawing.Point(1, 1);
+            this.headerQuickPanel.Location = new System.Drawing.Point(2, 1);
             this.headerQuickPanel.Margin = new System.Windows.Forms.Padding(0);
             this.headerQuickPanel.Name = "headerQuickPanel";
-            this.headerQuickPanel.Size = new System.Drawing.Size(450, 70);
+            this.headerQuickPanel.Size = new System.Drawing.Size(448, 70);
             this.headerQuickPanel.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.SteelBlue;
             this.label1.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(118, 11);
@@ -639,22 +657,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.guna2WinProgressIndicator1.NumberOfCircles = 13;
             this.guna2WinProgressIndicator1.Size = new System.Drawing.Size(185, 180);
             this.guna2WinProgressIndicator1.TabIndex = 0;
-            // 
-            // lblHealthProblem
-            // 
-            this.lblHealthProblem.AcceptsReturn = true;
-            this.lblHealthProblem.BackColor = System.Drawing.Color.LightCoral;
-            this.lblHealthProblem.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.lblHealthProblem.Font = new System.Drawing.Font("Simplified Arabic", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblHealthProblem.ForeColor = System.Drawing.Color.Black;
-            this.lblHealthProblem.Location = new System.Drawing.Point(21, 50);
-            this.lblHealthProblem.Multiline = true;
-            this.lblHealthProblem.Name = "lblHealthProblem";
-            this.lblHealthProblem.ReadOnly = true;
-            this.lblHealthProblem.Size = new System.Drawing.Size(384, 75);
-            this.lblHealthProblem.TabIndex = 2;
-            this.lblHealthProblem.Text = "؟؟؟";
-            this.lblHealthProblem.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // ctrlManagePatients
             // 
@@ -725,7 +727,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private System.Windows.Forms.Label lblPatientName;
         private Guna.UI2.WinForms.Guna2GradientPanel headerQuickPanel;
         private System.Windows.Forms.Label label1;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private Guna.UI2.WinForms.Guna2Button btnShowMedicalFile;
         private System.Windows.Forms.TextBox lblHealthProblem;
     }
 }

@@ -35,7 +35,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.tbHealthProblems = new Guna.UI2.WinForms.Guna2TextBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.dtpDateOfBirth = new Guna.UI2.WinForms.Guna2DateTimePicker();
             this.cbBloodType = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cbGender = new Guna.UI2.WinForms.Guna2ComboBox();
             this.tbGeneralAllergies = new Guna.UI2.WinForms.Guna2TextBox();
@@ -56,27 +55,34 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.cbYear = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cbMonth = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cbDay = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.gbMainBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbMainBox
             // 
-            this.gbMainBox.BackColor = System.Drawing.SystemColors.Control;
+            this.gbMainBox.BackColor = System.Drawing.Color.AliceBlue;
             this.gbMainBox.BorderColor = System.Drawing.Color.SlateGray;
-            this.gbMainBox.BorderRadius = 10;
+            this.gbMainBox.BorderRadius = 3;
             this.gbMainBox.BorderThickness = 5;
+            this.gbMainBox.Controls.Add(this.cbDay);
+            this.gbMainBox.Controls.Add(this.cbMonth);
+            this.gbMainBox.Controls.Add(this.cbYear);
             this.gbMainBox.Controls.Add(this.label10);
             this.gbMainBox.Controls.Add(this.label13);
             this.gbMainBox.Controls.Add(this.label12);
             this.gbMainBox.Controls.Add(this.label11);
             this.gbMainBox.Controls.Add(this.tbHealthProblems);
             this.gbMainBox.Controls.Add(this.label8);
-            this.gbMainBox.Controls.Add(this.dtpDateOfBirth);
             this.gbMainBox.Controls.Add(this.cbBloodType);
             this.gbMainBox.Controls.Add(this.cbGender);
             this.gbMainBox.Controls.Add(this.tbGeneralAllergies);
             this.gbMainBox.Controls.Add(this.tbPhoneNumber);
             this.gbMainBox.Controls.Add(this.tbNationalNo);
+            this.gbMainBox.Controls.Add(this.label15);
             this.gbMainBox.Controls.Add(this.label6);
             this.gbMainBox.Controls.Add(this.btnCancel);
             this.gbMainBox.Controls.Add(this.btnSave);
@@ -193,25 +199,6 @@
             this.label8.TabIndex = 12;
             this.label8.Text = "المـشاكل الصحية";
             // 
-            // dtpDateOfBirth
-            // 
-            this.dtpDateOfBirth.BackColor = System.Drawing.Color.Transparent;
-            this.dtpDateOfBirth.BorderColor = System.Drawing.Color.SteelBlue;
-            this.dtpDateOfBirth.BorderRadius = 16;
-            this.dtpDateOfBirth.BorderThickness = 2;
-            this.dtpDateOfBirth.Checked = true;
-            this.dtpDateOfBirth.FillColor = System.Drawing.Color.SteelBlue;
-            this.dtpDateOfBirth.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.dtpDateOfBirth.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.dtpDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpDateOfBirth.Location = new System.Drawing.Point(13, 297);
-            this.dtpDateOfBirth.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpDateOfBirth.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
-            this.dtpDateOfBirth.Name = "dtpDateOfBirth";
-            this.dtpDateOfBirth.Size = new System.Drawing.Size(378, 84);
-            this.dtpDateOfBirth.TabIndex = 6;
-            this.dtpDateOfBirth.Value = new System.DateTime(2026, 6, 20, 0, 0, 0, 0);
-            // 
             // cbBloodType
             // 
             this.cbBloodType.BackColor = System.Drawing.Color.Transparent;
@@ -233,7 +220,7 @@
             this.cbBloodType.Name = "cbBloodType";
             this.cbBloodType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbBloodType.Size = new System.Drawing.Size(378, 82);
-            this.cbBloodType.TabIndex = 8;
+            this.cbBloodType.TabIndex = 11;
             this.cbBloodType.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // cbGender
@@ -259,7 +246,7 @@
             this.cbGender.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.cbGender.Size = new System.Drawing.Size(378, 82);
             this.cbGender.StartIndex = 0;
-            this.cbGender.TabIndex = 7;
+            this.cbGender.TabIndex = 9;
             this.cbGender.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // tbGeneralAllergies
@@ -283,7 +270,7 @@
             this.tbGeneralAllergies.PlaceholderText = "هل المريض يعاني من حساسية ؟";
             this.tbGeneralAllergies.SelectedText = "";
             this.tbGeneralAllergies.Size = new System.Drawing.Size(1071, 84);
-            this.tbGeneralAllergies.TabIndex = 9;
+            this.tbGeneralAllergies.TabIndex = 12;
             // 
             // tbPhoneNumber
             // 
@@ -306,7 +293,7 @@
             this.tbPhoneNumber.PlaceholderText = "ادخل رقم الهاتف";
             this.tbPhoneNumber.SelectedText = "";
             this.tbPhoneNumber.Size = new System.Drawing.Size(378, 84);
-            this.tbPhoneNumber.TabIndex = 9;
+            this.tbPhoneNumber.TabIndex = 10;
             this.tbPhoneNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPhoneNumber_KeyPress);
             // 
             // tbNationalNo
@@ -359,7 +346,7 @@
             this.btnCancel.Location = new System.Drawing.Point(749, 747);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(315, 62);
-            this.btnCancel.TabIndex = 11;
+            this.btnCancel.TabIndex = 14;
             this.btnCancel.Text = "إلغـاء";
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
@@ -376,7 +363,7 @@
             this.btnSave.Location = new System.Drawing.Point(384, 747);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(315, 62);
-            this.btnSave.TabIndex = 12;
+            this.btnSave.TabIndex = 13;
             this.btnSave.Text = "حفـظ";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
@@ -552,10 +539,137 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "اسم الأول";
             // 
+            // cbYear
+            // 
+            this.cbYear.BackColor = System.Drawing.Color.AliceBlue;
+            this.cbYear.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbYear.BorderRadius = 4;
+            this.cbYear.BorderThickness = 2;
+            this.cbYear.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbYear.DropDownHeight = 400;
+            this.cbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbYear.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbYear.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbYear.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbYear.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbYear.IntegralHeight = false;
+            this.cbYear.ItemHeight = 50;
+            this.cbYear.Items.AddRange(new object[] {
+            "السنة"});
+            this.cbYear.Location = new System.Drawing.Point(301, 297);
+            this.cbYear.Name = "cbYear";
+            this.cbYear.Size = new System.Drawing.Size(153, 56);
+            this.cbYear.StartIndex = 0;
+            this.cbYear.TabIndex = 6;
+            this.cbYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cbMonth
+            // 
+            this.cbMonth.BackColor = System.Drawing.Color.AliceBlue;
+            this.cbMonth.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbMonth.BorderRadius = 4;
+            this.cbMonth.BorderThickness = 2;
+            this.cbMonth.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbMonth.DropDownHeight = 400;
+            this.cbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMonth.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbMonth.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbMonth.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMonth.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbMonth.IntegralHeight = false;
+            this.cbMonth.ItemHeight = 50;
+            this.cbMonth.Items.AddRange(new object[] {
+            "الشهر",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
+            this.cbMonth.Location = new System.Drawing.Point(157, 297);
+            this.cbMonth.Name = "cbMonth";
+            this.cbMonth.Size = new System.Drawing.Size(132, 56);
+            this.cbMonth.StartIndex = 0;
+            this.cbMonth.TabIndex = 7;
+            this.cbMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cbDay
+            // 
+            this.cbDay.BackColor = System.Drawing.Color.Transparent;
+            this.cbDay.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbDay.BorderRadius = 4;
+            this.cbDay.BorderThickness = 2;
+            this.cbDay.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbDay.DropDownHeight = 400;
+            this.cbDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDay.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbDay.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbDay.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbDay.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbDay.IntegralHeight = false;
+            this.cbDay.ItemHeight = 50;
+            this.cbDay.Items.AddRange(new object[] {
+            "اليوم",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.cbDay.Location = new System.Drawing.Point(13, 297);
+            this.cbDay.Name = "cbDay";
+            this.cbDay.Size = new System.Drawing.Size(132, 56);
+            this.cbDay.StartIndex = 0;
+            this.cbDay.TabIndex = 8;
+            this.cbDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.ForeColor = System.Drawing.Color.DimGray;
+            this.label15.Location = new System.Drawing.Point(335, 248);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(108, 38);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "تاريخ المـيلاد";
+            // 
             // frmAddOrEditePatient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(1361, 850);
             this.Controls.Add(this.gbMainBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -585,7 +699,6 @@
         private Guna.UI2.WinForms.Guna2ComboBox cbGender;
         private Guna.UI2.WinForms.Guna2TextBox tbNationalNo;
         private System.Windows.Forms.Label label6;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpDateOfBirth;
         private Guna.UI2.WinForms.Guna2ComboBox cbBloodType;
         private System.Windows.Forms.Label label7;
         private Guna.UI2.WinForms.Guna2TextBox tbHealthProblems;
@@ -599,5 +712,9 @@
         private System.Windows.Forms.Label label10;
         private Guna.UI2.WinForms.Guna2TextBox tbGeneralAllergies;
         private System.Windows.Forms.Label label14;
+        private Guna.UI2.WinForms.Guna2ComboBox cbDay;
+        private Guna.UI2.WinForms.Guna2ComboBox cbMonth;
+        private Guna.UI2.WinForms.Guna2ComboBox cbYear;
+        private System.Windows.Forms.Label label15;
     }
 }

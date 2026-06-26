@@ -56,6 +56,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
         {
+            
             await _buildDGV();
         }
         private async Task _buildDGV()
@@ -64,6 +65,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             await _getAllPatientsData();
             _bindPatientsToGrid(_allPatients);
             await Task.Delay(200);
+
             _handelDGVIndecator(false);
         }
        private async Task _refreshDGV()
@@ -150,6 +152,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 return;
             }
             AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
+            AddPatientForm.OnPatientReActived += AddPatientForm_OnPatientReActived;
             AddPatientForm.ShowDialog();
         }
         private void btnAddNewAppointment_Click(object sender, EventArgs e)
@@ -210,13 +213,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             switch (_searchType)
             {
                 case enSearchType.FullName:
-                    dgvPatient.DataSource = string.IsNullOrEmpty(term)
-                ? _allPatients.ToList()
-                : _allPatients.Where(p => p.FullName.Contains(term)).ToList();
+                    dgvPatient.DataSource = string.IsNullOrEmpty(term) ? _allPatients
+                        : _allPatients.Where(p => p.FullName.Contains(term)).ToList();
                     break;
                 case enSearchType.PhoneNumber:
                     dgvPatient.DataSource = string.IsNullOrEmpty(term)
-                ? _allPatients.ToList()
+                ? _allPatients
                 : _allPatients.Where(p => p.PhoneNumber.Contains(term)).ToList();
                     break;
                 default:
@@ -238,10 +240,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                                 "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private void _bindPatientsToGrid(IEnumerable<clsPatientView> patients)
+        private void _bindPatientsToGrid(List<clsPatientView> patients)
         {
             if (patients == null) return;
-            dgvPatient.DataSource = patients.ToList();
+            dgvPatient.DataSource = null;
+            dgvPatient.DataSource = patients;
             _renameGridColumns();
         }
         private void _renameGridColumns()

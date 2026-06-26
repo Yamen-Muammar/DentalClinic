@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_CoreTier;
@@ -19,10 +20,10 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 Patient = addedPatient;
             }
         }
-
+    
         public event EventHandler<MyEventArgs> OnPatientDone;
-
         public event EventHandler<MyEventArgs> OnPatientReActived;
+
         protected void TriggerPatientDoneEvent(clsPatient patient)
         {
             OnPatientDone?.Invoke(this, new MyEventArgs(patient));
@@ -31,13 +32,16 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         {
             OnPatientReActived?.Invoke(this, new MyEventArgs(patient));
         }
+
+
+
         private bool _doesRegetInformationAfterSearchAnswered = false;
         private clsPatient PatientInfo { get; set; }
         public clsMedicalFile MedicalFile { get; set; }
 
         private List<clsBloodType> BloodTypesList { get; set; }
 
-        private DateTime _FirstDateOnPicker;
+        private DateTime _FirstDateOnPicker = DateTime.Today;
 
         private readonly IBloodTypeService _bloodTypeService;
         private readonly IPatientService _patientService;
@@ -59,7 +63,6 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             _medicalFileService = medicalFileService;
             _personService = personService;
             InitializeComponent();
-            _FirstDateOnPicker = Convert.ToDateTime(dtpDateOfBirth.Text);
             _formMode = enMode.add;
         }
 
@@ -71,9 +74,12 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 this.Close();
                 return;
             }
+
             _formMode = enMode.Edite;
+
             try
             {
+                await _buildBloodTypeComboBox();
                 PatientInfo = await _patientService.GetByIdAsync(patientID);
 
                 if (PatientInfo == null)
@@ -83,25 +89,28 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                     return;
                 }
 
-                    MedicalFile = await _medicalFileService.GetMedicalFilesByPatientIDAsync(patientID);
-                    if (MedicalFile == null)
-                    {
-                        this.Close();
-                        MessageBox.Show("لايوجد ملف صحي مخزن في قاعدة البيانات", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-                    }
+                MedicalFile = await _medicalFileService.GetMedicalFilesByPatientIDAsync(patientID);
+               if (MedicalFile == null)
+               {
+                     this.Close();
+                    MessageBox.Show("لايوجد ملف صحي مخزن في قاعدة البيانات", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+               }
 
-                    if (PatientInfo.PersonInfo != null && PatientInfo.PersonInfo.IsDeleted)
-                    {
-                        if (MessageBox.Show("ملف المريض غير نشـط ,هل تريد إعادة تنشيطه؟", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
-                         == DialogResult.Yes)
-                        {
-                            PatientInfo.PersonInfo.IsDeleted = false;
-                            _personService.UpdateAsync(PatientInfo.PersonInfo,_sessionContext.StaffID);
-                            _fillUIWithPatientInformation(PatientInfo);
-                            TriggerPatientReActivedEvent(PatientInfo);
-                        }
-                    }
+               if (PatientInfo.PersonInfo != null && PatientInfo.PersonInfo.IsDeleted)
+               {
+                   if (MessageBox.Show("ملف المريض غير نشـط ,هل تريد إعادة تنشيطه؟", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                    == DialogResult.Yes)
+                   {
+                       PatientInfo.PersonInfo.IsDeleted = false;
+                       _personService.UpdateAsync(PatientInfo.PersonInfo,_sessionContext.StaffID);
+                       TriggerPatientReActivedEvent(PatientInfo);
+                   }
+                   else
+                   {
+                       btnSave.Enabled=false;
+                   }                   
+               }                
                 _doesRegetInformationAfterSearchAnswered = true;
             }
             catch (Exception ex)
@@ -114,19 +123,19 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         private async void frmAddOrEditePatient_Load(object sender, EventArgs e)
         {
             lblCharactersCount.Text = tbHealthProblems.Text.Length.ToString() + "/" + tbHealthProblems.MaxLength;
-            await _buildBloodTypeComboBox();
+            generateYearsComboBox();
             if (_formMode == enMode.Edite)
             {
                 gbMainBox.Text = "تعديل بيانات المريض";
                 _fillUIWithPatientInformation(PatientInfo);
             }
         }
-
         private void btnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+ 
         private async void btnSave_Click(object sender, EventArgs e)
         {
             if (tbGeneralAllergies.Text == string.Empty || tbHealthProblems.Text == string.Empty)
@@ -198,14 +207,16 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             }
         }
 
+
+        // Helper Methods
         private void tbPhoneNumber_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
                 e.Handled = true;
         }
 
-        // Helper Methods
-        private clsPatient _preparePatientObj()
+     
+        private clsPatient _preparePatientObj() //for insertion
         {
             clsPatient patient = new clsPatient();
             patient.HealthProblems = tbHealthProblems.Text.Trim();
@@ -215,7 +226,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             {
                 FirstName   = tbFirstName.Text.Trim(),
                 LastName    = tbLastName.Text.Trim(),
-                DateOfBirth = Convert.ToDateTime(dtpDateOfBirth.Text),
+                DateOfBirth = _getDateOfBirth(),
                 PhoneNumber = tbPhoneNumber.Text.Trim(),
             };
 
@@ -234,7 +245,8 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             return patient;
         }
 
-        private clsPatient _preparePatientObj(clsPatient oldPatientInfo)
+  
+        private clsPatient _preparePatientObj(clsPatient oldPatientInfo)// for edite
         {
             clsPatient patient  = new clsPatient();
             patient.PatientID   = oldPatientInfo.PatientID;
@@ -247,7 +259,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 PersonID    = oldPatientInfo.PersonInfo.PersonID,
                 FirstName   = tbFirstName.Text.Trim(),
                 LastName    = tbLastName.Text.Trim(),
-                DateOfBirth = Convert.ToDateTime(dtpDateOfBirth.Text),
+                DateOfBirth = _getDateOfBirth(),
                 PhoneNumber = tbPhoneNumber.Text.Trim(),
             };
 
@@ -268,6 +280,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
            
             return patient;
         }
+    
         private async Task _getBloodTypes()
         {
             try
@@ -279,7 +292,6 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 MessageBox.Show("خطـأ في جلب بيانات فصيلة الدم", "خطـأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private async Task _buildBloodTypeComboBox()
         {
             await _getBloodTypes();
@@ -293,6 +305,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             cbBloodType.SelectedIndex = 0;
         }
 
+ 
         private bool _isPatientInfoValid(clsPerson person)
         {
             if (person == null)
@@ -321,7 +334,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
 
             if (person.DateOfBirth != null && person.DateOfBirth >= DateTime.Today)
             {
-                dtpDateOfBirth.Focus();
+                cbYear.Focus();
                 MessageBox.Show("تاريخ الميلاد يجب ان يكون في الماضي", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return false;
             }
@@ -336,6 +349,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             return true;
         }
 
+  
         private void _fillUIWithPatientInformation(clsPatient patient)
         {
             tbFirstName.Text = patient.PersonInfo.FirstName;
@@ -348,7 +362,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 tbNationalNo.Text = patient.PersonInfo.NationalNo;
 
             if (patient.PersonInfo.DateOfBirth != null)
-                dtpDateOfBirth.Text = patient.PersonInfo.DateOfBirth.ToString();
+                _fillDateOfBirth((DateTime)patient.PersonInfo.DateOfBirth);
 
             if (patient.PersonInfo.Gender == myEnums.enGenderTypes.M)
                 cbGender.SelectedIndex = 1;
@@ -396,6 +410,51 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                     _fillUIWithPatientInformation(PatientInfo);
                 }
                 _doesRegetInformationAfterSearchAnswered = true;
+            }
+        }
+
+        private DateTime _getDateOfBirth()
+        {
+            if (cbDay.SelectedIndex==0 || cbMonth.SelectedIndex == 0 || cbYear.SelectedIndex == 0)
+            {
+                return DateTime.Today; // means there is no birth day
+            }
+            string date = cbDay.SelectedItem.ToString()+"/"+cbMonth.SelectedItem.ToString() + "/" +cbYear.SelectedItem.ToString();
+            return Convert.ToDateTime(date);
+        }
+
+        private void generateYearsComboBox()
+        {
+            List<int> years = Enumerable.Range(1920, 116).ToList();
+            foreach (var item in years)
+            {
+                cbYear.Items.Add(item.ToString());
+            }
+        }
+
+        private void _fillDateOfBirth(DateTime dateOfBirth)
+        {
+            string year = dateOfBirth.Year.ToString();
+            cbYear.SelectedItem =year;
+
+            if (dateOfBirth.Month <= 9)
+            {
+                string month = "0"+dateOfBirth.Month.ToString();
+                cbMonth.SelectedItem = month;
+            }
+            else
+            {
+                cbMonth.SelectedItem = dateOfBirth.Month.ToString();
+            }
+
+            if (dateOfBirth.Day <= 9)
+            {
+                string day = "0" + dateOfBirth.Day.ToString();
+                cbDay.SelectedItem = day;
+            }
+            else
+            {
+                cbDay.SelectedItem = dateOfBirth.Day.ToString();
             }
         }
     }
