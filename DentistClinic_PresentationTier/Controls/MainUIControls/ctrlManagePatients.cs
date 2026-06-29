@@ -48,6 +48,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             _sessionContext = sessionContext;
             _bloodTypeService = bloodTypeService;
             InitializeComponent();
+            dgvPatient.CellPainting += dgvPatient_CellPainting;
             this.DoubleBuffered = true;
             _searchTimer = new System.Windows.Forms.Timer { Interval = 500 };
             _searchTimer.Tick += _searchTimer_Tick;
@@ -411,6 +412,45 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             selectedPatientID = 0;
             SelectedPatientInfo = null;
             shourcutsPatientPanel.Visible = false;
-        }        
+        }
+
+        private void dgvPatient_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (dgvPatient.Columns[e.ColumnIndex].Name != "IsDeleted") return;
+
+            e.PaintBackground(e.ClipBounds, true);
+
+            bool isDeleted = (bool)(e.Value ?? false);
+            string text = isDeleted ? "محذوف" : "نشط";
+            Color fill = isDeleted ? Color.FromArgb(220, 53, 69) : Color.FromArgb(40, 167, 69);
+
+            int badgeW = 80, badgeH = 26;
+            Rectangle badge = new Rectangle(
+                e.CellBounds.X + (e.CellBounds.Width - badgeW) / 2,
+                e.CellBounds.Y + (e.CellBounds.Height - badgeH) / 2,
+                badgeW, badgeH);
+
+            using (var brush = new SolidBrush(fill))
+            using (var path = _getRoundedRect(badge, 12))
+                e.Graphics.FillPath(brush, path);
+
+            using (var font = new Font("Segoe UI", 9f, FontStyle.Bold))
+            using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
+                e.Graphics.DrawString(text, font, Brushes.White, badge, sf);
+
+            e.Handled = true;
+        }
+
+        private System.Drawing.Drawing2D.GraphicsPath _getRoundedRect(Rectangle r, int radius)
+        {
+            var path = new System.Drawing.Drawing2D.GraphicsPath();
+            path.AddArc(r.X, r.Y, radius, radius, 180, 90);
+            path.AddArc(r.Right - radius, r.Y, radius, radius, 270, 90);
+            path.AddArc(r.Right - radius, r.Bottom - radius, radius, radius, 0, 90);
+            path.AddArc(r.X, r.Bottom - radius, radius, radius, 90, 90);
+            path.CloseFigure();
+            return path;
+        }
     }
 }
