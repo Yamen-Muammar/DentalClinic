@@ -39,5 +39,18 @@ namespace DentalClinic_CoreTier
             }
         }
 
+        public static int CalculateAge(DateTime DateOfBirth)
+        {
+            int age = -1;
+            age = DateTime.Today.Year - DateOfBirth.Year; 
+            
+            if(DateTime.Now < DateOfBirth.AddYears(age))
+            {
+                age--;
+            }
+
+            return age;
+        }
+
     }
 }

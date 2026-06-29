@@ -7,6 +7,7 @@ using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentistClinic_PresentationTier.Forms.PatientsForms
 {
@@ -124,6 +125,11 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         {
             lblCharactersCount.Text = tbHealthProblems.Text.Length.ToString() + "/" + tbHealthProblems.MaxLength;
             generateYearsComboBox();
+            if (BloodTypesList == null)
+            {
+                await _buildBloodTypeComboBox();
+            }
+
             if (_formMode == enMode.Edite)
             {
                 gbMainBox.Text = "تعديل بيانات المريض";
@@ -215,8 +221,10 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 e.Handled = true;
         }
 
-     
-        private clsPatient _preparePatientObj() //for insertion
+
+
+        //for insertion
+        private clsPatient _preparePatientObj() 
         {
             clsPatient patient = new clsPatient();
             patient.HealthProblems = tbHealthProblems.Text.Trim();
@@ -227,8 +235,17 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 FirstName   = tbFirstName.Text.Trim(),
                 LastName    = tbLastName.Text.Trim(),
                 DateOfBirth = _getDateOfBirth(),
-                PhoneNumber = tbPhoneNumber.Text.Trim(),
+                
             };
+
+            if (tbPhoneNumber.Text.Length == 10 || (tbPhoneNumber.Text.StartsWith("056") || tbPhoneNumber.Text.StartsWith("059")))
+            {
+                newPerson.PhoneNumber = tbPhoneNumber.Text.Trim();
+            }
+            else
+            {
+                newPerson.PhoneNumber = null;
+            }
 
             newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text.Trim();
             newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text.Trim();
@@ -260,9 +277,22 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 FirstName   = tbFirstName.Text.Trim(),
                 LastName    = tbLastName.Text.Trim(),
                 DateOfBirth = _getDateOfBirth(),
-                PhoneNumber = tbPhoneNumber.Text.Trim(),
+               
             };
 
+            if (tbPhoneNumber.Text.Length != 10)
+            {
+                newPerson.PhoneNumber = null;
+            }
+            else if (!(tbPhoneNumber.Text.StartsWith("056") || tbPhoneNumber.Text.StartsWith("059")))
+            {
+                newPerson.PhoneNumber = null;
+            }
+            else
+            {
+                newPerson.PhoneNumber = tbPhoneNumber.Text.Trim();
+            }
+          
             newPerson.SecondName = string.IsNullOrEmpty(tbSecondName.Text) ? null : tbSecondName.Text.Trim();
             newPerson.NationalNo = string.IsNullOrEmpty(tbNationalNo.Text) ? null : tbNationalNo.Text.Trim();
 
@@ -397,19 +427,27 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
                 return;
             }
 
-            string fullName = string.Join(" ", tbFirstName.Text.Trim(),tbLastName.Text.Trim());
-
-            List<clsPatient> checkedPatientList = (List<clsPatient>)await _patientService.SearchByFullNameAsync(fullName);
-
-            if (checkedPatientList.Count > 0)
+            try
             {
-                if(MessageBox.Show("المريض مسجل مسبقاً ,هل تريد جلب البيانات", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
-                    == DialogResult.Yes)
+                string fullName = string.Join(" ", tbFirstName.Text.Trim(), tbLastName.Text.Trim());
+
+                List<clsPatientView> checkedPatientList = (List<clsPatientView>)(await _patientService.SearchByFullNameAsync(fullName));
+
+                if (checkedPatientList.Count > 0)
                 {
-                    await SetPatientID(checkedPatientList[0].PatientID);
-                    _fillUIWithPatientInformation(PatientInfo);
+                    if (MessageBox.Show("المريض مسجل مسبقاً ,هل تريد جلب البيانات", "تنبيه", MessageBoxButtons.YesNo, MessageBoxIcon.Information)
+                        == DialogResult.Yes)
+                    {
+                        await SetPatientID(checkedPatientList[0].ID);
+                        _fillUIWithPatientInformation(PatientInfo);
+                    }
+                    _doesRegetInformationAfterSearchAnswered = true;
                 }
-                _doesRegetInformationAfterSearchAnswered = true;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 
@@ -456,6 +494,74 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             {
                 cbDay.SelectedItem = dateOfBirth.Day.ToString();
             }
+        }
+
+
+        // Check Data Instanse
+
+        private bool isPhoneValidToSave = false;
+        private bool isNationalValidToSave = false;
+        private void tbPhoneNumber_Leave(object sender, EventArgs e)
+        {
+            bool isValid = false;
+            if(tbPhoneNumber.Text.Length != 10)
+            {
+                PhoneNumberErrorProvider.SetError(tbPhoneNumber, "الرقم غير صحيح");
+                isValid = false;
+            } else if (!(tbPhoneNumber.Text.StartsWith("056")|| tbPhoneNumber.Text.StartsWith("059")))
+            {
+                PhoneNumberErrorProvider.SetError(tbPhoneNumber, "مقدمة الرقم غير صحيحة");
+                isValid = false;
+            }
+            else
+            {
+                PhoneNumberErrorProvider.Clear();
+                isValid = true;
+            }
+            isPhoneValidToSave = isValid;
+            if (isNationalValidToSave)
+            {
+                btnSave.Enabled = isValid;
+            }
+            
+        }
+
+        private async void tbNationalNo_Leave(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbNationalNo.Text))
+            {
+                return;
+            }
+            string nationalNo = tbNationalNo.Text.Trim();
+
+            try
+            {
+                List < clsPatientView > patient = ((List<clsPatientView>)(await _patientService.SearchByNationalNoAsync(nationalNo)));
+                if (patient.Count > 0)
+                {
+                    if (_formMode == enMode.Edite&& PatientInfo != null && patient[0].ID == PatientInfo.PatientID)
+                    {
+                        return;
+                    }
+                    NationalNumberErrorProvider.SetError(tbNationalNo, "رقم الهوية موجود بالفعل");
+                   isNationalValidToSave = false;
+                    btnSave.Enabled = false;
+                }
+                else
+                {
+                    NationalNumberErrorProvider.Clear();
+                    isNationalValidToSave = true;
+                    if (isPhoneValidToSave)
+                    {
+                        btnSave.Enabled = true;
+                    }                    
+                }
+            }
+            catch (Exception)
+            {
+                
+            }
+
         }
     }
 }

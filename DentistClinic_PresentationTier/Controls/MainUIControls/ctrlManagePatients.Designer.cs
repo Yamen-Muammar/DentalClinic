@@ -477,6 +477,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.btnDeletePatient.FillColor = System.Drawing.Color.Red;
             this.btnDeletePatient.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnDeletePatient.ForeColor = System.Drawing.Color.White;
+            this.btnDeletePatient.HoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.btnDeletePatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Delete;
             this.btnDeletePatient.ImageSize = new System.Drawing.Size(30, 30);
             this.btnDeletePatient.Location = new System.Drawing.Point(11, 245);
@@ -602,14 +603,14 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             // 
             // lblPatientName
             // 
-            this.lblPatientName.AutoSize = true;
             this.lblPatientName.Font = new System.Drawing.Font("Simplified Arabic", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblPatientName.Location = new System.Drawing.Point(110, 13);
+            this.lblPatientName.Location = new System.Drawing.Point(11, 10);
             this.lblPatientName.Name = "lblPatientName";
             this.lblPatientName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblPatientName.Size = new System.Drawing.Size(94, 66);
+            this.lblPatientName.Size = new System.Drawing.Size(423, 66);
             this.lblPatientName.TabIndex = 0;
             this.lblPatientName.Text = "???";
+            this.lblPatientName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // headerQuickPanel
             // 

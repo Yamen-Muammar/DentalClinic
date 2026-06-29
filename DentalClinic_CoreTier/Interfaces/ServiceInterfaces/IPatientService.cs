@@ -12,12 +12,14 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
     {
         Task<clsPatient>GetByIdAsync(int  id);
         Task<int?> InsertAsync(clsPatient obj, string generalAllergies);
-        Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
-        Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
-        Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
+        Task<IEnumerable<clsPatientView>> SearchByFullNameAsync(string fullName);
+        Task<IEnumerable<clsPatientView>> SearchByNationalNoAsync(string nationalNo);
+        Task<IEnumerable<clsPatientView>> SearchByPhoneNumberAsync(string phoneNumber);
         Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
         Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile,int updatedByID);
         Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID);
         Task<int> GetPatientCountAsync();
+
+        Task<IEnumerable<clsPatientView>> GetAllPatientDetailsOnTodaysAppointmentsAsync();
     }
 }

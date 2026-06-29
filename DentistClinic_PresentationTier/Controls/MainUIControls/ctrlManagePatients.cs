@@ -3,6 +3,7 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
+using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
@@ -36,14 +38,19 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private readonly IPatientService _patientService;
         private readonly IPersonService _personService;
         private ISessionContext _sessionContext;
+        private IBloodTypeService _bloodTypeService;
 
-        public ctrlManagePatients(IPersonService personService,IPatientService patientService,ISessionContext sessionContext)
+        private readonly System.Windows.Forms.Timer _searchTimer;
+        public ctrlManagePatients(IPersonService personService,IPatientService patientService,ISessionContext sessionContext,IBloodTypeService bloodTypeService)
         {
             _patientService = patientService;
             _personService = personService;
             _sessionContext = sessionContext;
+            _bloodTypeService = bloodTypeService;
             InitializeComponent();
             this.DoubleBuffered = true;
+            _searchTimer = new System.Windows.Forms.Timer { Interval = 500 };
+            _searchTimer.Tick += _searchTimer_Tick;
         }
         protected override CreateParams CreateParams 
         {
@@ -55,13 +62,13 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }   
         }
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
-        {
-            
+        {       
             await _buildDGV();
         }
         private async Task _buildDGV()
         {
             _handelDGVIndecator(true);
+
             await _getAllPatientsData();
             _bindPatientsToGrid(_allPatients);
             await Task.Delay(200);
@@ -124,6 +131,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                     if ((int)row.Cells["ID"].Value == e.Patient.PatientID)
                     {
                         row.Selected = true;
+                        await _updateGridRow(row,e.Patient);
                     }
                 }
             }
@@ -204,34 +212,88 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             string pateintPhoneNumber = (string)dgvPatient?.Rows[e.RowIndex].Cells["PhoneNumber"].Value;
             await _buildPatientShortcutsPanel(patientId, pateintFullName, pateintPhoneNumber);
         }
-        private void tbSearchBox_TextChanged(object sender, EventArgs e)
+        private async void tbSearchBox_TextChanged(object sender, EventArgs e)
         {
             if (_allPatients == null || !_allPatients.Any()) return;
 
-            var term = tbSearchBox.Text.Trim();
+            string searchTarget = tbSearchBox.Text.Trim();
 
-            switch (_searchType)
+            if (dgvPatient.Rows.Count == 0)
             {
-                case enSearchType.FullName:
-                    dgvPatient.DataSource = string.IsNullOrEmpty(term) ? _allPatients
-                        : _allPatients.Where(p => p.FullName.Contains(term)).ToList();
-                    break;
-                case enSearchType.PhoneNumber:
-                    dgvPatient.DataSource = string.IsNullOrEmpty(term)
-                ? _allPatients
-                : _allPatients.Where(p => p.PhoneNumber.Contains(term)).ToList();
-                    break;
-                default:
-                    break;
+                _searchTimer.Stop();                
+                _searchTimer.Start();
+            }
+            else
+            {
+                switch (_searchType)
+                {
+                    case enSearchType.FullName:
+                        dgvPatient.DataSource = string.IsNullOrEmpty(searchTarget) ? _allPatients
+                            : _allPatients.Where(p => p.FullName.Contains(searchTarget)).ToList();
+                        break;
+                    case enSearchType.PhoneNumber:
+                        dgvPatient.DataSource = string.IsNullOrEmpty(searchTarget)
+                    ? _allPatients
+                    : _allPatients.Where(p => p.PhoneNumber.Contains(searchTarget)).ToList();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
-        
+        private async void _searchTimer_Tick(object sender, EventArgs e)
+        {
+            _searchTimer.Stop();
+
+            string searchTarget = tbSearchBox.Text.Trim();
+
+            if (string.IsNullOrEmpty(searchTarget))
+            {
+                _bindPatientsToGrid(_allPatients);
+                return;
+            }
+
+            _handelDGVIndecator(true);
+            try
+            {
+                List<clsPatientView> results = new List<clsPatientView>();
+                switch (_searchType)
+                {
+                    case enSearchType.FullName:
+                        results = (List<clsPatientView>) await _patientService.SearchByFullNameAsync(searchTarget);
+                        break;
+                    case enSearchType.PhoneNumber:
+                        results = (List < clsPatientView >) await _patientService.SearchByPhoneNumberAsync(searchTarget);
+                        break;
+                    default:
+                        results = _allPatients;
+                        break;
+                }
+                _bindPatientsToGrid(results);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                _handelDGVIndecator(false);
+            }
+        }
 
         //  Helper Methods
         private async Task _getAllPatientsData()
         {
+            //TODO : After create Appointments see how it works  
             try
             {
+                _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+                if (_allPatients.Count < 10)
+                {
+                    List<clsPatientView> moreDataList = new List<clsPatientView>();
+                    moreDataList = (List<clsPatientView>)await _patientService.GetAllPatientDetailsAsync();
+                    _allPatients.AddRange(moreDataList);
+                }
                 _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsAsync();
             }
             catch (Exception ex)
@@ -255,6 +317,44 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             if (dgvPatient.Columns["Gender"]        != null) dgvPatient.Columns["Gender"].HeaderText        = "الجنس";
             if (dgvPatient.Columns["PhoneNumber"]   != null) dgvPatient.Columns["PhoneNumber"].HeaderText   = "رقم الهاتف";
             if (dgvPatient.Columns["BloodTypeName"] != null) dgvPatient.Columns["BloodTypeName"].HeaderText = "فصيلة الدم";
+            if (dgvPatient.Columns["IsDeleted"] != null) dgvPatient.Columns["IsDeleted"].HeaderText = "الحـالة";
+        }
+        private async Task _updateGridRow(DataGridViewRow row, clsPatient Patient)
+        {
+            row.Cells["FullName"].Value = Patient.PersonInfo.FullName;
+
+            if (Patient.PersonInfo.DateOfBirth != null)
+            {
+                row.Cells["Age"].Value = clsUtilities.CalculateAge((DateTime)Patient.PersonInfo.DateOfBirth).ToString();
+            }
+
+            if (Patient.PersonInfo.Gender == DentalClinic_CoreTier.myEnums.enGenderTypes.M)
+            {
+                row.Cells["Gender"].Value = "Male";
+            }
+            else
+            {
+                row.Cells["Gender"].Value = "Female";
+            }
+
+            if (Patient.PersonInfo.PhoneNumber != null)
+            {
+                row.Cells["PhoneNumber"].Value = Patient.PersonInfo.PhoneNumber;
+            }
+            else
+            {
+                row.Cells["PhoneNumber"].Value = "N/A";
+            }
+
+            if (Patient.BloodType_ID != null)
+            {
+                clsBloodType bloodType = await _bloodTypeService.GetByIdAsync((int) Patient.BloodType_ID);
+                row.Cells["BloodTypeName"].Value = bloodType.BloodTypeName;
+            }
+            else
+            {
+                row.Cells["BloodTypeName"].Value = "N/A";
+            }
         }
         private enSearchType _mapUserFilterSelection(string filter)
         {
@@ -311,6 +411,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             selectedPatientID = 0;
             SelectedPatientInfo = null;
             shourcutsPatientPanel.Visible = false;
-        }
+        }        
     }
 }

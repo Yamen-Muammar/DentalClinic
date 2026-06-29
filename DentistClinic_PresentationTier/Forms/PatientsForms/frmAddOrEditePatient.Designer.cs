@@ -28,7 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.gbMainBox = new Guna.UI2.WinForms.Guna2GroupBox();
+            this.cbDay = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cbMonth = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.cbYear = new Guna.UI2.WinForms.Guna2ComboBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -40,6 +44,7 @@
             this.tbGeneralAllergies = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbPhoneNumber = new Guna.UI2.WinForms.Guna2TextBox();
             this.tbNationalNo = new Guna.UI2.WinForms.Guna2TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.btnCancel = new Guna.UI2.WinForms.Guna2Button();
             this.btnSave = new Guna.UI2.WinForms.Guna2Button();
@@ -55,11 +60,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cbYear = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.cbMonth = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.cbDay = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.label15 = new System.Windows.Forms.Label();
+            this.PhoneNumberErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.NationalNumberErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.gbMainBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PhoneNumberErrorProvider)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NationalNumberErrorProvider)).BeginInit();
             this.SuspendLayout();
             // 
             // gbMainBox
@@ -111,6 +116,121 @@
             this.gbMainBox.Text = "اضافة مريض";
             this.gbMainBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
+            // cbDay
+            // 
+            this.cbDay.BackColor = System.Drawing.Color.Transparent;
+            this.cbDay.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbDay.BorderRadius = 4;
+            this.cbDay.BorderThickness = 2;
+            this.cbDay.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbDay.DropDownHeight = 400;
+            this.cbDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbDay.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbDay.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbDay.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbDay.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbDay.IntegralHeight = false;
+            this.cbDay.ItemHeight = 50;
+            this.cbDay.Items.AddRange(new object[] {
+            "اليوم",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"});
+            this.cbDay.Location = new System.Drawing.Point(13, 297);
+            this.cbDay.Name = "cbDay";
+            this.cbDay.Size = new System.Drawing.Size(132, 56);
+            this.cbDay.StartIndex = 0;
+            this.cbDay.TabIndex = 8;
+            this.cbDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cbMonth
+            // 
+            this.cbMonth.BackColor = System.Drawing.Color.AliceBlue;
+            this.cbMonth.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbMonth.BorderRadius = 4;
+            this.cbMonth.BorderThickness = 2;
+            this.cbMonth.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbMonth.DropDownHeight = 400;
+            this.cbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbMonth.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbMonth.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbMonth.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbMonth.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbMonth.IntegralHeight = false;
+            this.cbMonth.ItemHeight = 50;
+            this.cbMonth.Items.AddRange(new object[] {
+            "الشهر",
+            "01",
+            "02",
+            "03",
+            "04",
+            "05",
+            "06",
+            "07",
+            "08",
+            "09",
+            "10",
+            "11",
+            "12"});
+            this.cbMonth.Location = new System.Drawing.Point(157, 297);
+            this.cbMonth.Name = "cbMonth";
+            this.cbMonth.Size = new System.Drawing.Size(132, 56);
+            this.cbMonth.StartIndex = 0;
+            this.cbMonth.TabIndex = 7;
+            this.cbMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // cbYear
+            // 
+            this.cbYear.BackColor = System.Drawing.Color.AliceBlue;
+            this.cbYear.BorderColor = System.Drawing.Color.SteelBlue;
+            this.cbYear.BorderRadius = 4;
+            this.cbYear.BorderThickness = 2;
+            this.cbYear.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cbYear.DropDownHeight = 400;
+            this.cbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbYear.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbYear.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.cbYear.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbYear.ForeColor = System.Drawing.Color.SteelBlue;
+            this.cbYear.IntegralHeight = false;
+            this.cbYear.ItemHeight = 50;
+            this.cbYear.Items.AddRange(new object[] {
+            "السنة"});
+            this.cbYear.Location = new System.Drawing.Point(301, 297);
+            this.cbYear.Name = "cbYear";
+            this.cbYear.Size = new System.Drawing.Size(153, 56);
+            this.cbYear.StartIndex = 0;
+            this.cbYear.TabIndex = 6;
+            this.cbYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -142,7 +262,7 @@
             this.label12.AutoSize = true;
             this.label12.BackColor = System.Drawing.Color.Transparent;
             this.label12.ForeColor = System.Drawing.Color.Red;
-            this.label12.Location = new System.Drawing.Point(251, 78);
+            this.label12.Location = new System.Drawing.Point(270, 78);
             this.label12.Margin = new System.Windows.Forms.Padding(0);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(29, 38);
@@ -215,7 +335,7 @@
             this.cbBloodType.ForeColor = System.Drawing.Color.Black;
             this.cbBloodType.IntegralHeight = false;
             this.cbBloodType.ItemHeight = 76;
-            this.cbBloodType.Location = new System.Drawing.Point(13, 504);
+            this.cbBloodType.Location = new System.Drawing.Point(32, 502);
             this.cbBloodType.MaxDropDownItems = 3;
             this.cbBloodType.Name = "cbBloodType";
             this.cbBloodType.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
@@ -289,12 +409,14 @@
             this.tbPhoneNumber.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
             this.tbPhoneNumber.Location = new System.Drawing.Point(496, 502);
             this.tbPhoneNumber.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.tbPhoneNumber.MaxLength = 10;
             this.tbPhoneNumber.Name = "tbPhoneNumber";
             this.tbPhoneNumber.PlaceholderText = "ادخل رقم الهاتف";
             this.tbPhoneNumber.SelectedText = "";
             this.tbPhoneNumber.Size = new System.Drawing.Size(378, 84);
             this.tbPhoneNumber.TabIndex = 10;
             this.tbPhoneNumber.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbPhoneNumber_KeyPress);
+            this.tbPhoneNumber.Leave += new System.EventHandler(this.tbPhoneNumber_Leave);
             // 
             // tbNationalNo
             // 
@@ -318,6 +440,18 @@
             this.tbNationalNo.SelectedText = "";
             this.tbNationalNo.Size = new System.Drawing.Size(378, 84);
             this.tbNationalNo.TabIndex = 4;
+            this.tbNationalNo.Leave += new System.EventHandler(this.tbNationalNo_Leave);
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.BackColor = System.Drawing.Color.Transparent;
+            this.label15.ForeColor = System.Drawing.Color.DimGray;
+            this.label15.Location = new System.Drawing.Point(335, 248);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(108, 38);
+            this.label15.TabIndex = 3;
+            this.label15.Text = "تاريخ المـيلاد";
             // 
             // label6
             // 
@@ -382,7 +516,7 @@
             this.tbLastName.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.tbLastName.ForeColor = System.Drawing.Color.Black;
             this.tbLastName.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.tbLastName.Location = new System.Drawing.Point(13, 127);
+            this.tbLastName.Location = new System.Drawing.Point(32, 127);
             this.tbLastName.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.tbLastName.Name = "tbLastName";
             this.tbLastName.PlaceholderText = "إسم العائلة";
@@ -441,7 +575,7 @@
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.ForeColor = System.Drawing.Color.DimGray;
-            this.label7.Location = new System.Drawing.Point(302, 463);
+            this.label7.Location = new System.Drawing.Point(321, 461);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(96, 38);
             this.label7.TabIndex = 0;
@@ -511,7 +645,7 @@
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.ForeColor = System.Drawing.Color.DimGray;
-            this.label3.Location = new System.Drawing.Point(283, 78);
+            this.label3.Location = new System.Drawing.Point(302, 78);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(93, 38);
             this.label3.TabIndex = 0;
@@ -539,131 +673,14 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "اسم الأول";
             // 
-            // cbYear
+            // PhoneNumberErrorProvider
             // 
-            this.cbYear.BackColor = System.Drawing.Color.AliceBlue;
-            this.cbYear.BorderColor = System.Drawing.Color.SteelBlue;
-            this.cbYear.BorderRadius = 4;
-            this.cbYear.BorderThickness = 2;
-            this.cbYear.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbYear.DropDownHeight = 400;
-            this.cbYear.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbYear.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbYear.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbYear.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbYear.ForeColor = System.Drawing.Color.SteelBlue;
-            this.cbYear.IntegralHeight = false;
-            this.cbYear.ItemHeight = 50;
-            this.cbYear.Items.AddRange(new object[] {
-            "السنة"});
-            this.cbYear.Location = new System.Drawing.Point(301, 297);
-            this.cbYear.Name = "cbYear";
-            this.cbYear.Size = new System.Drawing.Size(153, 56);
-            this.cbYear.StartIndex = 0;
-            this.cbYear.TabIndex = 6;
-            this.cbYear.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.PhoneNumberErrorProvider.ContainerControl = this;
             // 
-            // cbMonth
+            // NationalNumberErrorProvider
             // 
-            this.cbMonth.BackColor = System.Drawing.Color.AliceBlue;
-            this.cbMonth.BorderColor = System.Drawing.Color.SteelBlue;
-            this.cbMonth.BorderRadius = 4;
-            this.cbMonth.BorderThickness = 2;
-            this.cbMonth.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbMonth.DropDownHeight = 400;
-            this.cbMonth.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbMonth.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbMonth.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbMonth.Font = new System.Drawing.Font("Segoe UI Semibold", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbMonth.ForeColor = System.Drawing.Color.SteelBlue;
-            this.cbMonth.IntegralHeight = false;
-            this.cbMonth.ItemHeight = 50;
-            this.cbMonth.Items.AddRange(new object[] {
-            "الشهر",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12"});
-            this.cbMonth.Location = new System.Drawing.Point(157, 297);
-            this.cbMonth.Name = "cbMonth";
-            this.cbMonth.Size = new System.Drawing.Size(132, 56);
-            this.cbMonth.StartIndex = 0;
-            this.cbMonth.TabIndex = 7;
-            this.cbMonth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // cbDay
-            // 
-            this.cbDay.BackColor = System.Drawing.Color.Transparent;
-            this.cbDay.BorderColor = System.Drawing.Color.SteelBlue;
-            this.cbDay.BorderRadius = 4;
-            this.cbDay.BorderThickness = 2;
-            this.cbDay.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cbDay.DropDownHeight = 400;
-            this.cbDay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbDay.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbDay.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.cbDay.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbDay.ForeColor = System.Drawing.Color.SteelBlue;
-            this.cbDay.IntegralHeight = false;
-            this.cbDay.ItemHeight = 50;
-            this.cbDay.Items.AddRange(new object[] {
-            "اليوم",
-            "01",
-            "02",
-            "03",
-            "04",
-            "05",
-            "06",
-            "07",
-            "08",
-            "09",
-            "10",
-            "11",
-            "12",
-            "13",
-            "14",
-            "15",
-            "16",
-            "17",
-            "18",
-            "19",
-            "20",
-            "21",
-            "22",
-            "23",
-            "24",
-            "25",
-            "26",
-            "27",
-            "28",
-            "29",
-            "30",
-            "31"});
-            this.cbDay.Location = new System.Drawing.Point(13, 297);
-            this.cbDay.Name = "cbDay";
-            this.cbDay.Size = new System.Drawing.Size(132, 56);
-            this.cbDay.StartIndex = 0;
-            this.cbDay.TabIndex = 8;
-            this.cbDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.BackColor = System.Drawing.Color.Transparent;
-            this.label15.ForeColor = System.Drawing.Color.DimGray;
-            this.label15.Location = new System.Drawing.Point(335, 248);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(108, 38);
-            this.label15.TabIndex = 3;
-            this.label15.Text = "تاريخ المـيلاد";
+            this.NationalNumberErrorProvider.ContainerControl = this;
+            this.NationalNumberErrorProvider.RightToLeft = true;
             // 
             // frmAddOrEditePatient
             // 
@@ -679,6 +696,8 @@
             this.Load += new System.EventHandler(this.frmAddOrEditePatient_Load);
             this.gbMainBox.ResumeLayout(false);
             this.gbMainBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.PhoneNumberErrorProvider)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NationalNumberErrorProvider)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -716,5 +735,7 @@
         private Guna.UI2.WinForms.Guna2ComboBox cbMonth;
         private Guna.UI2.WinForms.Guna2ComboBox cbYear;
         private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.ErrorProvider PhoneNumberErrorProvider;
+        private System.Windows.Forms.ErrorProvider NationalNumberErrorProvider;
     }
 }

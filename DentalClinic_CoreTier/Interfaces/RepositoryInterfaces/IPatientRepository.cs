@@ -16,13 +16,13 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<clsPatient> GetPatientByPersonIdAsync(int personId);
         Task<IEnumerable<clsPatient>> GetAllPatientsAsync();
         Task<bool> UpdatePatientAsync(clsPatient patient);
-        Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName);
-        Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo);
-        Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber);
+        Task<IEnumerable<clsPatientView>> SearchByFullNameAsync(string fullName);
+        Task<IEnumerable<clsPatientView>> SearchByNationalNoAsync(string nationalNo);
+        Task<IEnumerable<clsPatientView>> SearchByPhoneNumberAsync(string phoneNumber);
         Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync();
         Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient, clsMedicalFile medicalFile);
         Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID);
-
+        Task<IEnumerable<clsPatientView>> GetAllPatientDetailsOnTodaysAppointmentsAsync();
         Task<int>   GetPatientCountAsync();
     }
 }

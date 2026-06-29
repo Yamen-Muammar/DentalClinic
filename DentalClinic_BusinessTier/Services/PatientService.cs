@@ -62,13 +62,13 @@ namespace DentalClinic_BusinessTier.Services
             => await _personService.SoftDeleteAsync(objId, deletedById);
 
       
-        public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
+        public async Task<IEnumerable<clsPatientView>> SearchByFullNameAsync(string fullName)
             => await _patientRepository.SearchByFullNameAsync(fullName);
 
-        public async Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
+        public async Task<IEnumerable<clsPatientView>> SearchByNationalNoAsync(string nationalNo)
             => await _patientRepository.SearchByNationalNoAsync(nationalNo);
 
-        public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
+        public async Task<IEnumerable<clsPatientView>> SearchByPhoneNumberAsync(string phoneNumber)
             => await _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
 
         public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
@@ -124,5 +124,10 @@ namespace DentalClinic_BusinessTier.Services
 
         public async Task<int> GetPatientCountAsync()
         => await _patientRepository.GetPatientCountAsync();
+
+        public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsOnTodaysAppointmentsAsync()
+        {
+            return await _patientRepository.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+        }
     }
 }

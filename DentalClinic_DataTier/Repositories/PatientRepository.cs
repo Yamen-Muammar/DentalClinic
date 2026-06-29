@@ -376,16 +376,16 @@ namespace DentalClinic_DataTier.Repositories
 
             }
         }
-        public async Task<IEnumerable<clsPatient>> SearchByFullNameAsync(string fullName)
+        public async Task<IEnumerable<clsPatientView>> SearchByFullNameAsync(string fullName)
         {
             const string query = @"
-                SELECT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
-                       p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
-                FROM Patients p
+                SELECT pd.PatientID, pd.FullName, pd.Age,pd.Gender, pd.PhoneNumber, pd.BloodType,pd.IsDeleted
+                FROM vw_PatientDetails pd
+                INNER JOIN Patients p ON p.PatientID = pd.PatientID
                 INNER JOIN People pe ON p.Person_ID = pe.PersonID
                 WHERE (pe.FirstName + ' ' + pe.LastName) LIKE @FullName;";
 
-            var list = new List<clsPatient>();
+            var list = new List<clsPatientView>();
             try
             {
                 using (var conn = _connectionFactory.CreateConnection())
@@ -395,7 +395,7 @@ namespace DentalClinic_DataTier.Repositories
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                         while (await reader.ReadAsync())
-                            list.Add(MapPatient(reader));
+                            list.Add(MapPatientView(reader));
                 }
                 return list;
             }
@@ -406,17 +406,17 @@ namespace DentalClinic_DataTier.Repositories
             }
             
         }
-        public async Task<IEnumerable<clsPatient>> SearchByNationalNoAsync(string nationalNo)
+        public async Task<IEnumerable<clsPatientView>> SearchByNationalNoAsync(string nationalNo)
         {
             const string query = @"
-                SELECT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
-                       p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
-                FROM Patients p
+                SELECT pd.PatientID, pd.FullName, pd.Age,pd.Gender, pd.PhoneNumber, pd.BloodType,pd.IsDeleted
+                FROM vw_PatientDetails pd
+                INNER JOIN Patients p ON p.PatientID = pd.PatientID
                 INNER JOIN People pe ON p.Person_ID = pe.PersonID
                 WHERE pe.NationalNo LIKE @NationalNo
-                  AND pe.IsDeleted = 0";
+                ;";
 
-            var list = new List<clsPatient>();
+            var list = new List<clsPatientView>();
             try
             {
                 using (var conn = _connectionFactory.CreateConnection())
@@ -426,7 +426,7 @@ namespace DentalClinic_DataTier.Repositories
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                         while (await reader.ReadAsync())
-                            list.Add(MapPatient(reader));
+                            list.Add(MapPatientView(reader));
                 }
                 return list;
             }
@@ -437,17 +437,17 @@ namespace DentalClinic_DataTier.Repositories
             }
          
         }
-        public async Task<IEnumerable<clsPatient>> SearchByPhoneNumberAsync(string phoneNumber)
+        public async Task<IEnumerable<clsPatientView>> SearchByPhoneNumberAsync(string phoneNumber)
         {
             const string query = @"
-                SELECT p.PatientID, p.Person_ID, p.BloodType_ID, p.HealthProblems,
-                       p.CreatedAt, p.UpdatedAt, p.UpdatedBy_ID
-                FROM Patients p
+                SELECT pd.PatientID, pd.FullName, pd.Age,pd.Gender, pd.PhoneNumber, pd.BloodTy,pe.IsDeleted
+                FROM vw_PatientDetails pd
+                INNER JOIN Patients p ON p.PatientID = pd.PatientID
                 INNER JOIN People pe ON p.Person_ID = pe.PersonID
                 WHERE pe.PhoneNumber LIKE @PhoneNumber
-                  AND pe.IsDeleted = 0";
+                ;";
 
-            var list = new List<clsPatient>();
+            var list = new List<clsPatientView>();
             try
             {
                 using (var conn = _connectionFactory.CreateConnection())
@@ -457,7 +457,7 @@ namespace DentalClinic_DataTier.Repositories
                     await conn.OpenAsync();
                     using (var reader = await cmd.ExecuteReaderAsync())
                         while (await reader.ReadAsync())
-                            list.Add(MapPatient(reader));
+                            list.Add(MapPatientView(reader));
                 }
                 return list;
             }
@@ -494,7 +494,7 @@ namespace DentalClinic_DataTier.Repositories
         public async Task<clsPatientView> GetPatientDetailsViewByIDAsync(int patientID)
         {
             const string query =
-                "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType FROM vw_PatientDetails WHERE PatientID = @PatientID";
+                "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType ,IsDeleted FROM vw_PatientDetails WHERE PatientID = @PatientID";
 
             clsPatientView patientView = null;
             try
@@ -518,7 +518,7 @@ namespace DentalClinic_DataTier.Repositories
         public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
         {
             const string query =
-                "SELECT PatientID, FullName, Age, Gender, PhoneNumber, BloodType FROM vw_PatientDetails";
+                "SELECT top(25) PatientID, FullName, Age, Gender, PhoneNumber, BloodType,IsDeleted FROM vw_PatientDetails WHERE IsDeleted = 0";
 
             var list = new List<clsPatientView>();
             try
@@ -539,6 +539,38 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
            
+        }
+
+        public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsOnTodaysAppointmentsAsync()
+        {
+            const string query = "select vw_PatientDetails.PatientID,vw_PatientDetails.FullName,vw_PatientDetails.Age,vw_PatientDetails.Gender," +
+                "vw_PatientDetails.PhoneNumber,vw_PatientDetails.BloodType " +
+                "from vw_PatientDetails" +
+                " inner join MedicalFiles on MedicalFiles.Patient_ID = vw_PatientDetails.PatientID" +
+                " inner join Problems on Problems.MedicalFile_ID = MedicalFiles.MedicalFileID" +
+                " inner join Appointments on Appointments.Problem_ID = Problems.ProblemID" +
+                " where Appointments.AppointmentDate = GETDATE()" +
+                " order by Appointments.StartTime ASC;";                           
+
+            var list = new List<clsPatientView>();
+            try
+            {
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                        while (await reader.ReadAsync())
+                            list.Add(MapPatientView(reader));
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
         private static clsPatient MapPatient(SqlDataReader reader)
         {
@@ -565,12 +597,13 @@ namespace DentalClinic_DataTier.Repositories
 
             return new clsPatientView
             {
-                ID            = reader.GetInt32(reader.GetOrdinal("PatientID")),
-                FullName      = reader.GetString(reader.GetOrdinal("FullName")),
-                Age           = (reader.GetInt32(reader.GetOrdinal("Age")).ToString()== "-1" )? "N/A":reader.GetInt32(reader.GetOrdinal("Age")).ToString(),                
-                Gender        = reader.GetString(reader.GetOrdinal("Gender")),
-                PhoneNumber   = reader.IsDBNull(phoneOrd)     ? string.Empty : reader.GetString(phoneOrd),
+                ID = reader.GetInt32(reader.GetOrdinal("PatientID")),
+                FullName = reader.GetString(reader.GetOrdinal("FullName")),
+                Age = (reader.GetInt32(reader.GetOrdinal("Age")).ToString() == "-1") ? "N/A" : reader.GetInt32(reader.GetOrdinal("Age")).ToString(),
+                Gender = reader.GetString(reader.GetOrdinal("Gender")),
+                PhoneNumber = reader.IsDBNull(phoneOrd) ? string.Empty : reader.GetString(phoneOrd),
                 BloodTypeName = reader.IsDBNull(bloodTypeOrd) ? string.Empty : reader.GetString(bloodTypeOrd),
+                IsDeleted = reader.GetBoolean(reader.GetOrdinal("IsDeleted"))
             };
         }
 
