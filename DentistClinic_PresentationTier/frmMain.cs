@@ -47,9 +47,9 @@ namespace DentistClinic_PresentationTier
             await _loadRolesFromDB();
             _createButtons();
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-            await CreateView(dashboard);
+            CreateView(dashboard);
         }
-        private async Task CreateView(object control)
+        private void CreateView(object control)
         {
             mainLayoutPanel.SuspendLayout();
             
@@ -86,21 +86,21 @@ namespace DentistClinic_PresentationTier
                     if (_isOkToDo(myEnums.enPermission.Dashboard))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-                        await CreateView(wantedCtrl);
+                        CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePatients":
                     if (_isOkToDo(myEnums.enPermission.ManagePatients))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManagePatients>();
-                        await CreateView(wantedCtrl);
+                        CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManageAppointments":
                     if (_isOkToDo(myEnums.enPermission.ManageAppointments))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageAppointment>();
-                        await CreateView(wantedCtrl);
+                        CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePayments":
@@ -189,7 +189,6 @@ namespace DentistClinic_PresentationTier
                         Text = "تسجيل خروج",
                         Image = Properties.Resources.Logout
                 }
-
             };
 
             flowLayoutPanelButtons.SuspendLayout();
@@ -290,7 +289,7 @@ namespace DentistClinic_PresentationTier
                         return false;
                     }
                     return true;
-                case "btnManageReports":
+                case "btnReports":
                     if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageReports))
                     {
                         return false;

@@ -119,6 +119,7 @@
             // 
             // flowLayoutPanelButtons
             // 
+            this.flowLayoutPanelButtons.AutoScroll = true;
             this.flowLayoutPanelButtons.BackColor = System.Drawing.Color.SteelBlue;
             this.flowLayoutPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
@@ -128,6 +129,7 @@
             this.flowLayoutPanelButtons.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
             this.flowLayoutPanelButtons.Size = new System.Drawing.Size(380, 870);
             this.flowLayoutPanelButtons.TabIndex = 3;
+            this.flowLayoutPanelButtons.WrapContents = false;
             // 
             // frmMain
             // 

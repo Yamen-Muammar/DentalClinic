@@ -38,7 +38,7 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblPageTitle = new System.Windows.Forms.Label();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flpGeneralInformation = new System.Windows.Forms.FlowLayoutPanel();
             this.pnlPatientCount = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.lblPatientsCount = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.indecatorPanel = new System.Windows.Forms.Panel();
             this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
+            this.flpQuickActions = new System.Windows.Forms.FlowLayoutPanel();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2ShadowPanelAppointments.SuspendLayout();
@@ -57,7 +58,7 @@
             this.guna2spnlHedder.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.flpGeneralInformation.SuspendLayout();
             this.pnlPatientCount.SuspendLayout();
             this.pnlNotConfirmedPayments.SuspendLayout();
             this.pnlTodayAppointments.SuspendLayout();
@@ -72,7 +73,8 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 67.21745F));
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.guna2spnlHedder, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flpGeneralInformation, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.flpQuickActions, 1, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -132,7 +134,7 @@
             // 
             // guna2ShadowPanelTodayApp
             // 
-            this.guna2ShadowPanelTodayApp.BackColor = System.Drawing.Color.SlateGray;
+            this.guna2ShadowPanelTodayApp.BackColor = System.Drawing.Color.Transparent;
             this.guna2ShadowPanelTodayApp.Controls.Add(this.flpTodayAppointmentList);
             this.guna2ShadowPanelTodayApp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2ShadowPanelTodayApp.FillColor = System.Drawing.Color.LightSlateGray;
@@ -212,18 +214,18 @@
             this.lblPageTitle.Text = "لوحة التحكم";
             this.lblPageTitle.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
-            // flowLayoutPanel1
+            // flpGeneralInformation
             // 
-            this.flowLayoutPanel1.BackColor = System.Drawing.Color.AliceBlue;
-            this.flowLayoutPanel1.Controls.Add(this.pnlPatientCount);
-            this.flowLayoutPanel1.Controls.Add(this.pnlNotConfirmedPayments);
-            this.flowLayoutPanel1.Controls.Add(this.pnlTodayAppointments);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(499, 114);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(1011, 366);
-            this.flowLayoutPanel1.TabIndex = 12;
+            this.flpGeneralInformation.BackColor = System.Drawing.Color.AliceBlue;
+            this.flpGeneralInformation.Controls.Add(this.pnlPatientCount);
+            this.flpGeneralInformation.Controls.Add(this.pnlNotConfirmedPayments);
+            this.flpGeneralInformation.Controls.Add(this.pnlTodayAppointments);
+            this.flpGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpGeneralInformation.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flpGeneralInformation.Location = new System.Drawing.Point(499, 114);
+            this.flpGeneralInformation.Name = "flpGeneralInformation";
+            this.flpGeneralInformation.Size = new System.Drawing.Size(1011, 366);
+            this.flpGeneralInformation.TabIndex = 12;
             // 
             // pnlPatientCount
             // 
@@ -368,6 +370,17 @@
             this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
             this.guna2WinProgressIndicator.TabIndex = 12;
             // 
+            // flpQuickActions
+            // 
+            this.flpQuickActions.AutoScroll = true;
+            this.flpQuickActions.BackColor = System.Drawing.Color.DimGray;
+            this.flpQuickActions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpQuickActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flpQuickActions.Location = new System.Drawing.Point(499, 486);
+            this.flpQuickActions.Name = "flpQuickActions";
+            this.flpQuickActions.Size = new System.Drawing.Size(1011, 368);
+            this.flpQuickActions.TabIndex = 16;
+            // 
             // ctrlDashBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -387,7 +400,7 @@
             this.tableLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flpGeneralInformation.ResumeLayout(false);
             this.pnlPatientCount.ResumeLayout(false);
             this.pnlPatientCount.PerformLayout();
             this.pnlNotConfirmedPayments.ResumeLayout(false);
@@ -406,7 +419,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private System.Windows.Forms.Label lblPageTitle;
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
+        private System.Windows.Forms.FlowLayoutPanel flpGeneralInformation;
         private Guna.UI2.WinForms.Guna2ShadowPanel pnlPatientCount;
         private System.Windows.Forms.Label lblPatientsCount;
         private System.Windows.Forms.Label label6;
@@ -437,5 +450,6 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblCause;
+        private System.Windows.Forms.FlowLayoutPanel flpQuickActions;
     }
 }

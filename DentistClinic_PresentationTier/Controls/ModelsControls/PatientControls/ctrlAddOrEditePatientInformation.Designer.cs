@@ -1,13 +1,13 @@
-﻿namespace DentistClinic_PresentationTier.Forms.PatientsForms
+﻿namespace DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls
 {
-    partial class frmAddOrEditePatient
+    partial class ctrlAddOrEditePatientInformation
     {
-        /// <summary>
+        /// <summary> 
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
@@ -20,10 +20,10 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form Designer generated code
+        #region Component Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
@@ -111,8 +111,8 @@
             this.gbMainBox.Location = new System.Drawing.Point(0, 0);
             this.gbMainBox.Name = "gbMainBox";
             this.gbMainBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.gbMainBox.Size = new System.Drawing.Size(1361, 850);
-            this.gbMainBox.TabIndex = 0;
+            this.gbMainBox.Size = new System.Drawing.Size(1361, 885);
+            this.gbMainBox.TabIndex = 1;
             this.gbMainBox.Text = "اضافة مريض";
             this.gbMainBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
@@ -477,7 +477,7 @@
             this.btnCancel.FillColor = System.Drawing.Color.Transparent;
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancel.ForeColor = System.Drawing.Color.SteelBlue;
-            this.btnCancel.Location = new System.Drawing.Point(749, 747);
+            this.btnCancel.Location = new System.Drawing.Point(700, 751);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(315, 62);
             this.btnCancel.TabIndex = 14;
@@ -494,7 +494,7 @@
             this.btnSave.FillColor = System.Drawing.Color.SteelBlue;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(384, 747);
+            this.btnSave.Location = new System.Drawing.Point(335, 751);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(315, 62);
             this.btnSave.TabIndex = 13;
@@ -682,18 +682,14 @@
             this.NationalNumberErrorProvider.ContainerControl = this;
             this.NationalNumberErrorProvider.RightToLeft = true;
             // 
-            // frmAddOrEditePatient
+            // ctrlAddOrEditePatientInformation
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(1361, 850);
             this.Controls.Add(this.gbMainBox);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "frmAddOrEditePatient";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AddOrEditePatient";
-            this.Load += new System.EventHandler(this.frmAddOrEditePatient_Load);
+            this.Name = "ctrlAddOrEditePatientInformation";
+            this.Size = new System.Drawing.Size(1361, 885);
+            this.Load += new System.EventHandler(this.ctrlAddOrEditePatient_Load);
             this.gbMainBox.ResumeLayout(false);
             this.gbMainBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PhoneNumberErrorProvider)).EndInit();
@@ -705,36 +701,36 @@
         #endregion
 
         private Guna.UI2.WinForms.Guna2GroupBox gbMainBox;
+        private Guna.UI2.WinForms.Guna2ComboBox cbDay;
+        private Guna.UI2.WinForms.Guna2ComboBox cbMonth;
+        private Guna.UI2.WinForms.Guna2ComboBox cbYear;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private Guna.UI2.WinForms.Guna2TextBox tbHealthProblems;
+        private System.Windows.Forms.Label label8;
+        private Guna.UI2.WinForms.Guna2ComboBox cbBloodType;
+        private Guna.UI2.WinForms.Guna2ComboBox cbGender;
+        private Guna.UI2.WinForms.Guna2TextBox tbGeneralAllergies;
+        private Guna.UI2.WinForms.Guna2TextBox tbPhoneNumber;
+        private Guna.UI2.WinForms.Guna2TextBox tbNationalNo;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label6;
+        private Guna.UI2.WinForms.Guna2Button btnCancel;
+        private Guna.UI2.WinForms.Guna2Button btnSave;
+        private Guna.UI2.WinForms.Guna2TextBox tbLastName;
+        private Guna.UI2.WinForms.Guna2TextBox tbSecondName;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label7;
+        private Guna.UI2.WinForms.Guna2TextBox tbFirstName;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label lblCharactersCount;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
-        private Guna.UI2.WinForms.Guna2TextBox tbLastName;
-        private Guna.UI2.WinForms.Guna2TextBox tbSecondName;
-        private Guna.UI2.WinForms.Guna2TextBox tbFirstName;
-        private Guna.UI2.WinForms.Guna2Button btnSave;
-        private Guna.UI2.WinForms.Guna2Button btnCancel;
-        private Guna.UI2.WinForms.Guna2ComboBox cbGender;
-        private Guna.UI2.WinForms.Guna2TextBox tbNationalNo;
-        private System.Windows.Forms.Label label6;
-        private Guna.UI2.WinForms.Guna2ComboBox cbBloodType;
-        private System.Windows.Forms.Label label7;
-        private Guna.UI2.WinForms.Guna2TextBox tbHealthProblems;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private Guna.UI2.WinForms.Guna2TextBox tbPhoneNumber;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Label lblCharactersCount;
-        private System.Windows.Forms.Label label10;
-        private Guna.UI2.WinForms.Guna2TextBox tbGeneralAllergies;
-        private System.Windows.Forms.Label label14;
-        private Guna.UI2.WinForms.Guna2ComboBox cbDay;
-        private Guna.UI2.WinForms.Guna2ComboBox cbMonth;
-        private Guna.UI2.WinForms.Guna2ComboBox cbYear;
-        private System.Windows.Forms.Label label15;
         private System.Windows.Forms.ErrorProvider PhoneNumberErrorProvider;
         private System.Windows.Forms.ErrorProvider NationalNumberErrorProvider;
     }

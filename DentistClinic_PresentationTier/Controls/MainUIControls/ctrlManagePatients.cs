@@ -16,6 +16,7 @@ using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentalClinic_CoreTier.ViewModels;
+using DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls;
 using DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls;
 using DentistClinic_PresentationTier.Forms.PatientsForms;
 using Microsoft.Extensions.DependencyInjection;
@@ -85,7 +86,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
 
         //Outer Events 
-        private async void AddPatientForm_OnPatientReActived(object sender, frmAddOrEditePatient.MyEventArgs e)
+        private async void AddPatientForm_OnPatientReActived(object sender, ctrlAddOrEditePatientInformation.MyEventArgs e)
         {
             try
             {
@@ -102,6 +103,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                         if ((int)row.Cells["ID"].Value == e.Patient.PatientID)
                         {
                             row.Selected = true;
+                            await _updateGridRow(row, e.Patient);
                         }
                     }
                 }
@@ -114,7 +116,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
 
         }
-        private async void AddPatientForm_OnPatientDone(object sender, frmAddOrEditePatient.MyEventArgs e)
+        private async void AddPatientForm_OnPatientDone(object sender, ctrlAddOrEditePatientInformation.MyEventArgs e)
         {
             try
             {
@@ -147,21 +149,22 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         //UI Events 
         private async void btnAddPatient_Click(object sender, EventArgs e)
         {
-            var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatient>();
-            AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
-            AddPatientForm.OnPatientReActived += AddPatientForm_OnPatientReActived;
+            var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatientInformation>();
+            AddPatientForm.ctrlAddOrEditePatientInformation1.OnPatientDone += AddPatientForm_OnPatientDone;
+            AddPatientForm.ctrlAddOrEditePatientInformation1.OnPatientReActived += AddPatientForm_OnPatientReActived;    
             AddPatientForm.ShowDialog();
         }   
         private async void btnEditePatient_Click(object sender, EventArgs e)
         {
-            var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatient>();
+            var AddPatientForm = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatientInformation>();
+            AddPatientForm.ctrlAddOrEditePatientInformation1.OnPatientDone += AddPatientForm_OnPatientDone;
+            AddPatientForm.ctrlAddOrEditePatientInformation1.OnPatientReActived += AddPatientForm_OnPatientReActived;
+
             await AddPatientForm.SetPatientID(selectedPatientID);
             if (AddPatientForm.IsDisposed)
             {
                 return;
-            }
-            AddPatientForm.OnPatientDone += AddPatientForm_OnPatientDone;
-            AddPatientForm.OnPatientReActived += AddPatientForm_OnPatientReActived;
+            }                       
             AddPatientForm.ShowDialog();
         }
         private void btnAddNewAppointment_Click(object sender, EventArgs e)
@@ -356,6 +359,8 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             {
                 row.Cells["BloodTypeName"].Value = "N/A";
             }
+
+            row.Cells["IsDeleted"].Value = Patient.PersonInfo.IsDeleted;
         }
         private enSearchType _mapUserFilterSelection(string filter)
         {

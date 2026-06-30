@@ -11,6 +11,7 @@ using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_DataTier;
 using DentalClinic_DataTier.Repositories;
 using DentistClinic_PresentationTier.Controls.MainUIControls;
+using DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls;
 using DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls;
 using DentistClinic_PresentationTier.Forms.PatientsForms;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,7 +92,8 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<ctrlManageStaff>();
             services.AddTransient<ctrlManageRoles>();
             services.AddTransient<ctrlPersonInformation>();
-            services.AddTransient<frmAddOrEditePatient>();
+            services.AddTransient<ctrlAddOrEditePatientInformation>();
+            services.AddTransient<frmAddOrEditePatientInformation>();
             // Session 
             services.AddSingleton<ISessionContext, WinFormsSessionContext>();
         }

@@ -440,7 +440,7 @@ namespace DentalClinic_DataTier.Repositories
         public async Task<IEnumerable<clsPatientView>> SearchByPhoneNumberAsync(string phoneNumber)
         {
             const string query = @"
-                SELECT pd.PatientID, pd.FullName, pd.Age,pd.Gender, pd.PhoneNumber, pd.BloodTy,pe.IsDeleted
+                SELECT pd.PatientID, pd.FullName, pd.Age,pd.Gender, pd.PhoneNumber, pd.BloodType,pe.IsDeleted
                 FROM vw_PatientDetails pd
                 INNER JOIN Patients p ON p.PatientID = pd.PatientID
                 INNER JOIN People pe ON p.Person_ID = pe.PersonID
