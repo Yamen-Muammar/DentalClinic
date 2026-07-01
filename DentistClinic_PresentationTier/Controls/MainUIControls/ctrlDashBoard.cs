@@ -5,6 +5,8 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -39,6 +41,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             _paymentService = paymentService;
             _patientService = patientService;
             InitializeComponent();
+            WireEventsForQuickActionsPanel();
         }
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
@@ -62,7 +65,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private void Panle_MouseEnter(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
-
             guna2Panel.FillColor = Color.Gainsboro;
 
         }
@@ -106,7 +108,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private Color _appointmentShadowPanelDefaultColor;
         private void AppointmentShadowPanel_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
+
+            if (sender is Guna2ShadowPanel shadowPanel)
+            {
+                senderShadowPanel = shadowPanel;
+            }
+            if (sender is System.Windows.Forms.Label label)
+            {
+                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+            }
 
             clsAppointmentsDetails appointmentsDetails = senderShadowPanel.Tag as clsAppointmentsDetails;
 
@@ -116,13 +127,33 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
         private void AppointmentShadowPanel_MouseEnter(object sender, EventArgs e)
         {
-            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
+
+            if(sender is Guna2ShadowPanel shadowPanel)
+            {
+                senderShadowPanel = shadowPanel;
+            }
+
+            if (sender is System.Windows.Forms.Label label)
+            {
+                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+            }
+
             _appointmentShadowPanelDefaultColor = senderShadowPanel.FillColor;
             senderShadowPanel.FillColor = Color.Gainsboro;
         }
         private void AppointmentShadowPanel_MouseLeave(object sender, EventArgs e)
         {
-            Guna2ShadowPanel senderShadowPanel = sender as Guna2ShadowPanel;
+
+            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
+            if (sender is Guna2ShadowPanel shadowPanel)
+            {
+                senderShadowPanel = shadowPanel;
+            }
+            if (sender is System.Windows.Forms.Label label)
+            {
+                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+            }
             senderShadowPanel.FillColor = _appointmentShadowPanelDefaultColor;
         }
         //Helper Methods
@@ -191,6 +222,8 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                     Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();
                     shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
                     _buildAppointmentPanle(appointment, shadowPanel);
+                    AttachHoverRecursive(shadowPanel, AppointmentShadowPanel_MouseEnter, AppointmentShadowPanel_MouseLeave);
+                    AttachDoubleClickRecursive(shadowPanel, AppointmentShadowPanel_MouseDoubleClick);
                 }
             }
             catch (Exception)
@@ -446,6 +479,91 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             clsGenrateMockData._loadMockAppointments(ref todayAppointment);
             _todayAppointment = (List<clsAppointmentsDetails>)todayAppointment;
         }
-        
+
+
+        // Quick Actions Panel Events
+        private void WireEventsForQuickActionsPanel()
+        {
+            AttachHoverRecursive(spAddInvoice, ShadowPanels_Hover, shadowPanels_Leave);
+            AttachHoverRecursive(spAddPatient, ShadowPanels_Hover, shadowPanels_Leave);
+            AttachHoverRecursive(spAddAppointment, ShadowPanels_Hover, shadowPanels_Leave);
+            AttachDoubleClickRecursive(spAddPatient, QuickActionsShadowPanel_DoubleClick);
+            AttachDoubleClickRecursive(spAddAppointment, QuickActionsShadowPanel_DoubleClick);
+            AttachDoubleClickRecursive(spAddInvoice, QuickActionsShadowPanel_DoubleClick);
+        }
+        private void ShadowPanels_Hover(object sender, EventArgs e)
+        {
+            if(sender is PictureBox pictureBox)
+            {
+                Guna2ShadowPanel guna2ShadowPanel = pictureBox?.Parent as Guna2ShadowPanel;
+                guna2ShadowPanel.FillColor = Color.SteelBlue;
+            }
+
+            if (sender is System.Windows.Forms.Label label)
+            {
+                Guna2ShadowPanel guna2ShadowPanel = label?.Parent as Guna2ShadowPanel;
+                guna2ShadowPanel.FillColor = Color.SteelBlue;
+            }
+        }
+        private void shadowPanels_Leave(object sender, EventArgs e)
+        {
+            if (sender is PictureBox pictureBox)
+            {
+                Guna2ShadowPanel guna2ShadowPanel = pictureBox?.Parent as Guna2ShadowPanel;
+                guna2ShadowPanel.FillColor = Color.LightSlateGray;
+            }
+
+            if (sender is System.Windows.Forms.Label label)
+            {
+                Guna2ShadowPanel guna2ShadowPanel = label?.Parent as Guna2ShadowPanel;
+                guna2ShadowPanel.FillColor = Color.LightSlateGray;
+            }
+        }
+        private void AttachHoverRecursive(Control parent, EventHandler onEnter, EventHandler onLeave)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                child.MouseEnter += onEnter;
+                child.MouseLeave += onLeave;
+                if (child.HasChildren)
+                    AttachHoverRecursive(child, onEnter, onLeave);
+            }
+        }
+        private void AttachDoubleClickRecursive(Control parent, MouseEventHandler onDoubleClick)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                child.MouseDoubleClick += onDoubleClick;
+                if (child.HasChildren)
+                    AttachDoubleClickRecursive(child, onDoubleClick);
+            }
+        }
+        private void QuickActionsShadowPanel_DoubleClick(object sender, MouseEventArgs e)
+        {
+            Guna2ShadowPanel PanelInfo = new Guna2ShadowPanel();
+            if (sender is System.Windows.Forms.Label label)
+            {
+                 PanelInfo = label?.Parent as Guna2ShadowPanel;
+            }
+            else if(sender is System.Windows.Forms.PictureBox pictureBox)
+            {
+                 PanelInfo = pictureBox?.Parent as Guna2ShadowPanel;
+            }
+
+            switch (PanelInfo.Name)
+            {
+                case "spAddPatient":
+                    MessageBox.Show("Add Patient");
+                    break;
+                case "spAddAppointment":
+                    MessageBox.Show("Add Appointment");
+                    break;
+                case "spAddInvoice":
+                    MessageBox.Show("Add Invoice");
+                    break;
+                default:
+                    break;
+            }   
+        }
     }
 }

@@ -48,9 +48,18 @@
             this.pnlTodayAppointments = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.lblTodayAppoinmentsCount = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.flpQuickActions = new System.Windows.Forms.FlowLayoutPanel();
+            this.spAddPatient = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.picbAddPatient = new System.Windows.Forms.PictureBox();
             this.indecatorPanel = new System.Windows.Forms.Panel();
             this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
-            this.flpQuickActions = new System.Windows.Forms.FlowLayoutPanel();
+            this.spAddAppointment = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            this.label14 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.spAddInvoice = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            this.label15 = new System.Windows.Forms.Label();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2ShadowPanelAppointments.SuspendLayout();
@@ -62,7 +71,14 @@
             this.pnlPatientCount.SuspendLayout();
             this.pnlNotConfirmedPayments.SuspendLayout();
             this.pnlTodayAppointments.SuspendLayout();
+            this.flpQuickActions.SuspendLayout();
+            this.spAddPatient.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picbAddPatient)).BeginInit();
             this.indecatorPanel.SuspendLayout();
+            this.spAddAppointment.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.spAddInvoice.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -82,7 +98,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.5F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 43.5F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1513, 857);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1513, 1150);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -93,13 +109,13 @@
             this.tableLayoutPanel2.Controls.Add(this.guna2ShadowPanelAppointments, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.guna2ShadowPanelTodayApp, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 114);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 152);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel1.SetRowSpan(this.tableLayoutPanel2, 2);
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15.78947F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 84.21053F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(490, 740);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(490, 995);
             this.tableLayoutPanel2.TabIndex = 15;
             // 
             // guna2ShadowPanelAppointments
@@ -115,7 +131,7 @@
             this.guna2ShadowPanelAppointments.ShadowColor = System.Drawing.Color.Black;
             this.guna2ShadowPanelAppointments.ShadowDepth = 70;
             this.guna2ShadowPanelAppointments.ShadowShift = 7;
-            this.guna2ShadowPanelAppointments.Size = new System.Drawing.Size(490, 116);
+            this.guna2ShadowPanelAppointments.Size = new System.Drawing.Size(490, 157);
             this.guna2ShadowPanelAppointments.TabIndex = 10;
             // 
             // label2
@@ -138,12 +154,12 @@
             this.guna2ShadowPanelTodayApp.Controls.Add(this.flpTodayAppointmentList);
             this.guna2ShadowPanelTodayApp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2ShadowPanelTodayApp.FillColor = System.Drawing.Color.LightSlateGray;
-            this.guna2ShadowPanelTodayApp.Location = new System.Drawing.Point(5, 121);
+            this.guna2ShadowPanelTodayApp.Location = new System.Drawing.Point(5, 162);
             this.guna2ShadowPanelTodayApp.Margin = new System.Windows.Forms.Padding(5);
             this.guna2ShadowPanelTodayApp.Name = "guna2ShadowPanelTodayApp";
             this.guna2ShadowPanelTodayApp.Radius = 10;
             this.guna2ShadowPanelTodayApp.ShadowColor = System.Drawing.Color.Black;
-            this.guna2ShadowPanelTodayApp.Size = new System.Drawing.Size(480, 614);
+            this.guna2ShadowPanelTodayApp.Size = new System.Drawing.Size(480, 828);
             this.guna2ShadowPanelTodayApp.TabIndex = 11;
             // 
             // flpTodayAppointmentList
@@ -156,7 +172,7 @@
             this.flpTodayAppointmentList.Location = new System.Drawing.Point(0, 0);
             this.flpTodayAppointmentList.Margin = new System.Windows.Forms.Padding(0);
             this.flpTodayAppointmentList.Name = "flpTodayAppointmentList";
-            this.flpTodayAppointmentList.Size = new System.Drawing.Size(480, 614);
+            this.flpTodayAppointmentList.Size = new System.Drawing.Size(480, 828);
             this.flpTodayAppointmentList.TabIndex = 0;
             this.flpTodayAppointmentList.WrapContents = false;
             // 
@@ -174,7 +190,7 @@
             this.guna2spnlHedder.ShadowDepth = 40;
             this.guna2spnlHedder.ShadowShift = 7;
             this.guna2spnlHedder.ShadowStyle = Guna.UI2.WinForms.Guna2ShadowPanel.ShadowMode.Dropped;
-            this.guna2spnlHedder.Size = new System.Drawing.Size(1513, 91);
+            this.guna2spnlHedder.Size = new System.Drawing.Size(1513, 129);
             this.guna2spnlHedder.TabIndex = 6;
             // 
             // tableLayoutPanel4
@@ -188,7 +204,7 @@
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1513, 91);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(1513, 129);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
             // flowLayoutPanel2
@@ -199,7 +215,7 @@
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(759, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(751, 85);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(751, 123);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // lblPageTitle
@@ -222,9 +238,9 @@
             this.flpGeneralInformation.Controls.Add(this.pnlTodayAppointments);
             this.flpGeneralInformation.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpGeneralInformation.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flpGeneralInformation.Location = new System.Drawing.Point(499, 114);
+            this.flpGeneralInformation.Location = new System.Drawing.Point(499, 152);
             this.flpGeneralInformation.Name = "flpGeneralInformation";
-            this.flpGeneralInformation.Size = new System.Drawing.Size(1011, 366);
+            this.flpGeneralInformation.Size = new System.Drawing.Size(1011, 494);
             this.flpGeneralInformation.TabIndex = 12;
             // 
             // pnlPatientCount
@@ -348,6 +364,69 @@
             this.label3.TabIndex = 2;
             this.label3.Text = "عدد المواعيد اليوم؛";
             // 
+            // flpQuickActions
+            // 
+            this.flpQuickActions.AutoScroll = true;
+            this.flpQuickActions.BackColor = System.Drawing.Color.AliceBlue;
+            this.flpQuickActions.Controls.Add(this.spAddPatient);
+            this.flpQuickActions.Controls.Add(this.spAddAppointment);
+            this.flpQuickActions.Controls.Add(this.spAddInvoice);
+            this.flpQuickActions.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.flpQuickActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
+            this.flpQuickActions.Location = new System.Drawing.Point(499, 652);
+            this.flpQuickActions.Name = "flpQuickActions";
+            this.flpQuickActions.Size = new System.Drawing.Size(1011, 495);
+            this.flpQuickActions.TabIndex = 16;
+            this.flpQuickActions.WrapContents = false;
+            // 
+            // spAddPatient
+            // 
+            this.spAddPatient.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spAddPatient.AutoScroll = true;
+            this.spAddPatient.BackColor = System.Drawing.Color.Transparent;
+            this.spAddPatient.Controls.Add(this.label13);
+            this.spAddPatient.Controls.Add(this.picbAddPatient);
+            this.spAddPatient.FillColor = System.Drawing.Color.LightSlateGray;
+            this.spAddPatient.Location = new System.Drawing.Point(728, 10);
+            this.spAddPatient.Margin = new System.Windows.Forms.Padding(10);
+            this.spAddPatient.Name = "spAddPatient";
+            this.spAddPatient.Padding = new System.Windows.Forms.Padding(5);
+            this.spAddPatient.Radius = 5;
+            this.spAddPatient.ShadowColor = System.Drawing.Color.Black;
+            this.spAddPatient.ShadowDepth = 70;
+            this.spAddPatient.ShadowShift = 10;
+            this.spAddPatient.Size = new System.Drawing.Size(273, 362);
+            this.spAddPatient.TabIndex = 0;
+            this.spAddPatient.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.QuickActionsShadowPanel_DoubleClick);
+            this.spAddPatient.MouseEnter += new System.EventHandler(this.ShadowPanels_Hover);
+            this.spAddPatient.MouseLeave += new System.EventHandler(this.shadowPanels_Leave);
+            // 
+            // label13
+            // 
+            this.label13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label13.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.ForeColor = System.Drawing.Color.White;
+            this.label13.Location = new System.Drawing.Point(5, 192);
+            this.label13.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(263, 165);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "إضـافة مريـض";
+            this.label13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // picbAddPatient
+            // 
+            this.picbAddPatient.Dock = System.Windows.Forms.DockStyle.Top;
+            this.picbAddPatient.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.picbAddPatient.Location = new System.Drawing.Point(5, 5);
+            this.picbAddPatient.Name = "picbAddPatient";
+            this.picbAddPatient.Padding = new System.Windows.Forms.Padding(50);
+            this.picbAddPatient.Size = new System.Drawing.Size(263, 187);
+            this.picbAddPatient.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picbAddPatient.TabIndex = 0;
+            this.picbAddPatient.TabStop = false;
+            // 
             // indecatorPanel
             // 
             this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
@@ -370,26 +449,110 @@
             this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
             this.guna2WinProgressIndicator.TabIndex = 12;
             // 
-            // flpQuickActions
+            // spAddAppointment
             // 
-            this.flpQuickActions.AutoScroll = true;
-            this.flpQuickActions.BackColor = System.Drawing.Color.DimGray;
-            this.flpQuickActions.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flpQuickActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flpQuickActions.Location = new System.Drawing.Point(499, 486);
-            this.flpQuickActions.Name = "flpQuickActions";
-            this.flpQuickActions.Size = new System.Drawing.Size(1011, 368);
-            this.flpQuickActions.TabIndex = 16;
+            this.spAddAppointment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spAddAppointment.AutoScroll = true;
+            this.spAddAppointment.BackColor = System.Drawing.Color.Transparent;
+            this.spAddAppointment.Controls.Add(this.label14);
+            this.spAddAppointment.Controls.Add(this.pictureBox1);
+            this.spAddAppointment.FillColor = System.Drawing.Color.LightSlateGray;
+            this.spAddAppointment.Location = new System.Drawing.Point(435, 10);
+            this.spAddAppointment.Margin = new System.Windows.Forms.Padding(10);
+            this.spAddAppointment.Name = "spAddAppointment";
+            this.spAddAppointment.Padding = new System.Windows.Forms.Padding(5);
+            this.spAddAppointment.Radius = 5;
+            this.spAddAppointment.ShadowColor = System.Drawing.Color.Black;
+            this.spAddAppointment.ShadowDepth = 70;
+            this.spAddAppointment.ShadowShift = 10;
+            this.spAddAppointment.Size = new System.Drawing.Size(273, 362);
+            this.spAddAppointment.TabIndex = 1;
+            this.spAddAppointment.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.QuickActionsShadowPanel_DoubleClick);
+            this.spAddAppointment.MouseEnter += new System.EventHandler(this.ShadowPanels_Hover);
+            this.spAddAppointment.MouseLeave += new System.EventHandler(this.shadowPanels_Leave);
+            // 
+            // label14
+            // 
+            this.label14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label14.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label14.ForeColor = System.Drawing.Color.White;
+            this.label14.Location = new System.Drawing.Point(5, 192);
+            this.label14.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(263, 165);
+            this.label14.TabIndex = 1;
+            this.label14.Text = "إضـافة موعـد";
+            this.label14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox1.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.pictureBox1.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Padding = new System.Windows.Forms.Padding(50);
+            this.pictureBox1.Size = new System.Drawing.Size(263, 187);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
+            // 
+            // spAddInvoice
+            // 
+            this.spAddInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spAddInvoice.AutoScroll = true;
+            this.spAddInvoice.BackColor = System.Drawing.Color.Transparent;
+            this.spAddInvoice.Controls.Add(this.label15);
+            this.spAddInvoice.Controls.Add(this.pictureBox2);
+            this.spAddInvoice.FillColor = System.Drawing.Color.LightSlateGray;
+            this.spAddInvoice.Location = new System.Drawing.Point(142, 10);
+            this.spAddInvoice.Margin = new System.Windows.Forms.Padding(10);
+            this.spAddInvoice.Name = "spAddInvoice";
+            this.spAddInvoice.Padding = new System.Windows.Forms.Padding(5);
+            this.spAddInvoice.Radius = 5;
+            this.spAddInvoice.ShadowColor = System.Drawing.Color.Black;
+            this.spAddInvoice.ShadowDepth = 70;
+            this.spAddInvoice.ShadowShift = 10;
+            this.spAddInvoice.Size = new System.Drawing.Size(273, 362);
+            this.spAddInvoice.TabIndex = 2;
+            this.spAddInvoice.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.QuickActionsShadowPanel_DoubleClick);
+            this.spAddInvoice.MouseEnter += new System.EventHandler(this.ShadowPanels_Hover);
+            this.spAddInvoice.MouseLeave += new System.EventHandler(this.shadowPanels_Leave);
+            // 
+            // label15
+            // 
+            this.label15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label15.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.ForeColor = System.Drawing.Color.White;
+            this.label15.Location = new System.Drawing.Point(5, 192);
+            this.label15.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(263, 165);
+            this.label15.TabIndex = 1;
+            this.label15.Text = "إضـافة فاتـورة";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox2.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.pictureBox2.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Padding = new System.Windows.Forms.Padding(50);
+            this.pictureBox2.Size = new System.Drawing.Size(263, 187);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 0;
+            this.pictureBox2.TabStop = false;
             // 
             // ctrlDashBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.Controls.Add(this.indecatorPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ctrlDashBoard";
-            this.Size = new System.Drawing.Size(1513, 857);
+            this.Size = new System.Drawing.Size(1513, 1150);
             this.Load += new System.EventHandler(this.ctrlDashBoard_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -407,7 +570,14 @@
             this.pnlNotConfirmedPayments.PerformLayout();
             this.pnlTodayAppointments.ResumeLayout(false);
             this.pnlTodayAppointments.PerformLayout();
+            this.flpQuickActions.ResumeLayout(false);
+            this.spAddPatient.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picbAddPatient)).EndInit();
             this.indecatorPanel.ResumeLayout(false);
+            this.spAddAppointment.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.spAddInvoice.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -451,5 +621,14 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label lblCause;
         private System.Windows.Forms.FlowLayoutPanel flpQuickActions;
+        private Guna.UI2.WinForms.Guna2ShadowPanel spAddPatient;
+        private System.Windows.Forms.PictureBox picbAddPatient;
+        private System.Windows.Forms.Label label13;
+        private Guna.UI2.WinForms.Guna2ShadowPanel spAddAppointment;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private Guna.UI2.WinForms.Guna2ShadowPanel spAddInvoice;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }

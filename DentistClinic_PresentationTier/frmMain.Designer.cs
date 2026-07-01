@@ -43,9 +43,8 @@
             // 
             this.mainLayoutPanel.BackColor = System.Drawing.Color.Transparent;
             this.mainLayoutPanel.ColumnCount = 2;
-            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
-            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79F));
+            this.mainLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 21F));
             this.mainLayoutPanel.Controls.Add(this.tableLayoutPanel2, 1, 0);
             this.mainLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainLayoutPanel.Location = new System.Drawing.Point(0, 0);
@@ -65,14 +64,14 @@
             this.tableLayoutPanel2.Controls.Add(this.guna2GradientPanel2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanelButtons, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(1518, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(1499, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.mainLayoutPanel.SetRowSpan(this.tableLayoutPanel2, 2);
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(380, 1020);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(399, 1020);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // guna2GradientPanel2
@@ -89,7 +88,7 @@
             this.guna2GradientPanel2.GradientMode = System.Drawing.Drawing2D.LinearGradientMode.Vertical;
             this.guna2GradientPanel2.Location = new System.Drawing.Point(3, 3);
             this.guna2GradientPanel2.Name = "guna2GradientPanel2";
-            this.guna2GradientPanel2.Size = new System.Drawing.Size(374, 126);
+            this.guna2GradientPanel2.Size = new System.Drawing.Size(393, 126);
             this.guna2GradientPanel2.TabIndex = 10;
             // 
             // label2
@@ -124,10 +123,10 @@
             this.flowLayoutPanelButtons.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanelButtons.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanelButtons.Location = new System.Drawing.Point(0, 147);
-            this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(0, 15, 0, 3);
+            this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(0, 15, 0, 10);
             this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
             this.flowLayoutPanelButtons.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
-            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(380, 870);
+            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(399, 863);
             this.flowLayoutPanelButtons.TabIndex = 3;
             this.flowLayoutPanelButtons.WrapContents = false;
             // 
