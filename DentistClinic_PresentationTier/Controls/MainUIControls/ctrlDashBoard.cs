@@ -16,7 +16,9 @@ using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentalClinic_CoreTier.ViewModels;
+using DentistClinic_PresentationTier.Forms.PatientsForms;
 using Guna.UI2.WinForms;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DentistClinic_PresentationTier.Controls.MainUIControls
 {
@@ -487,9 +489,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             AttachHoverRecursive(spAddInvoice, ShadowPanels_Hover, shadowPanels_Leave);
             AttachHoverRecursive(spAddPatient, ShadowPanels_Hover, shadowPanels_Leave);
             AttachHoverRecursive(spAddAppointment, ShadowPanels_Hover, shadowPanels_Leave);
+            AttachHoverRecursive(spAddProblem, ShadowPanels_Hover, shadowPanels_Leave);
             AttachDoubleClickRecursive(spAddPatient, QuickActionsShadowPanel_DoubleClick);
             AttachDoubleClickRecursive(spAddAppointment, QuickActionsShadowPanel_DoubleClick);
             AttachDoubleClickRecursive(spAddInvoice, QuickActionsShadowPanel_DoubleClick);
+            AttachDoubleClickRecursive(spAddProblem, QuickActionsShadowPanel_DoubleClick);
         }
         private void ShadowPanels_Hover(object sender, EventArgs e)
         {
@@ -553,10 +557,14 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             switch (PanelInfo.Name)
             {
                 case "spAddPatient":
-                    MessageBox.Show("Add Patient");
+                    var frmAddPatient = Program.ServiceProvider.GetRequiredService<frmAddOrEditePatientInformation>();
+                    frmAddPatient.ShowDialog();
                     break;
                 case "spAddAppointment":
                     MessageBox.Show("Add Appointment");
+                    break;
+                case "spAddProblem":
+                    MessageBox.Show("add Problem");
                     break;
                 case "spAddInvoice":
                     MessageBox.Show("Add Invoice");

@@ -61,11 +61,11 @@ namespace DentistClinic_PresentationTier
                     return;
                 }
 
-                string username = tbUsername.Text;
-                string password = tbPassword.Text;
+                  string username = tbUsername.Text;
+                  string password = tbPassword.Text;
 
                 clsStaff loggedinStaff = await _staffService.LoginAsync(username, password);
-
+                
                 if (loggedinStaff != null)
                 {
                     _sessionContext.Set(loggedinStaff);

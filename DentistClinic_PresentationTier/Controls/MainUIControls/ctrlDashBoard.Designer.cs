@@ -52,14 +52,17 @@
             this.spAddPatient = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.label13 = new System.Windows.Forms.Label();
             this.picbAddPatient = new System.Windows.Forms.PictureBox();
-            this.indecatorPanel = new System.Windows.Forms.Panel();
-            this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.spAddAppointment = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.label14 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.spAddProblem = new Guna.UI2.WinForms.Guna2ShadowPanel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.spAddInvoice = new Guna.UI2.WinForms.Guna2ShadowPanel();
             this.label15 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.indecatorPanel = new System.Windows.Forms.Panel();
+            this.guna2WinProgressIndicator = new Guna.UI2.WinForms.Guna2WinProgressIndicator();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2ShadowPanelAppointments.SuspendLayout();
@@ -74,11 +77,13 @@
             this.flpQuickActions.SuspendLayout();
             this.spAddPatient.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picbAddPatient)).BeginInit();
-            this.indecatorPanel.SuspendLayout();
             this.spAddAppointment.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.spAddProblem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.spAddInvoice.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.indecatorPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -370,6 +375,7 @@
             this.flpQuickActions.BackColor = System.Drawing.Color.AliceBlue;
             this.flpQuickActions.Controls.Add(this.spAddPatient);
             this.flpQuickActions.Controls.Add(this.spAddAppointment);
+            this.flpQuickActions.Controls.Add(this.spAddProblem);
             this.flpQuickActions.Controls.Add(this.spAddInvoice);
             this.flpQuickActions.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpQuickActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
@@ -388,7 +394,7 @@
             this.spAddPatient.Controls.Add(this.label13);
             this.spAddPatient.Controls.Add(this.picbAddPatient);
             this.spAddPatient.FillColor = System.Drawing.Color.LightSlateGray;
-            this.spAddPatient.Location = new System.Drawing.Point(728, 10);
+            this.spAddPatient.Location = new System.Drawing.Point(889, 10);
             this.spAddPatient.Margin = new System.Windows.Forms.Padding(10);
             this.spAddPatient.Name = "spAddPatient";
             this.spAddPatient.Padding = new System.Windows.Forms.Padding(5);
@@ -427,28 +433,6 @@
             this.picbAddPatient.TabIndex = 0;
             this.picbAddPatient.TabStop = false;
             // 
-            // indecatorPanel
-            // 
-            this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator);
-            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
-            this.indecatorPanel.Name = "indecatorPanel";
-            this.indecatorPanel.Size = new System.Drawing.Size(1513, 857);
-            this.indecatorPanel.TabIndex = 11;
-            // 
-            // guna2WinProgressIndicator
-            // 
-            this.guna2WinProgressIndicator.AnimationSpeed = 90;
-            this.guna2WinProgressIndicator.AutoStart = true;
-            this.guna2WinProgressIndicator.BackColor = System.Drawing.Color.Transparent;
-            this.guna2WinProgressIndicator.Location = new System.Drawing.Point(641, 318);
-            this.guna2WinProgressIndicator.Name = "guna2WinProgressIndicator";
-            this.guna2WinProgressIndicator.NumberOfCircles = 15;
-            this.guna2WinProgressIndicator.ProgressColor = System.Drawing.Color.SteelBlue;
-            this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
-            this.guna2WinProgressIndicator.TabIndex = 12;
-            // 
             // spAddAppointment
             // 
             this.spAddAppointment.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -458,7 +442,7 @@
             this.spAddAppointment.Controls.Add(this.label14);
             this.spAddAppointment.Controls.Add(this.pictureBox1);
             this.spAddAppointment.FillColor = System.Drawing.Color.LightSlateGray;
-            this.spAddAppointment.Location = new System.Drawing.Point(435, 10);
+            this.spAddAppointment.Location = new System.Drawing.Point(596, 10);
             this.spAddAppointment.Margin = new System.Windows.Forms.Padding(10);
             this.spAddAppointment.Name = "spAddAppointment";
             this.spAddAppointment.Padding = new System.Windows.Forms.Padding(5);
@@ -497,6 +481,51 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
+            // spAddProblem
+            // 
+            this.spAddProblem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.spAddProblem.AutoScroll = true;
+            this.spAddProblem.BackColor = System.Drawing.Color.Transparent;
+            this.spAddProblem.Controls.Add(this.label16);
+            this.spAddProblem.Controls.Add(this.pictureBox3);
+            this.spAddProblem.FillColor = System.Drawing.Color.LightSlateGray;
+            this.spAddProblem.Location = new System.Drawing.Point(303, 10);
+            this.spAddProblem.Margin = new System.Windows.Forms.Padding(10);
+            this.spAddProblem.Name = "spAddProblem";
+            this.spAddProblem.Padding = new System.Windows.Forms.Padding(5);
+            this.spAddProblem.Radius = 5;
+            this.spAddProblem.ShadowColor = System.Drawing.Color.Black;
+            this.spAddProblem.ShadowDepth = 70;
+            this.spAddProblem.ShadowShift = 10;
+            this.spAddProblem.Size = new System.Drawing.Size(273, 362);
+            this.spAddProblem.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label16.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.ForeColor = System.Drawing.Color.White;
+            this.label16.Location = new System.Drawing.Point(5, 192);
+            this.label16.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(263, 165);
+            this.label16.TabIndex = 1;
+            this.label16.Text = "إضـافة مشكلة لمريض";
+            this.label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pictureBox3.Image = global::DentistClinic_PresentationTier.Properties.Resources.Add;
+            this.pictureBox3.Location = new System.Drawing.Point(5, 5);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Padding = new System.Windows.Forms.Padding(50);
+            this.pictureBox3.Size = new System.Drawing.Size(263, 187);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox3.TabIndex = 0;
+            this.pictureBox3.TabStop = false;
+            // 
             // spAddInvoice
             // 
             this.spAddInvoice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -506,7 +535,7 @@
             this.spAddInvoice.Controls.Add(this.label15);
             this.spAddInvoice.Controls.Add(this.pictureBox2);
             this.spAddInvoice.FillColor = System.Drawing.Color.LightSlateGray;
-            this.spAddInvoice.Location = new System.Drawing.Point(142, 10);
+            this.spAddInvoice.Location = new System.Drawing.Point(10, 10);
             this.spAddInvoice.Margin = new System.Windows.Forms.Padding(10);
             this.spAddInvoice.Name = "spAddInvoice";
             this.spAddInvoice.Padding = new System.Windows.Forms.Padding(5);
@@ -545,11 +574,34 @@
             this.pictureBox2.TabIndex = 0;
             this.pictureBox2.TabStop = false;
             // 
+            // indecatorPanel
+            // 
+            this.indecatorPanel.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.indecatorPanel.Controls.Add(this.guna2WinProgressIndicator);
+            this.indecatorPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.indecatorPanel.Location = new System.Drawing.Point(0, 0);
+            this.indecatorPanel.Name = "indecatorPanel";
+            this.indecatorPanel.Size = new System.Drawing.Size(1513, 857);
+            this.indecatorPanel.TabIndex = 11;
+            // 
+            // guna2WinProgressIndicator
+            // 
+            this.guna2WinProgressIndicator.AnimationSpeed = 90;
+            this.guna2WinProgressIndicator.AutoStart = true;
+            this.guna2WinProgressIndicator.BackColor = System.Drawing.Color.Transparent;
+            this.guna2WinProgressIndicator.Location = new System.Drawing.Point(641, 318);
+            this.guna2WinProgressIndicator.Name = "guna2WinProgressIndicator";
+            this.guna2WinProgressIndicator.NumberOfCircles = 15;
+            this.guna2WinProgressIndicator.ProgressColor = System.Drawing.Color.SteelBlue;
+            this.guna2WinProgressIndicator.Size = new System.Drawing.Size(200, 181);
+            this.guna2WinProgressIndicator.TabIndex = 12;
+            // 
             // ctrlDashBoard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
+            this.Controls.Add( this.indecatorPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "ctrlDashBoard";
             this.Size = new System.Drawing.Size(1513, 1150);
@@ -573,11 +625,13 @@
             this.flpQuickActions.ResumeLayout(false);
             this.spAddPatient.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picbAddPatient)).EndInit();
-            this.indecatorPanel.ResumeLayout(false);
             this.spAddAppointment.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.spAddProblem.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.spAddInvoice.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.indecatorPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -630,5 +684,8 @@
         private Guna.UI2.WinForms.Guna2ShadowPanel spAddInvoice;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private Guna.UI2.WinForms.Guna2ShadowPanel spAddProblem;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.PictureBox pictureBox3;
     }
 }
