@@ -278,7 +278,6 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls
                 FirstName = tbFirstName.Text.Trim(),
                 LastName = tbLastName.Text.Trim(),
                 DateOfBirth = _getDateOfBirth(),
-
             };
 
             if (tbPhoneNumber.Text.Length == 10 || (tbPhoneNumber.Text.StartsWith("056") || tbPhoneNumber.Text.StartsWith("059")))

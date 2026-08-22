@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DentalClinic_BusinessTier.Services;
@@ -73,8 +74,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
             await _getAllPatientsData();
             _bindPatientsToGrid(_allPatients);
-            await Task.Delay(200);
-
+            await Task.Delay(3000);
             _handelDGVIndecator(false);
         }
        private async Task _refreshDGV()
@@ -404,6 +404,8 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private void _handelDGVIndecator(bool enable)
         {
             dgvIndecatorPanel.Visible = enable;
+            dgvProgressIndericator.Start();
+            
         }
         private async Task _buildPatientShortcutsPanel(int patientId, string fullName, string phoneNumber)
         {

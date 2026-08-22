@@ -64,7 +64,6 @@ namespace DentistClinic_PresentationTier
                 {
                     return;
                 }
-
                 newPage.Dock = DockStyle.Fill;
                 newPage.Margin = new Padding(0);
                 this.mainLayoutPanel.Controls.Add(newPage, 0, 0);

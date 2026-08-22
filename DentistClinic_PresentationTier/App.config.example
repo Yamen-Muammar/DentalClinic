@@ -31,19 +31,19 @@
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="System.Diagnostics.DiagnosticSource" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-10.0.0.8" newVersion="10.0.0.8" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="System.Text.Json" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-10.0.0.3" newVersion="10.0.0.3" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="Microsoft.Extensions.Logging.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-10.0.0.8" newVersion="10.0.0.8" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="System.Text.Encodings.Web" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-10.0.0.3" newVersion="10.0.0.3" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="Microsoft.Extensions.Primitives" publicKeyToken="adb9793829ddae60" culture="neutral" />
@@ -51,13 +51,56 @@
 			</dependentAssembly>
 			<dependentAssembly>
 				<assemblyIdentity name="Microsoft.Extensions.Options" publicKeyToken="adb9793829ddae60" culture="neutral" />
-				<bindingRedirect oldVersion="0.0.0.0-10.0.0.8" newVersion="10.0.0.8" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Bcl.Cryptography" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Bcl.TimeProvider" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Extensions.Caching.Memory" publicKeyToken="adb9793829ddae60" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.IdentityModel.Protocols.OpenIdConnect" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.IdentityModel.Protocols" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.IdentityModel.Tokens" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.IdentityModel.Tokens.Jwt" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.IdentityModel.JsonWebTokens" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="System.Threading.Channels" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.IdentityModel.Logging" publicKeyToken="31bf3856ad364e35" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-8.22.0.0" newVersion="8.22.0.0" />
+			</dependentAssembly>
+			<dependentAssembly>
+				<assemblyIdentity name="Microsoft.Extensions.Caching.Abstractions" publicKeyToken="adb9793829ddae60" culture="neutral" />
+				<bindingRedirect oldVersion="0.0.0.0-10.0.0.11" newVersion="10.0.0.11" />
 			</dependentAssembly>
 		</assemblyBinding>
 	</runtime>
 	<connectionStrings>
-		<add name="DentalClinic" connectionString="Add The Right Connection String"
-			 providerName=".NET Framework Data Provider for SQL Server" />
+		<add name="DentalClinic" connectionString="Set Your Connection String Here" providerName=".NET Framework Data Provider for SQL Server" />
 	</connectionStrings>
 	<System.Windows.Forms.ApplicationConfigurationSection>
 		<add key="DpiAwareness" value="PerMonitorV2" />
