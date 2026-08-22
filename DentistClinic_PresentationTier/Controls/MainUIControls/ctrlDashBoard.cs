@@ -478,7 +478,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private void _loadMockAppointments()
         {
             IEnumerable<clsAppointmentsDetails> todayAppointment = new List<clsAppointmentsDetails>();
-            clsGenrateMockData._loadMockAppointments(ref todayAppointment);
+            //clsGenrateMockData._loadMockAppointments(ref todayAppointment);
             _todayAppointment = (List<clsAppointmentsDetails>)todayAppointment;
         }
 

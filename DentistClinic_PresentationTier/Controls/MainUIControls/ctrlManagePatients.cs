@@ -440,7 +440,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             using (var path = _getRoundedRect(badge, 12))
                 e.Graphics.FillPath(brush, path);
 
-            using (var font = new Font("Segoe UI", 9f, FontStyle.Bold))
+            using (var font = new Font("Segoe UI", 8f, FontStyle.Bold))
             using (var sf = new StringFormat { Alignment = StringAlignment.Center, LineAlignment = StringAlignment.Center })
                 e.Graphics.DrawString(text, font, Brushes.White, badge, sf);
 

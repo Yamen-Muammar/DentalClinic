@@ -30,8 +30,8 @@ namespace DentalClinic_CoreTier
         public static bool IsAuth(myEnums.enRoles role, myEnums.enPermission operation)
         {
             if (DataBaseRoles.Count <= 0)
-            {
-                return false;
+            { 
+                  return false;
             }
             decimal roleCodeFromDataBase = DataBaseRoles[role.ToString()];
             return _checkPermission(roleCodeFromDataBase, (long)operation);

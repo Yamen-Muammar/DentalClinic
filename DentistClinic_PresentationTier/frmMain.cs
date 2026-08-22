@@ -213,16 +213,17 @@ namespace DentistClinic_PresentationTier
             button.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
             button.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
             button.FillColor = System.Drawing.Color.Transparent;
-            button.Font = new System.Drawing.Font("Segoe UI", 13F,FontStyle.Bold);
+            button.Font = new System.Drawing.Font("Segoe UI", 15F,FontStyle.Bold);
             button.ForeColor = System.Drawing.Color.White;
             button.HoverState.BorderColor = System.Drawing.Color.White;
             //button.HoverState.FillColor = System.Drawing.Color.Transparent;
             //button.ImageOffset = new System.Drawing.Point(27, -30);
-            button.ImageSize = new System.Drawing.Size(80, 80);
-            button.Size = new System.Drawing.Size(350, 100);
+            button.ImageSize = new System.Drawing.Size(100, 100);
+            button.Size = new System.Drawing.Size(350, 150);
             //button.TextOffset = new System.Drawing.Point(-34, 70);
             button.ImageAlign = HorizontalAlignment.Right;
             button.TextAlign = HorizontalAlignment.Right;
+            button.Width = flowLayoutPanelButtons.ClientSize.Width - button.Margin.Horizontal;
             button.Click += DynamicButtons_Click;
 
             flowLayoutPanelButtons.Controls.Add(button);
@@ -251,52 +252,60 @@ namespace DentistClinic_PresentationTier
         }
         private bool _isButtonVisible(Guna2Button btn)
         {
-            switch (btn.Name)
+            try
             {
-                case "btnDashboard":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
-                    {
+                switch (btn.Name)
+                {
+                    case "btnDashboard":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnManagePatients":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnManageAppointments":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageAppointments))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnManagePayments":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePayments))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnManageStaff":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageStaff))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnManageRoles":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageRoles))
+                        {
+                            return false;
+                        }
+                        return true;
+                    case "btnReports":
+                        if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageReports))
+                        {
+                            return false;
+                        }
+                        return true;
+                    default:
                         return false;
-                    }
-                    return true;
-                case "btnManagePatients":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePatients))
-                    {
-                        return false;
-                    }
-                    return true;
-                case "btnManageAppointments":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageAppointments))
-                    {
-                        return false;
-                    }
-                    return true;
-                case "btnManagePayments":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManagePayments))
-                    {
-                        return false;
-                    }
-                    return true;
-                case "btnManageStaff":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageStaff))
-                    {
-                        return false;
-                    }
-                    return true;
-                case "btnManageRoles":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageRoles))
-                    {
-                        return false;
-                    }
-                    return true;
-                case "btnReports":
-                    if (!clsAuth.IsAuth(_sessionContext.Staff.RoleInfo.RolePermissionCode, myEnums.enPermission.ManageReports))
-                    {
-                        return false;
-                    }
-                    return true;
-                default:
-                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                return true;
+                
             }
         }
     }
