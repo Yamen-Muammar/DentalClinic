@@ -515,7 +515,7 @@ namespace DentalClinic_DataTier.Repositories
                 throw;
             }
         }
-        public async Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
+        public async Task<IEnumerable<clsPatientView>> GetPatientDetailsAsync()
         {
             const string query =
                 "SELECT top(25) PatientID, FullName, Age, Gender, PhoneNumber, BloodType,IsDeleted FROM vw_PatientDetails WHERE IsDeleted = 0";
@@ -535,7 +535,6 @@ namespace DentalClinic_DataTier.Repositories
             }
             catch (Exception)
             {
-
                 throw;
             }
            
@@ -549,7 +548,7 @@ namespace DentalClinic_DataTier.Repositories
                 " inner join MedicalFiles on MedicalFiles.Patient_ID = vw_PatientDetails.PatientID" +
                 " inner join Problems on Problems.MedicalFile_ID = MedicalFiles.MedicalFileID" +
                 " inner join Appointments on Appointments.Problem_ID = Problems.ProblemID" +
-                " where Appointments.AppointmentDate = GETDATE()" +
+                " where CAST(Appointments.AppointmentDate AS DATE) = CAST(GETDATE() AS DATE)" +
                 " order by Appointments.StartTime ASC;";                           
 
             var list = new List<clsPatientView>();

@@ -72,7 +72,7 @@ namespace DentalClinic_BusinessTier.Services
             => await _patientRepository.SearchByPhoneNumberAsync(phoneNumber);
 
         public Task<IEnumerable<clsPatientView>> GetAllPatientDetailsAsync()
-            => _patientRepository.GetAllPatientDetailsAsync();
+            => _patientRepository.GetPatientDetailsAsync();
 
         public async Task<bool> UpdatePatientWithPersonAndMedicalFileAsync(clsPatient patient,clsMedicalFile medicalFile, int updatedByID)
         {

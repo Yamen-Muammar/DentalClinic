@@ -137,6 +137,7 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls
 
             lblCharactersCount.Text = tbHealthProblems.Text.Length.ToString() + "/" + tbHealthProblems.MaxLength;
             generateYearsComboBox();
+
             if (BloodTypesList == null)
             {
                 await _buildBloodTypeComboBox();
@@ -145,6 +146,7 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls
             if (_formMode == enMode.Edite)
             {
                 gbMainBox.Text = "تعديل بيانات المريض";
+                btnSave.Text = "حفـظ التعديلات";
                 _fillUIWithPatientInformation(PatientInfo);
             }
         }

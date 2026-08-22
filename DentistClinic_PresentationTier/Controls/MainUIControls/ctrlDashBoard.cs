@@ -162,8 +162,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
         private async Task _buildUI()
         {
-            await Task.Delay(200);
-
             await _loadTodaysAppointments();
             await _getNotConfirmedPayments();
             await _getPatientsCount();
@@ -171,7 +169,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             lblTodayAppoinmentsCount.Text = _todayAppointment?.Count.ToString() ?? "??";
             lblunConfirmedPayments.Text = _notConfirmedPayments?.ToString() ?? "??";
             lblPatientsCount.Text = _patientsCount==-1? "??":_patientsCount.ToString();
-
+            await Task.Delay(200);
             _handleProgressIndicator(false);
         }
         private async Task _getNotConfirmedPayments()
@@ -211,7 +209,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private async Task _loadTodaysAppointments()
         {
             _loadMockAppointments();
-            //await _getTodaysAppointments();
+            await _getTodaysAppointments();
             try
             {
                 if (_todayAppointment.Count == 0)

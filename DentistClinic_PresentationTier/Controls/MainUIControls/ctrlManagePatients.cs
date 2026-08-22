@@ -65,16 +65,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }   
         }
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
-        {       
+        {
             await _buildDGV();
         }
         private async Task _buildDGV()
         {
-            _handelDGVIndecator(true);
-
             await _getAllPatientsData();
             _bindPatientsToGrid(_allPatients);
-            await Task.Delay(3000);
+
+            await Task.Delay(200);//for showing the loading indicator for a while getting the data from the database
+
             _handelDGVIndecator(false);
         }
        private async Task _refreshDGV()
@@ -291,7 +291,9 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             //TODO : After create Appointments see how it works  
             try
             {
-                _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+                _allPatients = new List<clsPatientView>();
+               _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+                
                 if (_allPatients.Count < 10)
                 {
                     List<clsPatientView> moreDataList = new List<clsPatientView>();
@@ -329,7 +331,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
             if (Patient.PersonInfo.DateOfBirth != null)
             {
-                row.Cells["Age"].Value = clsUtilities.CalculateAge((DateTime)Patient.PersonInfo.DateOfBirth).ToString();
+                row.Cells["Age"].Value = clsUtilities.CalculateAge((DateTime)Patient.PersonInfo.DateOfBirth);
+            }
+            else
+            {
+                row.Cells["Age"].Value = "N/A";
             }
 
             if (Patient.PersonInfo.Gender == DentalClinic_CoreTier.myEnums.enGenderTypes.M)

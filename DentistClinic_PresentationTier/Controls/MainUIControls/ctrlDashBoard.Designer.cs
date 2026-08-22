@@ -1,4 +1,6 @@
-﻿namespace DentistClinic_PresentationTier.Controls.MainUIControls
+﻿using System.Threading.Tasks;
+
+namespace DentistClinic_PresentationTier.Controls.MainUIControls
 {
     partial class ctrlDashBoard
     {
@@ -143,18 +145,17 @@
             // 
             // label2
             // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Simplified Arabic", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label2.Font = new System.Drawing.Font("Simplified Arabic", 19.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.label2.ForeColor = System.Drawing.Color.Snow;
-            this.label2.Location = new System.Drawing.Point(227, 21);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 20, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(207, 72);
+            this.label2.Padding = new System.Windows.Forms.Padding(0, 20, 0, 0);
+            this.label2.Size = new System.Drawing.Size(934, 251);
             this.label2.TabIndex = 2;
             this.label2.Text = "مواعـيد اليـوم";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // guna2ShadowPanelTodayApp
             // 
@@ -632,7 +633,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.guna2ShadowPanelAppointments.ResumeLayout(false);
-            this.guna2ShadowPanelAppointments.PerformLayout();
             this.guna2ShadowPanelTodayApp.ResumeLayout(false);
             this.guna2spnlHedder.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
