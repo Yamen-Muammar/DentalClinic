@@ -271,7 +271,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.pnlPatientCount.ShadowShift = 7;
             this.pnlPatientCount.Size = new System.Drawing.Size(647, 180);
             this.pnlPatientCount.TabIndex = 10;
-            this.pnlPatientCount.DoubleClick += new System.EventHandler(this.pnlTodayPatient_DoubleClick);
             this.pnlPatientCount.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
             this.pnlPatientCount.MouseLeave += new System.EventHandler(this.Panle_MouseLeave);
             // 
@@ -313,8 +312,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.pnlNotConfirmedPayments.ShadowDepth = 70;
             this.pnlNotConfirmedPayments.ShadowShift = 7;
             this.pnlNotConfirmedPayments.Size = new System.Drawing.Size(638, 180);
-            this.pnlNotConfirmedPayments.TabIndex = 9;
-            this.pnlNotConfirmedPayments.DoubleClick += new System.EventHandler(this.pnlNotConfirmedPayments_DoubleClick);
+            this.pnlNotConfirmedPayments.TabIndex = 9;          
             this.pnlNotConfirmedPayments.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
             this.pnlNotConfirmedPayments.MouseLeave += new System.EventHandler(this.Panle_MouseLeave);
             // 
@@ -356,8 +354,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.pnlTodayAppointments.ShadowDepth = 70;
             this.pnlTodayAppointments.ShadowShift = 7;
             this.pnlTodayAppointments.Size = new System.Drawing.Size(647, 180);
-            this.pnlTodayAppointments.TabIndex = 3;
-            this.pnlTodayAppointments.DoubleClick += new System.EventHandler(this.pnlTodayPatient_DoubleClick);
+            this.pnlTodayAppointments.TabIndex = 3;            
             this.pnlTodayAppointments.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
             this.pnlTodayAppointments.MouseLeave += new System.EventHandler(this.Panle_MouseLeave);
             // 

@@ -18,7 +18,6 @@ using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentalClinic_CoreTier.ViewModels;
 using DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls;
-using DentistClinic_PresentationTier.Controls.ModelsControls.PersonControls;
 using DentistClinic_PresentationTier.Forms.PatientsForms;
 using Microsoft.Extensions.DependencyInjection;
 

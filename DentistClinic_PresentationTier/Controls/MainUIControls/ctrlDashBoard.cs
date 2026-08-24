@@ -49,21 +49,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         {
             await _buildUI();
         }
-        private void pnlTodayPatient_DoubleClick(object sender, EventArgs e)
-        {
-            Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
-            MessageBox.Show(guna2Panel.Name);
-        }
-        private void pnlNotConfirmedPayments_DoubleClick(object sender, EventArgs e)
-        {
-            Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
-            MessageBox.Show(guna2Panel.Name);
-        }
-        private void pnlTodayAppointments_DoubleClick(object sender, EventArgs e)
-        {
-            Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
-            MessageBox.Show(guna2Panel.Name);
-        }
         private void Panle_MouseEnter(object sender, EventArgs e)
         {
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
