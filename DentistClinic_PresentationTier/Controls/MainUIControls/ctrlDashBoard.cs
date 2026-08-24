@@ -169,7 +169,9 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             lblTodayAppoinmentsCount.Text = _todayAppointment?.Count.ToString() ?? "??";
             lblunConfirmedPayments.Text = _notConfirmedPayments?.ToString() ?? "??";
             lblPatientsCount.Text = _patientsCount==-1? "??":_patientsCount.ToString();
+
             await Task.Delay(200);
+
             _handleProgressIndicator(false);
         }
         private async Task _getNotConfirmedPayments()

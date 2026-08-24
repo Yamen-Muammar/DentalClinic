@@ -38,7 +38,7 @@ namespace DentistClinic_PresentationTier
             _sessionContext = sessionContext;
         }
         private async void frmLogin_Load(object sender, EventArgs e)
-        {
+        {            
             await _loadCredentials();
         }
         private async void btnLogin_Click(object sender, EventArgs e)

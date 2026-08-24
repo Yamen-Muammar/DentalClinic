@@ -20,7 +20,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 namespace DentistClinic_PresentationTier
 {
     internal static class Program
-    {
+    {       
         // This static property exposes the DI container to the rest of the application
         public static IServiceProvider ServiceProvider { get; private set; }
         /// <summary>
@@ -40,7 +40,7 @@ namespace DentistClinic_PresentationTier
             ServiceProvider = services.BuildServiceProvider();
 
             // RIGHT HERE: Instead of Application.Run(new LoginForm())
-            // We request the form directly from our ServiceProvider container           
+            // We request the form directly from our ServiceProvider container
             using (var loginForm = ServiceProvider.GetRequiredService<frmLogin>())
             {
                 if (loginForm.ShowDialog() == DialogResult.OK)

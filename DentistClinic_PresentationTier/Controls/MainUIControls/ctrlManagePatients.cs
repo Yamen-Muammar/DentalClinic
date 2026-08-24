@@ -66,16 +66,18 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
         {
+            _handelDGVIndecator(true);
             await _buildDGV();
+            _handelDGVIndecator(false);
         }
         private async Task _buildDGV()
         {
-            await _getAllPatientsData();
+            await Task.Run(async () =>
+            {
+                await _getAllPatientsData();
+            }
+            );
             _bindPatientsToGrid(_allPatients);
-
-            await Task.Delay(200);//for showing the loading indicator for a while getting the data from the database
-
-            _handelDGVIndecator(false);
         }
        private async Task _refreshDGV()
         {
@@ -292,7 +294,8 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             try
             {
                 _allPatients = new List<clsPatientView>();
-               _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+                await Task.Delay(1000);//for showing the loading indicator for a while getting the data from the database
+                _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
                 
                 if (_allPatients.Count < 10)
                 {
@@ -409,9 +412,16 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private void _handelDGVIndecator(bool enable)
         {
+            if (enable)
+            {
+                dgvProgressIndericator.Start();
+            }
+            else 
+            {
+                dgvProgressIndericator.Stop();
+            }
+
             dgvIndecatorPanel.Visible = enable;
-            dgvProgressIndericator.Start();
-            
         }
         private async Task _buildPatientShortcutsPanel(int patientId, string fullName, string phoneNumber)
         {

@@ -451,14 +451,36 @@ namespace DentistClinic_PresentationTier.Controls.ModelsControls.PatientControls
 
             }           
         }      
-        private DateTime _getDateOfBirth()
+        private DateTime? _getDateOfBirth()
         {
-            if (cbDay.SelectedIndex == 0 || cbMonth.SelectedIndex == 0 || cbYear.SelectedIndex == 0)
+            if (cbDay.SelectedIndex <= 0 || cbMonth.SelectedIndex <= 0 || cbYear.SelectedIndex <= 0)
             {
-                return DateTime.Today; // means there is no birth day
+                return null;
             }
-            string date = cbDay.SelectedItem.ToString() + "/" + cbMonth.SelectedItem.ToString() + "/" + cbYear.SelectedItem.ToString();
-            return Convert.ToDateTime(date);
+
+            if (!int.TryParse(cbDay.SelectedItem?.ToString(), out int day) ||
+        !int.TryParse(cbMonth.SelectedItem?.ToString(), out int month) ||
+        !int.TryParse(cbYear.SelectedItem?.ToString(), out int year))
+            {
+                return null;
+            }
+
+            try
+            {
+                DateTime birthDate = new DateTime(year, month, day);
+
+                // 4. Reject dates in the future or unrealistic ages
+                if (birthDate > DateTime.Today || birthDate.Year < (DateTime.Today.Year - 130))
+                {
+                    return null;
+                }
+
+                return birthDate;
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+               return null;
+            }
         }
         private void generateYearsComboBox()
         {
