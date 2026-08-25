@@ -170,11 +170,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private void btnAddNewAppointment_Click(object sender, EventArgs e)
         {
-
+            throw new NotImplementedException();
         }
         private void btnViewMedicalFile_Click(object sender, EventArgs e)
         {
-
+            throw new NotImplementedException();
         }
         private async void btnDeletePatient_Click(object sender, EventArgs e)
         {
