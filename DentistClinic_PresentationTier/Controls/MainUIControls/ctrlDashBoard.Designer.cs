@@ -312,7 +312,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.pnlNotConfirmedPayments.ShadowDepth = 70;
             this.pnlNotConfirmedPayments.ShadowShift = 7;
             this.pnlNotConfirmedPayments.Size = new System.Drawing.Size(638, 180);
-            this.pnlNotConfirmedPayments.TabIndex = 9;          
+            this.pnlNotConfirmedPayments.TabIndex = 9;
             this.pnlNotConfirmedPayments.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
             this.pnlNotConfirmedPayments.MouseLeave += new System.EventHandler(this.Panle_MouseLeave);
             // 
@@ -354,7 +354,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.pnlTodayAppointments.ShadowDepth = 70;
             this.pnlTodayAppointments.ShadowShift = 7;
             this.pnlTodayAppointments.Size = new System.Drawing.Size(647, 180);
-            this.pnlTodayAppointments.TabIndex = 3;            
+            this.pnlTodayAppointments.TabIndex = 3;
             this.pnlTodayAppointments.MouseEnter += new System.EventHandler(this.Panle_MouseEnter);
             this.pnlTodayAppointments.MouseLeave += new System.EventHandler(this.Panle_MouseLeave);
             // 
@@ -621,7 +621,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.Controls.Add(this.indecatorPanel);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ctrlDashBoard";
@@ -707,5 +706,19 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private Guna.UI2.WinForms.Guna2ShadowPanel spAddProblem;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.PictureBox pictureBox3;
+
+        private Guna.UI2.WinForms.Guna2ShadowPanel AppointmentShadowPanel;
+        private System.Windows.Forms.TableLayoutPanel tlpAppointment;
+        private System.Windows.Forms.Label lblPatientName1;
+        private System.Windows.Forms.Label lblAppointmentTime;
+        private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label lblAppointmentStatus;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label lblDoctorName1;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label lblPatientPhoneNo1;
+        private System.Windows.Forms.Label label17;
+        private Guna.UI2.WinForms.Guna2Button btnAppointmentDetails;
     }
 }

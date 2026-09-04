@@ -66,16 +66,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private async void ctrlManagePatients_Load(object sender, EventArgs e)
         {
             _handelDGVIndecator(true);
-            await _buildDGV();
+            await _DGVBinding();
             _handelDGVIndecator(false);
         }
-        private async Task _buildDGV()
-        {
-            await Task.Run(async () =>
-            {
-                await _getAllPatientsData();
-            }
-            );
+        private async Task _DGVBinding()
+        {   
+            await _getAllPatientsData();                  
             _bindPatientsToGrid(_allPatients);
         }
        private async Task _refreshDGV()

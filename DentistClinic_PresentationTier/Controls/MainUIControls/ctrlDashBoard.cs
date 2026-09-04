@@ -43,8 +43,29 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             _paymentService = paymentService;
             _patientService = patientService;
             InitializeComponent();
+            // Enable double buffering on the flow layout panel
+            typeof(FlowLayoutPanel).InvokeMember(
+                "DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null,
+                flpTodayAppointmentList,
+                new object[] { true }
+            );
+
+            // Also enable it for this UserControl
+            this.DoubleBuffered = true;
             WireEventsForQuickActionsPanel();
         }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
+                return cp;
+            }
+        }
+
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
             await _buildUI();
@@ -62,7 +83,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private void btnDropCause_Click(object sender, EventArgs e)
         {
-            Guna2CircleButton senderButton = sender as Guna2CircleButton;
+            Guna2Button senderButton = sender as Guna2Button;
 
             enDropMode senderDropMode = (enDropMode)senderButton.Tag;
 
@@ -103,7 +124,18 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }
             if (sender is System.Windows.Forms.Label label)
             {
-                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+                if (label.Parent is TableLayoutPanel lblParent)
+                {
+                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
+                }
+                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
+                {
+                    senderShadowPanel = guna2Shadow;
+                }
+            }
+            if (sender is TableLayoutPanel tableLayoutPanel )
+            {               
+                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
             }
 
             clsAppointmentsDetails appointmentsDetails = senderShadowPanel.Tag as clsAppointmentsDetails;
@@ -123,9 +155,19 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
             if (sender is System.Windows.Forms.Label label)
             {
-                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+                if (label.Parent is TableLayoutPanel lblParent)
+                {
+                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
+                }
+                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
+                {
+                    senderShadowPanel = guna2Shadow;
+                }
             }
-
+            if (sender is TableLayoutPanel tableLayoutPanel)
+            {
+                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
+            }
             _appointmentShadowPanelDefaultColor = senderShadowPanel.FillColor;
             senderShadowPanel.FillColor = Color.Gainsboro;
         }
@@ -139,7 +181,18 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }
             if (sender is System.Windows.Forms.Label label)
             {
-                senderShadowPanel = label?.Parent as Guna2ShadowPanel;
+                if (label.Parent is TableLayoutPanel lblParent)
+                {
+                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
+                }
+                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
+                {
+                    senderShadowPanel = guna2Shadow;
+                }
+            }
+            if (sender is TableLayoutPanel tableLayoutPanel)
+            {
+                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
             }
             senderShadowPanel.FillColor = _appointmentShadowPanelDefaultColor;
         }
@@ -195,8 +248,9 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private async Task _loadTodaysAppointments()
         {
+            
+            //await _getTodaysAppointments();
             _loadMockAppointments();
-            await _getTodaysAppointments();
             try
             {
                 if (_todayAppointment.Count == 0)
@@ -207,6 +261,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 foreach (var appointment in _todayAppointment)
                 {
                     Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();
+
                     shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
                     _buildAppointmentPanle(appointment, shadowPanel);
                     AttachHoverRecursive(shadowPanel, AppointmentShadowPanel_MouseEnter, AppointmentShadowPanel_MouseLeave);
@@ -247,170 +302,205 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                 indecatorPanel.Visible = false;
             }
         }
+        
         private void _buildAppointmentPanle(clsAppointmentsDetails appointment, Guna2ShadowPanel shadowPanel)
         {
-            btnDropCause = new Guna.UI2.WinForms.Guna2CircleButton();
-            label10 = new System.Windows.Forms.Label();
-            label8 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            label9 = new System.Windows.Forms.Label();
-            label1 = new System.Windows.Forms.Label();
-            lblPatientName = new System.Windows.Forms.Label();
-            lblPatientPhoneNo = new System.Windows.Forms.Label();
-            lblDoctorName = new System.Windows.Forms.Label();
-            label11 = new System.Windows.Forms.Label();
-            label12 = new System.Windows.Forms.Label();
-            lblCause = new System.Windows.Forms.Label();
+            this.tlpAppointment = new System.Windows.Forms.TableLayoutPanel();
+            this.lblPatientName1 = new System.Windows.Forms.Label();
+            this.lblAppointmentTime = new System.Windows.Forms.Label();
+            this.lblTime = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.lblAppointmentStatus = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.lblDoctorName1 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.lblPatientPhoneNo1 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.btnAppointmentDetails = new Guna.UI2.WinForms.Guna2Button();
+            this.lblCause = new System.Windows.Forms.Label();
+            this.tlpAppointment.SuspendLayout();
             shadowPanel.SuspendLayout();
             // 
-            // label10
+            // tlpAppointment
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label10.ForeColor = System.Drawing.Color.SlateGray;
-            this.label10.Location = new System.Drawing.Point(192, 222);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(117, 49);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "وصف الموعـد";
+            this.tlpAppointment.ColumnCount = 2;
+            this.tlpAppointment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 64.55142F));
+            this.tlpAppointment.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 35.44858F));
+            this.tlpAppointment.Controls.Add(this.lblPatientName1, 0, 0);
+            this.tlpAppointment.Controls.Add(this.lblAppointmentTime, 1, 4);
+            this.tlpAppointment.Controls.Add(this.lblTime, 0, 4);
+            this.tlpAppointment.Controls.Add(this.label24, 1, 3);
+            this.tlpAppointment.Controls.Add(this.lblAppointmentStatus, 0, 3);
+            this.tlpAppointment.Controls.Add(this.label22, 1, 2);
+            this.tlpAppointment.Controls.Add(this.lblDoctorName1, 0, 2);
+            this.tlpAppointment.Controls.Add(this.label20, 1, 1);
+            this.tlpAppointment.Controls.Add(this.lblPatientPhoneNo1, 0, 1);
+            this.tlpAppointment.Controls.Add(this.label17, 1, 0);
+            this.tlpAppointment.Location = new System.Drawing.Point(0, 0);
+            this.tlpAppointment.Name = "tlpAppointment";
+            this.tlpAppointment.RowCount = 6;
+            this.tlpAppointment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 53.08642F));
+            this.tlpAppointment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 46.91358F));
+            this.tlpAppointment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 81F));
+            this.tlpAppointment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+            this.tlpAppointment.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 80F));            
+            this.tlpAppointment.Size = new System.Drawing.Size(914, 430);
+            this.tlpAppointment.TabIndex = 0;
+            this.tlpAppointment.Dock = DockStyle.Top;  
             // 
-            // label8
+            // lblPatientName1
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label8.ForeColor = System.Drawing.Color.SlateGray;
-            this.label8.Location = new System.Drawing.Point(322, 173);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(121, 49);
-            this.label8.TabIndex = 0;
-            this.label8.Text = ":حالة المـوعد";
+            this.lblPatientName1.AutoSize = true;
+            this.lblPatientName1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPatientName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPatientName1.Location = new System.Drawing.Point(3, 0);
+            this.lblPatientName1.Name = "lblPatientName1";
+            this.lblPatientName1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblPatientName1.Size = new System.Drawing.Size(584, 54);
+            this.lblPatientName1.TabIndex = 10;
+            this.lblPatientName1.Text = appointment.PatientFullName??"???";
+            this.lblPatientName1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label7
+            // lblAppointmentTime
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label7.ForeColor = System.Drawing.Color.SlateGray;
-            this.label7.Location = new System.Drawing.Point(81, 173);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(135, 49);
-            this.label7.TabIndex = 0;
-            this.label7.Text = ":توقـيت الموعد";
+            this.lblAppointmentTime.AutoSize = true;
+            this.lblAppointmentTime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAppointmentTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAppointmentTime.Location = new System.Drawing.Point(593, 262);
+            this.lblAppointmentTime.Name = "lblAppointmentTime";
+            this.lblAppointmentTime.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblAppointmentTime.Size = new System.Drawing.Size(318, 80);
+            this.lblAppointmentTime.TabIndex = 9;           
+            this.lblAppointmentTime.Text = appointment.Appointment.AppointmentDate.ToString("D")??"???";
+            this.lblAppointmentTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label5
+            // lblTime
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label5.ForeColor = System.Drawing.Color.SlateGray;
-            this.label5.Location = new System.Drawing.Point(302, 128);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(144, 49);
-            this.label5.TabIndex = 0;
-            this.label5.Text = ":الدكتور المكلف";
+            this.lblTime.AutoSize = true;
+            this.lblTime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblTime.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTime.Location = new System.Drawing.Point(3, 262);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblTime.Size = new System.Drawing.Size(584, 80);
+            this.lblTime.TabIndex = 8;
+            this.lblTime.Text = appointment.Appointment.StartTime.ToString()??"???";
+            this.lblTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label9
+            // label24
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label9.ForeColor = System.Drawing.Color.SlateGray;
-            this.label9.Location = new System.Drawing.Point(274, 75);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(172, 49);
-            this.label9.TabIndex = 0;
-            this.label9.Text = ":رقم هاتف المريـض";
+            this.label24.AutoSize = true;
+            this.label24.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label24.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label24.Location = new System.Drawing.Point(593, 182);
+            this.label24.Name = "label24";
+            this.label24.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label24.Size = new System.Drawing.Size(318, 80);
+            this.label24.TabIndex = 7;
+            this.label24.Text = "حالة الموعد :";
+            this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label1
+            // lblAppointmentStatus
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Akhbar MT", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label1.ForeColor = System.Drawing.Color.SlateGray;
-            this.label1.Location = new System.Drawing.Point(324, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(122, 49);
-            this.label1.TabIndex = 0;
-            this.label1.Text = ":اسم المريـض";
+            this.lblAppointmentStatus.AutoSize = true;
+            this.lblAppointmentStatus.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblAppointmentStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAppointmentStatus.Location = new System.Drawing.Point(3, 182);
+            this.lblAppointmentStatus.Name = "lblAppointmentStatus";
+            this.lblAppointmentStatus.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblAppointmentStatus.Size = new System.Drawing.Size(584, 80);
+            this.lblAppointmentStatus.TabIndex = 6;
+            this.lblAppointmentStatus.Text = clsUtilities.GetAppointmentStatusText(appointment.Appointment.Status);
+            this.lblAppointmentStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btnDropCause
+            // label22
             // 
-            this.btnDropCause.Animated = true;
-            this.btnDropCause.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnDropCause.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnDropCause.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnDropCause.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnDropCause.FillColor = System.Drawing.Color.Transparent;
-            this.btnDropCause.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.btnDropCause.ForeColor = System.Drawing.Color.White;
-            this.btnDropCause.Image = global::DentistClinic_PresentationTier.Properties.Resources.ArowDown;
-            this.btnDropCause.ImageSize = new System.Drawing.Size(40, 40);
-            this.btnDropCause.Location = new System.Drawing.Point(147, 233);
-            this.btnDropCause.Name = "btnDropCause";
-            this.btnDropCause.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            this.btnDropCause.Size = new System.Drawing.Size(39, 35);
-            this.btnDropCause.TabIndex = 2;
-            this.btnDropCause.UseTransparentBackground = true;
-            this.btnDropCause.Click += new System.EventHandler(this.btnDropCause_Click);
-            this.btnDropCause.Tag = enDropMode.down;
+            this.label22.AutoSize = true;
+            this.label22.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(593, 101);
+            this.label22.Name = "label22";
+            this.label22.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label22.Size = new System.Drawing.Size(318, 81);
+            this.label22.TabIndex = 5;
+            this.label22.Text = "الدكتور المكلف :";
+            this.label22.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblPatientName
+            // lblDoctorName1
             // 
-            this.lblPatientName.AutoSize = true;
-            this.lblPatientName.Font = new System.Drawing.Font("Akhbar MT", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblPatientName.ForeColor = System.Drawing.Color.Black;
-            this.lblPatientName.Location = new System.Drawing.Point(213, 14);
-            this.lblPatientName.Name = "lblPatientName";
-            this.lblPatientName.Size = new System.Drawing.Size(109, 53);
-            this.lblPatientName.TabIndex = 0;
-            this.lblPatientName.Text = appointment.PatientFullName;
+            this.lblDoctorName1.AutoSize = true;
+            this.lblDoctorName1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblDoctorName1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDoctorName1.Location = new System.Drawing.Point(3, 101);
+            this.lblDoctorName1.Name = "lblDoctorName1";
+            this.lblDoctorName1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblDoctorName1.Size = new System.Drawing.Size(584, 81);
+            this.lblDoctorName1.TabIndex = 4;
+            this.lblDoctorName1.Text = appointment.DoctorFullName??"???";
+            this.lblDoctorName1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblPatientPhoneNo
+            // label20
             // 
-            this.lblPatientPhoneNo.AutoSize = true;
-            this.lblPatientPhoneNo.Font = new System.Drawing.Font("Akhbar MT", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblPatientPhoneNo.ForeColor = System.Drawing.Color.Black;
-            this.lblPatientPhoneNo.Location = new System.Drawing.Point(122, 90);
-            this.lblPatientPhoneNo.Name = "lblPatientPhoneNo";
-            this.lblPatientPhoneNo.Size = new System.Drawing.Size(145, 33);
-            this.lblPatientPhoneNo.TabIndex = 0;
-            this.lblPatientPhoneNo.Text = appointment.PatientPhone ?? "N/A";
+            this.label20.AutoSize = true;
+            this.label20.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label20.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label20.Location = new System.Drawing.Point(593, 54);
+            this.label20.Name = "label20";
+            this.label20.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label20.Size = new System.Drawing.Size(318, 47);
+            this.label20.TabIndex = 3;
+            this.label20.Text = "رقم هاتف المريض:";
+            this.label20.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // lblDoctorName
+            // lblPatientPhoneNo1
             // 
-            this.lblDoctorName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblDoctorName.AutoSize = true;
-            this.lblDoctorName.Font = new System.Drawing.Font("Akhbar MT", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.lblDoctorName.ForeColor = System.Drawing.Color.Black;
-            this.lblDoctorName.Location = new System.Drawing.Point(179, 134);
-            this.lblDoctorName.Name = "lblDoctorName";
-            this.lblDoctorName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.lblDoctorName.Size = new System.Drawing.Size(117, 39);
-            this.lblDoctorName.TabIndex = 0;
-            this.lblDoctorName.Text = appointment.DoctorFullName;
-            this.lblDoctorName.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblPatientPhoneNo1.AutoSize = true;
+            this.lblPatientPhoneNo1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lblPatientPhoneNo1.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblPatientPhoneNo1.Location = new System.Drawing.Point(3, 54);
+            this.lblPatientPhoneNo1.Name = "lblPatientPhoneNo1";
+            this.lblPatientPhoneNo1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblPatientPhoneNo1.Size = new System.Drawing.Size(584, 47);
+            this.lblPatientPhoneNo1.TabIndex = 2;
+            this.lblPatientPhoneNo1.Text = appointment.PatientPhone??"???";
+            this.lblPatientPhoneNo1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label11
+            // label17
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("72 Monospace", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Black;
-            this.label11.Location = new System.Drawing.Point(14, 186);
-            this.label11.Name = "lblAppoitmentTime";
-            this.label11.Size = new System.Drawing.Size(70, 22);
-            this.label11.TabIndex = 0;
-            this.label11.Text = appointment.Appointment.StartTime.ToString();
+            this.label17.AutoSize = true;
+            this.label17.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.875F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.Location = new System.Drawing.Point(593, 0);
+            this.label17.Name = "label17";
+            this.label17.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label17.Size = new System.Drawing.Size(318, 54);
+            this.label17.TabIndex = 0;
+            this.label17.Text = "اسم المريض :";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // label12
+            // btnAppointmentDetails
             // 
-            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Akhbar MT", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
-            this.label12.ForeColor = System.Drawing.Color.Black;
-            this.label12.Location = new System.Drawing.Point(243, 179);
-            this.label12.Name = "lblAppointmentStatus";
-            this.label12.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label12.Size = new System.Drawing.Size(73, 39);
-            this.label12.TabIndex = 0;
-            this.label12.Text = clsUtilities.GetAppointmentStatusText(appointment.Appointment.Status);
-            this.label12.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.btnAppointmentDetails.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnAppointmentDetails.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnAppointmentDetails.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnAppointmentDetails.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnAppointmentDetails.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnAppointmentDetails.FillColor = System.Drawing.Color.Transparent;
+            this.btnAppointmentDetails.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAppointmentDetails.ForeColor = System.Drawing.Color.Black;
+            this.btnAppointmentDetails.Image = global::DentistClinic_PresentationTier.Properties.Resources.ArowDown;
+            this.btnAppointmentDetails.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btnAppointmentDetails.ImageOffset = new System.Drawing.Point(200, 0);
+            this.btnAppointmentDetails.ImageSize = new System.Drawing.Size(50, 50);
+            this.btnAppointmentDetails.Location = new System.Drawing.Point(0, 363);
+            this.btnAppointmentDetails.Name = "btnAppointmentDetails";
+            this.btnAppointmentDetails.Padding = new System.Windows.Forms.Padding(50, 0, 50, 0);
+            this.btnAppointmentDetails.Size = new System.Drawing.Size(914, 78);
+            this.btnAppointmentDetails.TabIndex = 2;
+            this.btnAppointmentDetails.Text = "تفاصيل الموعد";
+            this.btnAppointmentDetails.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.btnAppointmentDetails.Click += new System.EventHandler(this.btnDropCause_Click);
+            this.btnAppointmentDetails.Tag = enDropMode.down;
             // 
             // senderLableCause
             // 
@@ -425,45 +515,38 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.lblCause.Size = new System.Drawing.Size(411, 245);
             this.lblCause.TabIndex = 0;
             this.lblCause.Text = "";
-            this.lblCause.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            this.lblCause.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblCause.Dock = DockStyle.Top;
+            this.lblCause.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             // 
-            // AppointmetPanle
-            // 
-            shadowPanel.BackColor = System.Drawing.Color.Transparent;
-            shadowPanel.Controls.Add(this.btnDropCause);
-            shadowPanel.Controls.Add(this.label10);
-            shadowPanel.Controls.Add(this.label8);
-            shadowPanel.Controls.Add(this.label7);
-            shadowPanel.Controls.Add(this.label5);
-            shadowPanel.Controls.Add(this.label9);
-            shadowPanel.Controls.Add(this.label11);
-            shadowPanel.Controls.Add(this.lblPatientPhoneNo);
-            shadowPanel.Controls.Add(this.label12);
-            shadowPanel.Controls.Add(this.lblDoctorName);
+            // AppointmentShadowPanel
+            //
+            shadowPanel.BackColor = System.Drawing.Color.White;
             shadowPanel.Controls.Add(this.lblCause);
-            shadowPanel.Controls.Add(this.lblPatientName);
-            shadowPanel.Controls.Add(this.label1);
-            shadowPanel.FillColor = System.Drawing.Color.GhostWhite;
+            shadowPanel.Controls.Add(this.btnAppointmentDetails);
+            shadowPanel.Controls.Add(this.tlpAppointment);          
+            shadowPanel.FillColor = System.Drawing.Color.White;
             shadowPanel.Location = new System.Drawing.Point(3, 3);
-            shadowPanel.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
-            shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
-            shadowPanel.Radius = 10;
+            shadowPanel.Name = "AppointmentShadowPanel";
+            shadowPanel.Radius = 8;
             shadowPanel.ShadowColor = System.Drawing.Color.Black;
-            shadowPanel.Size = new System.Drawing.Size(450, 325);
+            shadowPanel.Size = new System.Drawing.Size(914, 531);
             shadowPanel.TabIndex = 0;
             shadowPanel.Tag = appointment;
             shadowPanel.MouseDoubleClick += AppointmentShadowPanel_MouseDoubleClick;
             shadowPanel.MouseEnter += AppointmentShadowPanel_MouseEnter;
             shadowPanel.MouseLeave += AppointmentShadowPanel_MouseLeave;
-
-            this.flpTodayAppointmentList.Controls.Add(shadowPanel);
+            shadowPanel.Width = (flpTodayAppointmentList.Width - shadowPanel.Margin.Horizontal)-100;
+            flpTodayAppointmentList.Controls.Add(shadowPanel);
+            tlpAppointment.ResumeLayout(false);
+            tlpAppointment.PerformLayout();
             shadowPanel.ResumeLayout(false);
             shadowPanel.PerformLayout();
         }
         private void _loadMockAppointments()
         {
             IEnumerable<clsAppointmentsDetails> todayAppointment = new List<clsAppointmentsDetails>();
-            //clsGenrateMockData._loadMockAppointments(ref todayAppointment);
+            todayAppointment = clsGenrateMockData._loadMockAppointments();
             _todayAppointment = (List<clsAppointmentsDetails>)todayAppointment;
         }
 
@@ -558,5 +641,6 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
                     break;
             }   
         }
+
     }
 }
