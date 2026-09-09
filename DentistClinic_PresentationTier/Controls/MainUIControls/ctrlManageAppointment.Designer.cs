@@ -48,11 +48,12 @@
             this.tableLayoutPanel1.Controls.Add(this.guna2spnlHedder, 0, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1920, 1080);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(2883, 1850);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // guna2spnlHedder
@@ -63,13 +64,13 @@
             this.guna2spnlHedder.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guna2spnlHedder.FillColor = System.Drawing.Color.SteelBlue;
             this.guna2spnlHedder.Location = new System.Drawing.Point(0, 0);
-            this.guna2spnlHedder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 20);
+            this.guna2spnlHedder.Margin = new System.Windows.Forms.Padding(0, 0, 0, 25);
             this.guna2spnlHedder.Name = "guna2spnlHedder";
             this.guna2spnlHedder.ShadowColor = System.Drawing.Color.Black;
             this.guna2spnlHedder.ShadowDepth = 40;
             this.guna2spnlHedder.ShadowShift = 7;
             this.guna2spnlHedder.ShadowStyle = Guna.UI2.WinForms.Guna2ShadowPanel.ShadowMode.Dropped;
-            this.guna2spnlHedder.Size = new System.Drawing.Size(1920, 120);
+            this.guna2spnlHedder.Size = new System.Drawing.Size(2883, 215);
             this.guna2spnlHedder.TabIndex = 6;
             // 
             // tableLayoutPanel4
@@ -80,10 +81,11 @@
             this.tableLayoutPanel4.Controls.Add(this.flowLayoutPanel2, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(1920, 120);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(2883, 215);
             this.tableLayoutPanel4.TabIndex = 3;
             // 
             // flowLayoutPanel2
@@ -91,30 +93,33 @@
             this.flowLayoutPanel2.Controls.Add(this.lblPageTitle);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(963, 3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(1445, 4);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(954, 114);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(1434, 207);
             this.flowLayoutPanel2.TabIndex = 0;
             // 
             // lblPageTitle
             // 
             this.lblPageTitle.AutoSize = true;
-            this.lblPageTitle.Font = new System.Drawing.Font("Akhbar MT", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.lblPageTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.lblPageTitle.ForeColor = System.Drawing.Color.White;
-            this.lblPageTitle.Location = new System.Drawing.Point(743, 0);
+            this.lblPageTitle.Location = new System.Drawing.Point(1080, 0);
+            this.lblPageTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblPageTitle.Name = "lblPageTitle";
-            this.lblPageTitle.Size = new System.Drawing.Size(208, 81);
+            this.lblPageTitle.Size = new System.Drawing.Size(350, 73);
             this.lblPageTitle.TabIndex = 0;
             this.lblPageTitle.Text = "إدارة المواعـيد";
             this.lblPageTitle.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // ctrlManageAppointment
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "ctrlManageAppointment";
-            this.Size = new System.Drawing.Size(1920, 1080);
+            this.Size = new System.Drawing.Size(2883, 1850);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.guna2spnlHedder.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);

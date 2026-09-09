@@ -34,6 +34,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.flowLayoutPanelButtons = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblUserName = new System.Windows.Forms.Label();
             this.mainLayoutPanel.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.guna2GradientPanel2.SuspendLayout();
@@ -53,7 +54,7 @@
             this.mainLayoutPanel.RowCount = 2;
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
             this.mainLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87F));
-            this.mainLayoutPanel.Size = new System.Drawing.Size(2856, 1753);
+            this.mainLayoutPanel.Size = new System.Drawing.Size(2915, 1753);
             this.mainLayoutPanel.TabIndex = 1;
             // 
             // tableLayoutPanel2
@@ -64,14 +65,14 @@
             this.tableLayoutPanel2.Controls.Add(this.guna2GradientPanel2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.flowLayoutPanelButtons, 0, 1);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(2256, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(2302, 0);
             this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
             this.mainLayoutPanel.SetRowSpan(this.tableLayoutPanel2, 2);
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 13F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 87F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(600, 1753);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(613, 1753);
             this.tableLayoutPanel2.TabIndex = 4;
             // 
             // guna2GradientPanel2
@@ -80,6 +81,7 @@
             this.guna2GradientPanel2.BorderColor = System.Drawing.Color.Silver;
             this.guna2GradientPanel2.BorderRadius = 20;
             this.guna2GradientPanel2.BorderThickness = 2;
+            this.guna2GradientPanel2.Controls.Add(this.lblUserName);
             this.guna2GradientPanel2.Controls.Add(this.label2);
             this.guna2GradientPanel2.Controls.Add(this.label1);
             this.guna2GradientPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -89,7 +91,7 @@
             this.guna2GradientPanel2.Location = new System.Drawing.Point(4, 4);
             this.guna2GradientPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.guna2GradientPanel2.Name = "guna2GradientPanel2";
-            this.guna2GradientPanel2.Size = new System.Drawing.Size(592, 219);
+            this.guna2GradientPanel2.Size = new System.Drawing.Size(605, 219);
             this.guna2GradientPanel2.TabIndex = 10;
             // 
             // label2
@@ -99,8 +101,8 @@
             this.label2.Dock = System.Windows.Forms.DockStyle.Right;
             this.label2.Font = new System.Drawing.Font("Simplified Arabic", 11.14286F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ButtonFace;
-            this.label2.Location = new System.Drawing.Point(449, 98);
-            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label2.Location = new System.Drawing.Point(462, 98);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 20, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(143, 49);
             this.label2.TabIndex = 1;
@@ -113,10 +115,10 @@
             this.label1.Font = new System.Drawing.Font("Simplified Arabic", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 20);
             this.label1.Name = "label1";
             this.label1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.label1.Size = new System.Drawing.Size(592, 98);
+            this.label1.Size = new System.Drawing.Size(605, 98);
             this.label1.TabIndex = 2;
             this.label1.Text = "عيادة النصر";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -131,16 +133,30 @@
             this.flowLayoutPanelButtons.Margin = new System.Windows.Forms.Padding(0, 19, 0, 12);
             this.flowLayoutPanelButtons.Name = "flowLayoutPanelButtons";
             this.flowLayoutPanelButtons.Padding = new System.Windows.Forms.Padding(0, 25, 0, 0);
-            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(600, 1495);
+            this.flowLayoutPanelButtons.Size = new System.Drawing.Size(613, 1495);
             this.flowLayoutPanelButtons.TabIndex = 3;
             this.flowLayoutPanelButtons.WrapContents = false;
+            // 
+            // lblUserName
+            // 
+            this.lblUserName.AutoSize = true;
+            this.lblUserName.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblUserName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserName.ForeColor = System.Drawing.Color.White;
+            this.lblUserName.Location = new System.Drawing.Point(391, 98);
+            this.lblUserName.Margin = new System.Windows.Forms.Padding(3, 0, 20, 0);
+            this.lblUserName.Name = "lblUserName";
+            this.lblUserName.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lblUserName.Size = new System.Drawing.Size(71, 37);
+            this.lblUserName.TabIndex = 3;
+            this.lblUserName.Text = "???";
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.AliceBlue;
-            this.ClientSize = new System.Drawing.Size(2856, 1753);
+            this.ClientSize = new System.Drawing.Size(2915, 1753);
             this.Controls.Add(this.mainLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.IsMdiContainer = true;
@@ -166,5 +182,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanelButtons;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblUserName;
     }
 }

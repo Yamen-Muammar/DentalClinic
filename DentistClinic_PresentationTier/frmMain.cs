@@ -44,6 +44,7 @@ namespace DentistClinic_PresentationTier
         }
         private async void frmMain_Load(object sender, EventArgs e)
         {
+            lblUserName.Text = _sessionContext.Staff.PersonInfo.FullName;
             await _loadRolesFromDB();
             _createButtons();
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();

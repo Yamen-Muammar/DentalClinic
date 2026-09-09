@@ -399,7 +399,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             this.label24.TabIndex = 7;
             this.label24.Text = "حالة الموعد :";
             this.label24.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
+            //
             // lblAppointmentStatus
             // 
             this.lblAppointmentStatus.AutoSize = true;
