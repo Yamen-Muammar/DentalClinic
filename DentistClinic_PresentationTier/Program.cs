@@ -39,6 +39,9 @@ namespace DentistClinic_PresentationTier
             // Build the brain of our DI container
             ServiceProvider = services.BuildServiceProvider();
 
+            SqlConnectionFactory s = ServiceProvider.GetRequiredService<SqlConnectionFactory>();
+            s.TestConnection();
+
             // RIGHT HERE: Instead of Application.Run(new LoginForm())
             // We request the form directly from our ServiceProvider container
             using (var loginForm = ServiceProvider.GetRequiredService<frmLogin>())

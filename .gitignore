@@ -363,7 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 CLAUDE.md
 /.vscode
-App.config
 /DentistClinic_PresentationTier/App.config
-loadCtrls.cs
-clsGenrateMockData.cs
+#clsGenrateMockData.cs
