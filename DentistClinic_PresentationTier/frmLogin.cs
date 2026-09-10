@@ -38,8 +38,20 @@ namespace DentistClinic_PresentationTier
             _sessionContext = sessionContext;
         }
         private async void frmLogin_Load(object sender, EventArgs e)
-        {            
+        {       
             await _loadCredentials();
+        }
+
+        public void HandleDatabaseConnectionStatusChangedEvent(bool status)
+        {
+            if (!status)
+            {
+                MessageBox.Show("لا يمكن الاتصال بقاعدة البيانات.", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            else
+            {
+                btnLogin.Enabled = true;
+            }
         }
         private async void btnLogin_Click(object sender, EventArgs e)
         {
@@ -69,7 +81,7 @@ namespace DentistClinic_PresentationTier
                 if (loggedinStaff != null)
                 {
                     _sessionContext.Set(loggedinStaff);
-                    _saveCredentials();
+                    await Task.Run(async () => await _saveCredentials());
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
@@ -135,7 +147,7 @@ namespace DentistClinic_PresentationTier
                 {
                     try
                     {
-                        tbPassword.Text =await _encryptPassword(SaveData.Default.SavedPassword, enEncryptionOperationType.Decrpt);
+                        tbPassword.Text = await _encryptPassword(SaveData.Default.SavedPassword, enEncryptionOperationType.Decrpt);
                     }
                     catch (Exception)
                     {

@@ -10,5 +10,6 @@ namespace DentalClinic_CoreTier.Interfaces.RepositoryInterfaces
     public interface IDbConnectionFactory
     {
         SqlConnection CreateConnection();
+        Task<bool> IsConnectedSuccessfully();
     }
 }

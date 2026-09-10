@@ -26,12 +26,26 @@ namespace DentalClinic_DataTier
             return new SqlConnection(_connectionString);
         }
 
-        public bool TestConnection()
+        public async Task<bool> IsConnectedSuccessfully()
         {
-            SqlConnection sqlConnection = CreateConnection();
-            int test = sqlConnection.ConnectionTimeout;
-          
-            return true;
+            try
+            {
+                using(SqlConnection sqlConnection = CreateConnection())
+                {
+                    await sqlConnection.OpenAsync();
+                    if (sqlConnection.State == System.Data.ConnectionState.Open)
+                    {
+                        sqlConnection.Close();
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {                
+                return false;
+            }
+
+            return false;
         }
     }
 }
