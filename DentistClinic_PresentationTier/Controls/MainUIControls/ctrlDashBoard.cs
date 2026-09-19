@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -69,6 +69,21 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         private async void ctrlDashBoard_Load(object sender, EventArgs e)
         {
             await _buildUI();
+            _updateTodaysAppointmentsShadowPanelsWidth();
+            flpTodayAppointmentList.Resize += FlpTodayAppointmentList_Resize;
+        }
+
+        private void FlpTodayAppointmentList_Resize(object sender, EventArgs e)
+        {
+            _updateTodaysAppointmentsShadowPanelsWidth();
+        }
+
+        private void _updateTodaysAppointmentsShadowPanelsWidth()
+        {
+            foreach (Control control in flpTodayAppointmentList.Controls)
+            {
+                control.Width = flpTodayAppointmentList.ClientSize.Width - control.Margin.Horizontal;
+            }
         }
         private void Panle_MouseEnter(object sender, EventArgs e)
         {
@@ -530,13 +545,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             shadowPanel.Name = "AppointmentShadowPanel";
             shadowPanel.Radius = 8;
             shadowPanel.ShadowColor = System.Drawing.Color.Black;
-            shadowPanel.Size = new System.Drawing.Size(914, 531);
-            shadowPanel.TabIndex = 0;
+            shadowPanel.Size = new System.Drawing.Size(0, 531);
             shadowPanel.Tag = appointment;
+            shadowPanel.Width = flpTodayAppointmentList.ClientSize.Width - shadowPanel.Margin.Horizontal;
             shadowPanel.MouseDoubleClick += AppointmentShadowPanel_MouseDoubleClick;
             shadowPanel.MouseEnter += AppointmentShadowPanel_MouseEnter;
             shadowPanel.MouseLeave += AppointmentShadowPanel_MouseLeave;
-            shadowPanel.Width = (flpTodayAppointmentList.Width - shadowPanel.Margin.Horizontal)-100;
             flpTodayAppointmentList.Controls.Add(shadowPanel);
             tlpAppointment.ResumeLayout(false);
             tlpAppointment.PerformLayout();

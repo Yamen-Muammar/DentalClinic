@@ -56,7 +56,6 @@ namespace DentistClinic_PresentationTier
             });
             testConnection.Start();
 
-
             // RIGHT HERE: Instead of Application.Run(new LoginForm())
             // We request the form directly from our ServiceProvider container
             using (var loginForm = ServiceProvider.GetRequiredService<frmLogin>())

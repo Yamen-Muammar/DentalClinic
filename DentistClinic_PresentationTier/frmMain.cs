@@ -48,29 +48,31 @@ namespace DentistClinic_PresentationTier
             await _loadRolesFromDB();
             _createButtons();
             var dashboard = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-            CreateView(dashboard);
+            await CreateView(dashboard);
         }
-        private void CreateView(object control)
+
+        private async Task CreateView(object control)
         {
             mainLayoutPanel.SuspendLayout();
             
-                var newPage = control as UserControl;
+            var newPage = control as UserControl;
 
-                if (_activeControl != null && newPage != null)
-                {
-                    this.mainLayoutPanel.Controls.Remove(_activeControl);
-                    _activeControl.Dispose();
-                }
-                else if (newPage == null)
-                {
-                    return;
-                }
-                newPage.Dock = DockStyle.Fill;
-                newPage.Margin = new Padding(0);
-                this.mainLayoutPanel.Controls.Add(newPage, 0, 0);
-                this.mainLayoutPanel.SetRowSpan(newPage, 2);
+            if (_activeControl != null && newPage != null)
+            {
+                this.mainLayoutPanel.Controls.Remove(_activeControl);
+                _activeControl.Dispose();
+            }
+            else if (newPage == null)
+            {
+                return;
+            }
 
-                _activeControl = newPage;
+            newPage.Margin = new Padding(0);
+            newPage.Dock = DockStyle.Fill;
+
+            this.mainLayoutPanel.Controls.Add(newPage, 0, 0);
+            this.mainLayoutPanel.SetRowSpan(newPage, 2);
+            _activeControl = newPage;
 
             mainLayoutPanel.ResumeLayout(true);
         }
@@ -86,49 +88,49 @@ namespace DentistClinic_PresentationTier
                     if (_isOkToDo(myEnums.enPermission.Dashboard))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlDashBoard>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePatients":
                     if (_isOkToDo(myEnums.enPermission.ManagePatients))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManagePatients>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManageAppointments":
                     if (_isOkToDo(myEnums.enPermission.ManageAppointments))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageAppointment>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManagePayments":
                     if (_isOkToDo(myEnums.enPermission.ManagePayments))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManagePayments>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManageStaff":
                     if (_isOkToDo(myEnums.enPermission.ManageStaff))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageStaff>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnManageRoles":
                     if (_isOkToDo(myEnums.enPermission.ManageRoles))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageRoles>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnReports":
                     if (_isOkToDo(myEnums.enPermission.ManageReports))
                     {
                         var wantedCtrl = Program.ServiceProvider.GetRequiredService<ctrlManageReports>();
-                        CreateView(wantedCtrl);
+                        await CreateView(wantedCtrl);
                     }
                     break;
                 case "btnLogout":
