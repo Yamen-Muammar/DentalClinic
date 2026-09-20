@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -30,17 +30,14 @@ namespace DentistClinic_PresentationTier
             InitializeComponent();
             this.DoubleBuffered = true;
             
-        }
-
-        //Enables WS_EX_COMPOSITED so all child controls(panels, etc.) are double-buffered too
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000; // WS_EX_COMPOSITED
-                return cp;
-            }
+            // Enable double buffering on the TableLayoutPanels to prevent flickering without using WS_EX_COMPOSITED
+            typeof(TableLayoutPanel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, mainLayoutPanel, new object[] { true });
+            
+            typeof(TableLayoutPanel).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, tableLayoutPanel2, new object[] { true });
         }
         private async void frmMain_Load(object sender, EventArgs e)
         {
@@ -51,30 +48,53 @@ namespace DentistClinic_PresentationTier
             await CreateView(dashboard);
         }
 
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+        private const int WM_SETREDRAW = 11;
+
+        private void EnableDoubleBufferingRecursive(Control control)
+        {
+            typeof(Control).InvokeMember("DoubleBuffered",
+                System.Reflection.BindingFlags.SetProperty | System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic,
+                null, control, new object[] { true });
+
+            foreach (Control child in control.Controls)
+            {
+                EnableDoubleBufferingRecursive(child);
+            }
+        }
+
         private async Task CreateView(object control)
         {
+            var newPage = control as UserControl;
+            if (newPage == null) return;
+
+            // Pause repainting of the form to prevent flickering during swap
+            SendMessage(this.Handle, WM_SETREDRAW, false, 0);
             mainLayoutPanel.SuspendLayout();
             
-            var newPage = control as UserControl;
-
-            if (_activeControl != null && newPage != null)
+            if (_activeControl != null)
             {
                 this.mainLayoutPanel.Controls.Remove(_activeControl);
                 _activeControl.Dispose();
             }
-            else if (newPage == null)
-            {
-                return;
-            }
 
             newPage.Margin = new Padding(0);
             newPage.Dock = DockStyle.Fill;
+            
+            // Recursively enable double buffering on all nested controls inside the new page
+            EnableDoubleBufferingRecursive(newPage);
 
             this.mainLayoutPanel.Controls.Add(newPage, 0, 0);
             this.mainLayoutPanel.SetRowSpan(newPage, 2);
             _activeControl = newPage;
 
             mainLayoutPanel.ResumeLayout(true);
+            
+            // Resume repainting
+            SendMessage(this.Handle, WM_SETREDRAW, true, 0);
+            mainLayoutPanel.Invalidate(true);
+            mainLayoutPanel.Update();
         }
 
         //UI events
@@ -202,6 +222,9 @@ namespace DentistClinic_PresentationTier
                 }
             }
             flowLayoutPanelButtons.ResumeLayout(true);
+            
+            // Subscribe to size change to dynamically resize buttons
+            flowLayoutPanelButtons.SizeChanged += FlowLayoutPanelButtons_SizeChanged;
         }      
         private void _buildButtons(Guna2Button button)
         {
@@ -229,6 +252,19 @@ namespace DentistClinic_PresentationTier
             button.Click += DynamicButtons_Click;
 
             flowLayoutPanelButtons.Controls.Add(button);
+        }
+
+        private void FlowLayoutPanelButtons_SizeChanged(object sender, EventArgs e)
+        {
+            flowLayoutPanelButtons.SuspendLayout();
+            foreach (Control control in flowLayoutPanelButtons.Controls)
+            {
+                if (control is Guna2Button button)
+                {
+                    button.Width = flowLayoutPanelButtons.ClientSize.Width - button.Margin.Horizontal;
+                }
+            }
+            flowLayoutPanelButtons.ResumeLayout(true);
         }
 
         //Helper methods
