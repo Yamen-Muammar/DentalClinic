@@ -362,6 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 CLAUDE.md
+AGENTS.md
 /.vscode
 /DentistClinic_PresentationTier/App.config
 #clsGenrateMockData.cs

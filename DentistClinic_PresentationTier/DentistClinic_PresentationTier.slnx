@@ -1,6 +1,7 @@
 <Solution>
   <Folder Name="/Solution Items/">
     <File Path="../.gitignore" />
+    <File Path="../AGENTS.md" />
     <File Path="../CLAUDE.md" />
   </Folder>
   <Project Path="../DentalClinic_BusinessTier/DentalClinic_BusinessTier.csproj" Id="4f62127a-fde4-429a-b1de-3b7729facace" />
