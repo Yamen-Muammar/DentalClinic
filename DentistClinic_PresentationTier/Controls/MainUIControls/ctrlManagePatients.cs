@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -166,11 +166,26 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
         }
         private void btnAddNewAppointment_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            MessageBox.Show("لإضافة موعد جديد، يرجى فتح الملف الطبي واختيار المشكلة الصحية المطلوبة أولاً.", "معلومة", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
-        private void btnViewMedicalFile_Click(object sender, EventArgs e)
+        private async void btnViewMedicalFile_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (selectedPatientID <= 0)
+            {
+                MessageBox.Show("الرجاء تحديد مريض أولاً.", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var medicalFileForm = Program.ServiceProvider.GetRequiredService<frmMedicalFile>();
+                await medicalFileForm.LoadDataAsync(selectedPatientID);
+                medicalFileForm.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("حدث خطأ أثناء فتح الملف الطبي: " + ex.Message, "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private async void btnDeletePatient_Click(object sender, EventArgs e)
         {

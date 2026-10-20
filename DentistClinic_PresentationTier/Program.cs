@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -121,6 +121,9 @@ namespace DentistClinic_PresentationTier
             services.AddTransient<ctrlPersonInformation>();
             services.AddTransient<ctrlAddOrEditePatientInformation>();
             services.AddTransient<frmAddOrEditePatientInformation>();
+            services.AddTransient<frmMedicalFile>();
+            services.AddTransient<frmAddProblem>();
+            services.AddTransient<frmAddAppointment>();
             // Session 
             services.AddSingleton<ISessionContext, WinFormsSessionContext>();
         }
