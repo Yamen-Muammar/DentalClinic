@@ -9,5 +9,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IDoctorService : IGRUDService<clsDoctor>
     {
+        Task<IEnumerable<clsDoctor>> GetAllDoctorsAsync();
     }
 }
