@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +55,13 @@ namespace DentalClinic_BusinessTier.Services
             }
             obj.UpdatedBy_ID = updatedByID.Value;
             return await _appointmentRepository.UpdateAppointmentAsync(obj);
+        }
+
+        public async Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId)
+        {
+            if (problemId <= 0)
+                throw new ArgumentException("problemId must be a valid ID > 0");
+            return await _appointmentRepository.GetAppointmentsByProblemIdAsync(problemId);
         }
 
         // helper methods 

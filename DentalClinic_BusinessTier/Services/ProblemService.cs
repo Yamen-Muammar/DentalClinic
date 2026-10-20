@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -46,6 +46,13 @@ namespace DentalClinic_BusinessTier.Services
             if (updatedById <= 0)
                 throw new ArgumentException("updatedById must be a valid ID > 0");
             return await _problemRepository.UpdateProblemStatusAsync(problemId, status, updatedById);            
+        }
+
+        public async Task<IEnumerable<clsProblem>> GetProblemsByMedicalFileIdAsync(int medicalFileId)
+        {
+            if (medicalFileId <= 0)
+                throw new ArgumentException("medicalFileId must be a valid ID > 0");
+            return await _problemRepository.GetProblemsByMedicalFileIdAsync(medicalFileId);
         }
         private bool _validateProblemObj(clsProblem problem)
         {

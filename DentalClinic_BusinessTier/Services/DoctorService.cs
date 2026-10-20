@@ -17,6 +17,11 @@ namespace DentalClinic_BusinessTier.Services
         {
             _doctorRepository = doctorRepository;
         }
+ 
+        public Task<IEnumerable<clsDoctor>> GetAllDoctorsAsync()
+        {
+            return _doctorRepository.GetAllDoctorsAsync();
+        }
 
         public async Task<clsDoctor> GetByIdAsync(int objId)
         {
