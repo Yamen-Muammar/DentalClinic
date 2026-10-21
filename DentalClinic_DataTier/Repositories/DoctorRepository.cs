@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.RepositoryInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_DataTier.Repositories
 {
@@ -182,6 +183,48 @@ namespace DentalClinic_DataTier.Repositories
                 CreatedAt      = reader.GetDateTime(reader.GetOrdinal("CreatedAt")),
                 UpdatedAt      = reader.IsDBNull(updatedAtOrd) ? (DateTime?)null : reader.GetDateTime(updatedAtOrd),
                 UpdatedBy_ID   = reader.IsDBNull(updatedByOrd) ? (int?)null      : reader.GetInt32(updatedByOrd),
+            };
+        }
+
+        public async Task<IEnumerable<clsDoctorListInformation>> GetAllDoctorsListInformationAsync()
+        {
+            try
+            {
+                const string query = @"
+                    SELECT d.DoctorID,
+                           d.Staff_ID AS StaffID,
+                           (p.FirstName + ' ' + p.LastName) AS FullName
+                    FROM Doctors d
+                    INNER JOIN Staff s ON d.Staff_ID = s.StaffID
+                    INNER JOIN People p ON s.Person_ID = p.PersonID
+                    WHERE s.IsDeleted = 0 AND p.IsDeleted = 0";
+
+                var list = new List<clsDoctorListInformation>();
+                using (var conn = _connectionFactory.CreateConnection())
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    await conn.OpenAsync();
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                            list.Add(MapDoctorListInformation(reader));
+                    }
+                }
+                return list;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private static clsDoctorListInformation MapDoctorListInformation(SqlDataReader reader)
+        {
+            return new clsDoctorListInformation
+            {
+                DoctorID = reader.GetInt32(reader.GetOrdinal("DoctorID")),
+                StaffID  = reader.GetInt32(reader.GetOrdinal("StaffID")),
+                FullName = reader.GetString(reader.GetOrdinal("FullName"))
             };
         }
     }

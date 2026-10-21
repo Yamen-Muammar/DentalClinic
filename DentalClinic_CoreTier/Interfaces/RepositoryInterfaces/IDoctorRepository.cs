@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DentalClinic_CoreTier.Models;
 
 namespace DentalClinic_CoreTier.Interfaces
 {
@@ -14,5 +15,6 @@ namespace DentalClinic_CoreTier.Interfaces
         Task<clsDoctor> GetDoctorByStaffIdAsync(int staffId);
         Task<IEnumerable<clsDoctor>> GetAllDoctorsAsync();
         Task<bool> UpdateDoctorAsync(clsDoctor doctor);
+        Task<IEnumerable<clsDoctorListInformation>> GetAllDoctorsListInformationAsync();
     }
 }

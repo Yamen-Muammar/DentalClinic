@@ -64,6 +64,13 @@ namespace DentalClinic_BusinessTier.Services
             return await _appointmentRepository.GetAppointmentsByProblemIdAsync(problemId);
         }
 
+        public async Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date)
+        {
+            if (doctorId <= 0)
+                throw new ArgumentException("doctorId must be a valid ID > 0");
+            return await _appointmentRepository.GetAppointmentsByDoctorAndDateAsync(doctorId, date);
+        }
+
         // helper methods 
         private bool _validateAppointmentObj(clsAppointment obj)
         {

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
 {
     public interface IDoctorService : IGRUDService<clsDoctor>
     {
         Task<IEnumerable<clsDoctor>> GetAllDoctorsAsync();
+        Task<IEnumerable<clsDoctorListInformation>> GetAllDoctorsListInformationAsync();
     }
 }

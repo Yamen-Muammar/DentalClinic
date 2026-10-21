@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DentalClinic_CoreTier.Interfaces;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
+using DentalClinic_CoreTier.ViewModels;
 
 namespace DentalClinic_BusinessTier.Services
 {
@@ -21,6 +22,11 @@ namespace DentalClinic_BusinessTier.Services
         public Task<IEnumerable<clsDoctor>> GetAllDoctorsAsync()
         {
             return _doctorRepository.GetAllDoctorsAsync();
+        }
+
+        public Task<IEnumerable<clsDoctorListInformation>> GetAllDoctorsListInformationAsync()
+        {
+            return _doctorRepository.GetAllDoctorsListInformationAsync();
         }
 
         public async Task<clsDoctor> GetByIdAsync(int objId)

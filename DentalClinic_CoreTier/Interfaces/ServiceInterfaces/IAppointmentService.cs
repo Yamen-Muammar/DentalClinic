@@ -12,5 +12,6 @@ namespace DentalClinic_CoreTier.Interfaces.ServiceInterfaces
     {
         Task<IEnumerable<clsAppointmentsDetails>> GetAppointmentsByDateAsync(DateTime fromDate, DateTime toDate);
         Task<IEnumerable<clsAppointment>> GetAppointmentsByProblemIdAsync(int problemId);
+        Task<IEnumerable<clsAppointment>> GetAppointmentsByDoctorAndDateAsync(int doctorId, DateTime date);
     }
 }

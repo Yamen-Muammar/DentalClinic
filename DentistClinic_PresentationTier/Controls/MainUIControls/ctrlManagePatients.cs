@@ -180,7 +180,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             {
                 var medicalFileForm = Program.ServiceProvider.GetRequiredService<frmMedicalFile>();
                 await medicalFileForm.LoadDataAsync(selectedPatientID);
-                medicalFileForm.ShowDialog();
+                medicalFileForm.ShowDialog(this.FindForm());
             }
             catch (Exception ex)
             {
@@ -299,13 +299,12 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
         //  Helper Methods
         private async Task _getAllPatientsData()
-        {
-            //TODO : After create Appointments see how it works  
+        {  
             try
             {
                 _allPatients = new List<clsPatientView>();
                 await Task.Delay(1000);//for showing the loading indicator for a while getting the data from the database
-                _allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
+                //_allPatients = (List<clsPatientView>)await _patientService.GetAllPatientDetailsOnTodaysAppointmentsAsync();
                 
                 if (_allPatients.Count < 10)
                 {
