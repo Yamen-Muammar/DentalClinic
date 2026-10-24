@@ -133,6 +133,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="clsGenrateMockData.cs" />
+    <Compile Include="Controls\clsCardPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\MainUIControls\ctrlDashBoard.cs">
       <SubType>UserControl</SubType>
     </Compile>

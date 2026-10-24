@@ -10,12 +10,12 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using System.Windows.Forms;
 using DentalClinic_CoreTier;
 using DentalClinic_CoreTier.Interfaces.ServiceInterfaces;
 using DentalClinic_CoreTier.Models;
 using DentalClinic_CoreTier.ViewModels;
+using DentistClinic_PresentationTier.Controls;
 using DentistClinic_PresentationTier.Forms.PatientsForms;
 using Guna.UI2.WinForms;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,120 +96,84 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             Guna2ShadowPanel guna2Panel = sender as Guna2ShadowPanel;
             guna2Panel.FillColor = Color.White;
         }
+        private Panel _findAppointmentCardPanel(Control control)
+        {
+            while (control != null)
+            {
+                if (control is Panel panel && !(control is TableLayoutPanel) && !(control is FlowLayoutPanel))
+                    return panel;
+                control = control.Parent;
+            }
+            return null;
+        }
+
         private void btnDropCause_Click(object sender, EventArgs e)
         {
             Guna2Button senderButton = sender as Guna2Button;
+            if (senderButton == null) return;
 
             enDropMode senderDropMode = (enDropMode)senderButton.Tag;
 
-            Guna2ShadowPanel senderAppointmentPanel = senderButton?.Parent as Guna2ShadowPanel;
+            Panel senderAppointmentPanel = _findAppointmentCardPanel(senderButton);
+            if (senderAppointmentPanel == null) return;
 
             Control senderLableCause = senderAppointmentPanel.Controls["senderLableCause"];
-
             clsAppointmentsDetails appointmentDataFromSender = senderAppointmentPanel.Tag as clsAppointmentsDetails;
+
+            const int defaultCardHeight = 531;
 
             if (senderDropMode == enDropMode.up)
             {
-                senderLableCause.Text = "";
-                senderAppointmentPanel.Height = mainPanleHeight;
-                senderLableCause.Text = string.Empty;
+                if (senderLableCause != null) senderLableCause.Text = string.Empty;
+                senderAppointmentPanel.Height = (mainPanleHeight > 0) ? mainPanleHeight : defaultCardHeight;
                 senderButton.Image = Properties.Resources.ArowDown;
                 senderButton.Tag = enDropMode.down;
             }
             else
             {
-                senderLableCause.Text = appointmentDataFromSender.Appointment.Cause;
+                if (senderLableCause != null && appointmentDataFromSender?.Appointment != null)
+                {
+                    senderLableCause.Text = appointmentDataFromSender.Appointment.Cause;
+                }
                 mainPanleHeight = senderAppointmentPanel.Height;
-                senderAppointmentPanel.Height += senderLableCause.Height;
+                if (senderLableCause != null)
+                {
+                    senderAppointmentPanel.Height += senderLableCause.Height;
+                }
                 senderButton.Image = Properties.Resources.ArowUp;
                 senderButton.Tag = enDropMode.up;
             }
         }
 
-        //Appointment Shadow Panel Events and Req
+        //Appointment Panel Events and Req
 
-        private Color _appointmentShadowPanelDefaultColor;
+        private Color _appointmentShadowPanelDefaultColor = Color.White;
         private void AppointmentShadowPanel_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
-
-            if (sender is Guna2ShadowPanel shadowPanel)
+            Panel senderPanel = _findAppointmentCardPanel(sender as Control);
+            if (senderPanel?.Tag is clsAppointmentsDetails appointmentsDetails)
             {
-                senderShadowPanel = shadowPanel;
+                MessageBox.Show(appointmentsDetails.Appointment.AppointmentID.ToString());
             }
-            if (sender is System.Windows.Forms.Label label)
-            {
-                if (label.Parent is TableLayoutPanel lblParent)
-                {
-                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
-                }
-                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
-                {
-                    senderShadowPanel = guna2Shadow;
-                }
-            }
-            if (sender is TableLayoutPanel tableLayoutPanel )
-            {               
-                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
-            }
-
-            clsAppointmentsDetails appointmentsDetails = senderShadowPanel.Tag as clsAppointmentsDetails;
-
-            MessageBox.Show(appointmentsDetails.Appointment.AppointmentID.ToString());
-
         }
 
         private void AppointmentShadowPanel_MouseEnter(object sender, EventArgs e)
         {
-            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
-
-            if(sender is Guna2ShadowPanel shadowPanel)
+            Panel senderPanel = _findAppointmentCardPanel(sender as Control);
+            if (senderPanel != null)
             {
-                senderShadowPanel = shadowPanel;
+                _appointmentShadowPanelDefaultColor = senderPanel.BackColor;
+                senderPanel.BackColor = Color.Gainsboro;
             }
-
-            if (sender is System.Windows.Forms.Label label)
-            {
-                if (label.Parent is TableLayoutPanel lblParent)
-                {
-                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
-                }
-                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
-                {
-                    senderShadowPanel = guna2Shadow;
-                }
-            }
-            if (sender is TableLayoutPanel tableLayoutPanel)
-            {
-                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
-            }
-            _appointmentShadowPanelDefaultColor = senderShadowPanel.FillColor;
-            senderShadowPanel.FillColor = Color.Gainsboro;
         }
+
         private void AppointmentShadowPanel_MouseLeave(object sender, EventArgs e)
         {
-
-            Guna2ShadowPanel senderShadowPanel = new Guna2ShadowPanel();
-            if (sender is Guna2ShadowPanel shadowPanel)
+            Panel senderPanel = _findAppointmentCardPanel(sender as Control);
+            if (senderPanel != null)
             {
-                senderShadowPanel = shadowPanel;
+                senderPanel.BackColor = _appointmentShadowPanelDefaultColor;
             }
-            if (sender is System.Windows.Forms.Label label)
-            {
-                if (label.Parent is TableLayoutPanel lblParent)
-                {
-                    senderShadowPanel = lblParent?.Parent as Guna2ShadowPanel;
-                }
-                else if (label.Parent is Guna2ShadowPanel guna2Shadow)
-                {
-                    senderShadowPanel = guna2Shadow;
-                }
-            }
-            if (sender is TableLayoutPanel tableLayoutPanel)
-            {
-                senderShadowPanel = tableLayoutPanel?.Parent as Guna2ShadowPanel;
-            }
-            senderShadowPanel.FillColor = _appointmentShadowPanelDefaultColor;
         }
         //Helper Methods
 
@@ -275,12 +239,11 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
 
                 foreach (var appointment in _todayAppointment)
                 {
-                    Guna2ShadowPanel shadowPanel = new Guna2ShadowPanel();
-
-                    shadowPanel.Name = appointment.Appointment.AppointmentID.ToString();
-                    _buildAppointmentPanle(appointment, shadowPanel);
-                    AttachHoverRecursive(shadowPanel, AppointmentShadowPanel_MouseEnter, AppointmentShadowPanel_MouseLeave);
-                    AttachDoubleClickRecursive(shadowPanel, AppointmentShadowPanel_MouseDoubleClick);
+                    clsCardPanel cardPanel = new clsCardPanel();
+                    cardPanel.Name = appointment.Appointment.AppointmentID.ToString();
+                    _buildAppointmentPanle(appointment, cardPanel);
+                    AttachHoverRecursive(cardPanel, AppointmentShadowPanel_MouseEnter, AppointmentShadowPanel_MouseLeave);
+                    AttachDoubleClickRecursive(cardPanel, AppointmentShadowPanel_MouseDoubleClick);
                 }
             }
             catch (Exception)
@@ -318,7 +281,7 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             }
         }
         
-        private void _buildAppointmentPanle(clsAppointmentsDetails appointment, Guna2ShadowPanel shadowPanel)
+        private void _buildAppointmentPanle(clsAppointmentsDetails appointment, Panel shadowPanel)
         {
             this.tlpAppointment = new System.Windows.Forms.TableLayoutPanel();
             this.lblPatientName1 = new System.Windows.Forms.Label();
@@ -540,13 +503,17 @@ namespace DentistClinic_PresentationTier.Controls.MainUIControls
             shadowPanel.Controls.Add(this.lblCause);
             shadowPanel.Controls.Add(this.btnAppointmentDetails);
             shadowPanel.Controls.Add(this.tlpAppointment);          
-            shadowPanel.FillColor = System.Drawing.Color.White;
+            if (shadowPanel is clsCardPanel card)
+            {
+                card.BorderRadius = 8;
+                card.BorderColor = System.Drawing.Color.FromArgb(220, 224, 230);
+                card.BorderSize = 1;
+            }
             shadowPanel.Location = new System.Drawing.Point(3, 3);
             shadowPanel.Name = "AppointmentShadowPanel";
-            shadowPanel.Radius = 8;
-            shadowPanel.ShadowColor = System.Drawing.Color.Black;
             shadowPanel.Size = new System.Drawing.Size(0, 531);
             shadowPanel.Tag = appointment;
+            shadowPanel.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             shadowPanel.Width = flpTodayAppointmentList.ClientSize.Width - shadowPanel.Margin.Horizontal;
             shadowPanel.MouseDoubleClick += AppointmentShadowPanel_MouseDoubleClick;
             shadowPanel.MouseEnter += AppointmentShadowPanel_MouseEnter;
