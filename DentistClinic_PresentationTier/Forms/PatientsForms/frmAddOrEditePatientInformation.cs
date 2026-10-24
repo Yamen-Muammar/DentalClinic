@@ -26,6 +26,7 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
         public frmAddOrEditePatientInformation()
         {
             ctrlAddOrEditePatientInformation1 = Program.ServiceProvider.GetRequiredService<ctrlAddOrEditePatientInformation>();
+            ctrlAddOrEditePatientInformation1.Dock = DockStyle.Fill;
             this.Controls.Add(this.ctrlAddOrEditePatientInformation1);
             InitializeComponent();
             mode  = enMode.add;

@@ -366,3 +366,4 @@ AGENTS.md
 /.vscode
 /DentistClinic_PresentationTier/App.config
 #clsGenrateMockData.cs
+/nuget.exe

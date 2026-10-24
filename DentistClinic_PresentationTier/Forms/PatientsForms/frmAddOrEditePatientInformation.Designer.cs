@@ -33,12 +33,13 @@ namespace DentistClinic_PresentationTier.Forms.PatientsForms
             this.SuspendLayout();
             // 
             // frmAddOrEditePatientInformation
-            //             
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1360, 884);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.ClientSize = new System.Drawing.Size(1965, 1139);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmAddOrEditePatientInformation";
